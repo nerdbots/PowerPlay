@@ -1,6 +1,6 @@
 # Contributing to the FTC SDK
 
-The following is a set of guidelines for contributing the FIRST FTC SDK.  The FTC Technology Team welcomes suggestions for improvements to core software, ideas for new features, requests for built-in support of new sensors, and well written bug reports.
+The following is a set of guidelines for contributing the FIRST FTC SDK.  The FTC Technology Team welcomes suggestions for improvements to teamcode.RobotUtilities.core software, ideas for new features, requests for built-in support of new sensors, and well written bug reports.
 
 ## How can I contribute?
 

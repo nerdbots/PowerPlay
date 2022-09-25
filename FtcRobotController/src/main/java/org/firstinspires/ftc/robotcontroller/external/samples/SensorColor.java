@@ -85,7 +85,7 @@ public class SensorColor extends LinearOpMode {
    * that in this sample we're changing the background color of the robot controller screen as the
    * Op Mode runs, and we want to be able to *guarantee* that we restore it to something reasonable
    * and palatable when the Op Mode ends. The simplest way to do that is to use a try...finally
-   * block around the main, core logic, and an easy way to make that all clear was to separate
+   * block around the main, teamcode.RobotUtilities.core logic, and an easy way to make that all clear was to separate
    * the former from the latter in separate methods.
    */
   @Override public void runOpMode() {
