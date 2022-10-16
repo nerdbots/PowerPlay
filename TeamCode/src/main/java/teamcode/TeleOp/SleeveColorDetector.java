@@ -22,12 +22,10 @@
 package teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.checkerframework.checker.index.qual.LTEqLengthOf;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.opencv.core.Core;
+import org  .opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
@@ -39,17 +37,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
-public class DuckDetector
-{
+public class SleeveColorDetector {
     private OpenCvWebcam webcam;
     private LinearOpMode opMode;
     private HardwareMap hardwareMap;
-    private DuckDeterminationPipeline duckDeterminationPipeline;
+    private ColorDeterminationPipeline colorDeterminationPipeline;
 
-    public DuckDetector(LinearOpMode opMode) {
+    public ColorDeterminationPipeline.SleeveColor color = ColorDeterminationPipeline.SleeveColor.YELLOW;
+    public SleeveColorDetector(LinearOpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
         this.opMode = opMode;
     }
@@ -58,9 +53,9 @@ public class DuckDetector
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        duckDeterminationPipeline = new DuckDeterminationPipeline();
-        webcam.setPipeline(duckDeterminationPipeline);
-//        webcam.openCameraDevice();
+        colorDeterminationPipeline = new ColorDeterminationPipeline();
+        webcam.setPipeline(colorDeterminationPipeline);
+
 
         webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
@@ -86,9 +81,11 @@ public class DuckDetector
         opMode.telemetry.addData("Robot Ready", "");
         opMode.telemetry.update();
     }
-    public DuckDeterminationPipeline.DuckPosition getAnalysis() {
-        return duckDeterminationPipeline.getAnalysis();
+    public int getAnalysis() {
+        return colorDeterminationPipeline.getAnalysis();
     }
+
+
 
     /*
      * An example image processing pipeline to be run upon receipt of each frame from the camera.
@@ -105,26 +102,30 @@ public class DuckDetector
      * if you're doing something weird where you do need it synchronized with your OpMode thread,
      * then you will need to account for that accordingly.
      */
-    public static class DuckDeterminationPipeline extends OpenCvPipeline
+    public static class ColorDeterminationPipeline extends OpenCvPipeline
     {
         /*
-         * An enum to define the skystone position
+         * An enum to define the duck position
          */
-        public enum DuckPosition
+        public enum SleeveColor
         {
-            LEFT,
-            CENTER,
-            RIGHT
+            YELLOW,
+            PURPLE,
+            GREEN
         }
 
         /*
          * Some color constants
          */
-        static final Scalar BLUE = new Scalar(0, 0, 255);
-        static final Scalar GREEN = new Scalar(0, 255, 0);
+        static final Scalar PURPLE = new Scalar(238,130,238);
+
+
+        private volatile SleeveColor color = SleeveColor.YELLOW;
+
+
 
         /*
-         * The teamcode.RobotUtilities.core values which define the location and size of the sample regions
+         * The core values which define the location and size of the sample regions
          */
 
 //        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(109,98);
@@ -135,13 +136,12 @@ public class DuckDetector
 //        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(138,128);
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
-        static final Point REGION1_TOPLEFT_ANCHOR_POINT = new Point(110,230);
-        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(335,240);
-        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(555,240);
+
+        static final Point REGION_ANCHOR_POINT = new Point(300,240);
 
 
-        static final int REGION_WIDTH = 30;
-        static final int REGION_HEIGHT = 30;
+        static final int REGION_WIDTH = 100;
+        static final int REGION_HEIGHT = 50;
 
         /*
          * Points which actually define the sample region rectangles, derived from above values
@@ -160,35 +160,22 @@ public class DuckDetector
          *   ------------------------------------
          *
          */
-        Point region1_pointA = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x,
-                REGION1_TOPLEFT_ANCHOR_POINT.y);
-        Point region1_pointB = new Point(
-                REGION1_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION1_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region2_pointA = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x,
-                REGION2_TOPLEFT_ANCHOR_POINT.y);
-        Point region2_pointB = new Point(
-                REGION2_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION2_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
-        Point region3_pointA = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x,
-                REGION3_TOPLEFT_ANCHOR_POINT.y);
-        Point region3_pointB = new Point(
-                REGION3_TOPLEFT_ANCHOR_POINT.x + REGION_WIDTH,
-                REGION3_TOPLEFT_ANCHOR_POINT.y + REGION_HEIGHT);
+        Point region_pointA = new Point(
+                REGION_ANCHOR_POINT.x,
+                REGION_ANCHOR_POINT.y);
+        Point region_pointB = new Point(
+                REGION_ANCHOR_POINT.x + REGION_WIDTH,
+                REGION_ANCHOR_POINT.y + REGION_HEIGHT);
 
         /*
          * Working variables
          */
-        Mat region1_Cb, region2_Cb, region3_Cb;
+        Mat region_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        int avg1, avg2, avg3;
+        public int avg1, avg2, avg3;
 
         // Volatile since accessed by OpMode thread w/o synchronization
-        private volatile DuckPosition position = DuckPosition.RIGHT;
 
         /*
          * This function takes the RGB frame, converts to YCrCb,
@@ -219,9 +206,9 @@ public class DuckDetector
              * buffer. Any changes to the child affect the parent, and the
              * reverse also holds true.
              */
-            region1_Cb = Cb.submat(new Rect(region1_pointA, region1_pointB));
-            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
-            region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
+              region_Cb  = Cb.submat(new Rect(region_pointA, region_pointB));
+//            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
+//            region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
         }
 
         @Override
@@ -274,9 +261,10 @@ public class DuckDetector
              * pixel value of the 3-channel image, and referenced the value
              * at index 2 here.
              */
-            avg1 = (int) Core.mean(region1_Cb).val[0];
-            avg2 = (int) Core.mean(region2_Cb).val[0];
-            avg3 = (int) Core.mean(region3_Cb).val[0];
+              avg1 = (int) Core.mean(region_Cb).val[0];
+
+//            avg2 = (int) Core.mean(region2_Cb).val[0];
+//            avg3 = (int) Core.mean(region3_Cb).val[0];
 
             /*
              * Draw a rectangle showing sample region 1 on the screen.
@@ -284,89 +272,28 @@ public class DuckDetector
              */
             Imgproc.rectangle(
                     input, // Buffer to draw on
-                    region1_pointA, // First point which defines the rectangle
-                    region1_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
+                    region_pointA, // First point which defines the rectangle
+                    region_pointB, // Second point which defines the rectangle
+                    PURPLE, // The color the rectangle is drawn in
                     2); // Thickness of the rectangle lines
 
-            /*
-             * Draw a rectangle showing sample region 2 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region2_pointA, // First point which defines the rectangle
-                    region2_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
 
-            /*
-             * Draw a rectangle showing sample region 3 on the screen.
-             * Simply a visual aid. Serves no functional purpose.
-             */
-            Imgproc.rectangle(
-                    input, // Buffer to draw on
-                    region3_pointA, // First point which defines the rectangle
-                    region3_pointB, // Second point which defines the rectangle
-                    BLUE, // The color the rectangle is drawn in
-                    2); // Thickness of the rectangle lines
+
+
 
 
             /*
              * Find the max of the 3 averages
              */
-            int minOneTwo = Math.min(avg1, avg2);
-            int min = Math.min(minOneTwo, avg3);
 
             /*
              * Now that we found the max, we actually need to go and
              * figure out which sample region that value was from
              */
-            if(min == avg1) // Was it from region 1?
-            {
-                position = DuckPosition.LEFT; // Record our analysis
 
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region1_pointA, // First point which defines the rectangle
-                        region1_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            }
-            else if(min == avg2) // Was it from region 2?
-            {
-                position = DuckPosition.CENTER; // Record our analysis
+            //e
 
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region2_pointA, // First point which defines the rectangle
-                        region2_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            }
-            else if(min == avg3) // Was it from region 3?
-            {
-                position = DuckPosition.RIGHT; // Record our analysis
 
-                /*
-                 * Draw a solid rectangle on top of the chosen region.
-                 * Simply a visual aid. Serves no functional purpose.
-                 */
-                Imgproc.rectangle(
-                        input, // Buffer to draw on
-                        region3_pointA, // First point which defines the rectangle
-                        region3_pointB, // Second point which defines the rectangle
-                        GREEN, // The color the rectangle is drawn in
-                        -1); // Negative thickness means solid fill
-            }
 
             /*
              * Render the 'input' buffer to the viewport. But note this is not
@@ -379,10 +306,11 @@ public class DuckDetector
         /*
          * Call this from the OpMode thread to obtain the latest analysis
          */
-        public DuckPosition getAnalysis()
+        public int getAnalysis()
         {
-            return position;
+            return avg1;
         }
+
     }
 
     public void closeCameraDevice() {
@@ -391,8 +319,792 @@ public class DuckDetector
         webcam.closeCameraDevice();
     }
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

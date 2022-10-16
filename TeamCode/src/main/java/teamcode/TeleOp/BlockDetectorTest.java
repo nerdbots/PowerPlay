@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode;
+package teamcode.TeleOp;
 
 import com.google.blocks.ftcrobotcontroller.runtime.Block;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;

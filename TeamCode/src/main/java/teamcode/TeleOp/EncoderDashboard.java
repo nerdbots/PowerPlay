@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;/*
+package teamcode.TeleOp;/*
 Copyright 2018 FIRST Tech Challenge Team [Phone] SAMSUNG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -34,9 +34,11 @@ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FO
 DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-
-import com.acmerobotics.dashboard.FtcDashboard;
+//
+//import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.FtcDashboard;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
