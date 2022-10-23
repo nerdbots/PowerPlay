@@ -11,6 +11,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import teamcode.RobotUtilities.ArmShoulderPositions;
+import teamcode.RobotUtilities.CurvePoint;
+import teamcode.RobotUtilities.FingerPositions;
+import teamcode.RobotUtilities.MathFunctions;
+import teamcode.RobotUtilities.NerdPID_PurePursuit;
 import teamcode.RobotUtilities.Odometry.OdometryGlobalCoordinatePositionNERD;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -20,10 +25,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.firstinspires.ftc.teamcode.*;
 
-//import opencv.teamcode.RobotUtilities.core.PointPP;
+//import opencv.core.PointPP;
 import teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.*;
 
 import java.util.ArrayList;
 
@@ -209,7 +214,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     final double COUNTS_PER_INCH = 194.044;
 
-    //teamcode.RobotUtilities.Odometry
+    //Odometry
 
     OdometryGlobalCoordinatePositionNERD globalPositionUpdate ;
     Thread positionThread;
