@@ -1,4 +1,5 @@
-package teamcode.TeleOp;/*
+package teamcode.TeleOp;
+/*
 Copyright 2018 FIRST Tech Challenge Team [Phone] SAMSUNG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -35,10 +36,9 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import com.acmerobotics.dashboard.FtcDashboard;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -46,20 +46,21 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-import teamcode.RobotUtilities.*;
+import teamcode.RobotUtilities.company.MathFunctions;
+
+import teamcode.RobotUtilities.MathFunctions2;
 
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
  * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
+ * class is instantiated on the Robot Controlle r and executed.
  *
  * This particular OpMode just executes a basic Tank Drive Teleop for a PushBot
  * It includes all the skeletal structure that all linear OpModes contain.
@@ -67,15 +68,10 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@Disabled
+//@Disabled
 @TeleOp(name="NerdBotsTeleop", group="Final")
 //@Config
 public class NerdBotsTeleOp extends LinearOpMode {
-
-    //FTC Dashboard
-    FtcDashboard ftcDashboard;
-    Telemetry dashboardTelemetry;
-    boolean usingFTCDashboard = false;
 
     //create motor and gyro variables
     private BNO055IMU imu;
@@ -84,9 +80,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
     private DcMotor frontLeftMotor;
     private DcMotor rearLeftMotor;
 
-    private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
 
+    private Servo servo1;
+    private Servo servo2;
 
 
     //variables for the gyro code
@@ -151,35 +148,15 @@ public class NerdBotsTeleOp extends LinearOpMode {
     //Freight Frenzy Arm Variables
 
     //Shoulder Motors
-    private DcMotor leftArmMotor;
-    private DcMotor rightArmMotor;
-    //Wrist servos
-    private Servo leftArmServo;
-    private Servo rightArmServo;
-    //Finger Servos
-    private Servo leftGrab;
-    private Servo rightGrab;
+    private DcMotor elevatorMotor;
 
-    //For Arm PID
-    public static double armKp = 0.005;//0.01
-    public static double armKi = 0.0;
-    public static double armKd = 0.0002;
+    //For elevator PID
+    public static double elevatorKp = 0.005;//0.01
+    public static double elevatorKi = 0.0;
+    public static double elevatorKd = 0.0002;
     public static double maxPower = 0.4;
 
-
-    public static int armServoPosition = 0;
-    public static int grabPosition = 0;
-
-    public static double armMotorsign = 1.0;
-    public static int armTarget = 0;
-
-    public static double rightArmTargetPosition;
-    public static double leftArmTargetPosition;
-    public static double leftGrabTargetPosition;
-    public static double rightGrabTargetPosition;
-
-    double WristjoyX=0;
-    double WristjoyY=0;
+    public ElapsedTime elevatorInitTimer = new ElapsedTime();
 
     double propError = 0;
     double intError = 0;
@@ -193,25 +170,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double deltaTime = 0;
     double startTime = 0;
 
-    public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
-    public  volatile FingerPositions fingerPosition = FingerPositions.ENTER_INTAKE;
-    public volatile  ArmShoulderPositions previousShoulderPosition =ArmShoulderPositions.INTAKE;
-    public volatile  ArmShoulderPositions currentShoulderPosition =ArmShoulderPositions.INTAKE;
-
-    public static double WRIST_SERVO_INCREMENT=0.0;
-    public static double WRIST_SERVO_INCREMENT_STEP = 0.1;
-
-    //If using FTC Dashboard
-
-    public static double ARM_TARGET=0;
-    public static double MAX_POWER = 0.4;
-    public static double HOME_MAX_POWER = 0.2;
-    public static double LEFT_WRIST_SERVO_POSITION=0.0;
-    public static double RIGHT_WRIST_SERVO_POSITION=1.0;
-    public static double LEFT_FINGER_SERVO_POSITION=0.53;
-    public static double RIGHT_FINGER_SERVO_POSITION=0.55;
-    public  static  double INTERMEDIATE_SERVO_POSIITON=0.0;
-
+    double elePower = 0;
     //Freight Frenzy Arm Variables
 
 
@@ -225,8 +184,9 @@ public class NerdBotsTeleOp extends LinearOpMode {
         frontLeftMotor = hardwareMap.get(DcMotor.class, "Front_Left_Motor");
         frontRightMotor = hardwareMap.get(DcMotor.class, "Front_Right_Motor");
         rearRightMotor = hardwareMap.get(DcMotor.class, "Rear_Right_Motor");
+        servo1 = hardwareMap.get(Servo.class, "servo1");
+        servo2 = hardwareMap.get(Servo.class, "servo2");
 
-        duckyDiskMotor = hardwareMap.get(DcMotor.class, "Ducky_Disk");
         intakeMotor = hardwareMap.get(DcMotor.class, "Intake");
         //initialize the gyro
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -244,26 +204,16 @@ public class NerdBotsTeleOp extends LinearOpMode {
         //reset the gyro angle to zero
         resetAngle();
 
-        //Initialize Arm Components
-        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
-        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
-        leftArmMotor = hardwareMap.get(DcMotor.class, "leftArmMotor");
-        rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
-        leftGrab = hardwareMap.get(Servo.class, "leftGrab");
-        rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //Initialize elevator Components
+        elevatorMotor = hardwareMap.get(DcMotor.class, "elevatorMotor");
+
+
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
+        elevatorInitTimer.reset();
 
-        leftArmServo.setPosition(0.3);
-        rightArmServo.setPosition(0.7);
-        leftGrab.setPosition(0.53);
-        rightGrab.setPosition(0.55);
-        //End Positions to get in the intake
+        elevatorMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        elevatorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 
         telemetry.addData("Status", "Initialized");
@@ -276,10 +226,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
             telemetry.update();
         }
 
-        double armMotorPower = 0.0;
-
-        ftcDashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = ftcDashboard.getTelemetry();
 
         //anything between here and while(opmodeIsActive) runs exactly once, right when the play button is pressed.
         waitForStart();
@@ -292,8 +238,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            HOME_MAX_POWER = 0.4;
-            previousShoulderPosition = shoulderPosition;
+
 
             currentTime = elapsedTime.seconds();
             loopTime = currentTime - oldTime;
@@ -320,8 +265,20 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 joyX = 1;
                 joyY = 0;
             }else if(gamepad1.a){  //11_09 added below else if block
-                joyX = 1;
-                joyY = 1;
+//                joyX = -1;
+//                joyY = 1;
+
+                //Changes as of 11_15
+                joyX = -0.8;
+                joyY = 0.2;
+            }
+
+            if(gamepad2.dpad_down) {
+                 double servo1Telemetry = servo1.getPosition();
+
+          }
+            else if(gamepad2.dpad_up) {
+                //servo opens-
             }
 
 
@@ -356,183 +313,59 @@ public class NerdBotsTeleOp extends LinearOpMode {
             rearLeftMotor.setPower(RLMP * mult);
             frontRightMotor.setPower(FRMP * mult);
 
-            //ARM
+            //elevator
+            //high
             if (gamepad2.a){
-                WRIST_SERVO_INCREMENT = 0.0;
-
-                if(previousShoulderPosition.equals(ArmShoulderPositions.HOME)) {
-                    HOME_MAX_POWER = 0.2;
-                }
-                shoulderPosition = ArmShoulderPositions.INTAKE;
-                fingerPosition = FingerPositions.ENTER_INTAKE;
-             }
-            if (gamepad2.b) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.LEVEL1;
-
+                elePower = elevatorPID(500, elevatorMotor.getCurrentPosition());
             }
-            if (gamepad2.x) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.LEVEL2;
+            //medium
+            else if(gamepad2.b){
+                elePower = elevatorPID(400, elevatorMotor.getCurrentPosition());
             }
-            if (gamepad2.y) {
-
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.LEVEL3;
-
+            //low
+            else if (gamepad2.x) {
+                elePower = elevatorPID(200, elevatorMotor.getCurrentPosition());
             }
-             if(gamepad2.left_bumper){
-                 WRIST_SERVO_INCREMENT = 0.0;
-                 shoulderPosition = ArmShoulderPositions.GROUND_PICKUP;
-             }
-
-            if(gamepad2.right_bumper){
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.TSE_DROP;
+            //ground
+            else if (gamepad2.y) {
+                elePower = elevatorPID(0, elevatorMotor.getCurrentPosition());
             }
 
-            if(gamepad2.dpad_up){
-                fingerPosition = FingerPositions.GRAB;
-            }
+//            elevatorMotor.setPower(elePower);
 
-            if(gamepad2.dpad_down){
-                fingerPosition = FingerPositions.ENTER_INTAKE;
-            }
-
-            if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.INTAKE_READY;
-            }
-
-            if(gamepad2.dpad_left) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                if(previousShoulderPosition.equals(ArmShoulderPositions.INTAKE)) {
-                    HOME_MAX_POWER = 0.1;
-                }
-                shoulderPosition = ArmShoulderPositions.HOME;
-
-            }
-
-            //Minor Wrist adjustments
-
-            if(gamepad2.right_bumper && gamepad2.dpad_up){
-                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
-                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
-            }
-
-            if(gamepad2.right_bumper && gamepad2.dpad_down){
-                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
-                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
-            }
 
             intakeMotor.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
-            if(gamepad1.x){
-                duckyDiskMotor.setPower(1.0);
-            }
-            //Nov 8 Change
-            else {
-                duckyDiskMotor.setPower(0);
-            }
-            //End of Nov 8 Change
-
-//            if(gamepad1.y){
-////                duckyDiskMotor.setPower(0);
-////            }
-
-            //Minor Wrist adjustments
 
 
-            double armPidOutput = 0.0;
-
-            if (usingFTCDashboard == true){
-
-                armPidOutput = armPID(ARM_TARGET, leftArmMotor.getCurrentPosition() * -1);
-                armMotorsign = Math.signum(armPidOutput);
-                if (Math.abs(armPidOutput) > MAX_POWER) {
-                    armMotorPower = armMotorsign * MAX_POWER;
-                } else {
-                    armMotorPower = armPidOutput;
-                }
-
-            }else{
-                telemetry.addData("target angle", leftArmMotor.getTargetPosition());
-                telemetry.addData("actual position", leftArmMotor.getCurrentPosition());
-                telemetry.addData("Arm target", shoulderPosition.getArmTarget());
-                telemetry.update();
-                armPidOutput = armPID(shoulderPosition.getArmTarget(), leftArmMotor.getCurrentPosition() * -1);
-                armMotorsign = Math.signum(armPidOutput);
-                if(shoulderPosition.equals(ArmShoulderPositions.HOME) || shoulderPosition.equals(ArmShoulderPositions.INTAKE)) {
-                    if (Math.abs(armPidOutput) > HOME_MAX_POWER) {
-                        armMotorPower = armMotorsign * HOME_MAX_POWER;
-                    } else {
-                        armMotorPower = armPidOutput;
-                    }
-                }
-                else {
-                    if (Math.abs(armPidOutput) > shoulderPosition.getMaxPower()) {
-                        armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
-                    } else {
-                        armMotorPower = armPidOutput;
-                    }
-                }
-
-            }
-//
-            leftArmMotor.setPower(armMotorPower);
-            rightArmMotor.setPower(armMotorPower);
-
-            if(usingFTCDashboard == true) {
-
-                RIGHT_WRIST_SERVO_POSITION = 1.0 - LEFT_WRIST_SERVO_POSITION;
-                dashboardTelemetry.addData("Right Wrist Servo Pos", RIGHT_WRIST_SERVO_POSITION);
-                dashboardTelemetry.addData("Left Wrist Servo Pos", LEFT_WRIST_SERVO_POSITION);
-                dashboardTelemetry.update();
-
-
-            }else{
-
-                LEFT_WRIST_SERVO_POSITION = shoulderPosition.getLeftWristServoPosition();
-                RIGHT_WRIST_SERVO_POSITION = shoulderPosition.getRightWristServoPosition();
-                LEFT_FINGER_SERVO_POSITION = fingerPosition.getLeftFingerPosition();
-                RIGHT_FINGER_SERVO_POSITION = fingerPosition.getRightFingerPosition();
-             }
-                leftArmServo.setPosition(LEFT_WRIST_SERVO_POSITION + WRIST_SERVO_INCREMENT);
-                rightArmServo.setPosition(RIGHT_WRIST_SERVO_POSITION - WRIST_SERVO_INCREMENT);
-                leftGrab.setPosition(LEFT_FINGER_SERVO_POSITION);
-                rightGrab.setPosition(RIGHT_FINGER_SERVO_POSITION);
-
-                if(shoulderPosition.equals(ArmShoulderPositions.INTAKE) && fingerPosition.equals(FingerPositions.ENTER_INTAKE) ){
-                    leftGrab.setPosition(FingerPositions.INTAKE_READY.getLeftFingerPosition());
-                    rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
-                }
-
-                previousShoulderPosition = shoulderPosition;
-
-            //ARM
+            //elevator
 
             //add telemetry
 
-//            telemetry.addData("X", FX);
-//            telemetry.addData("Y", FY);
-//            telemetry.addData("CA", CA);
-//            telemetry.addData("RSA", RSA);
-//            telemetry.addData("RA", getAngle());
-//
-//            telemetry.addData("zMag", zMag);
-//            telemetry.addData("ZTar", ZTar);
-//
+            telemetry.addData("X", FX);
+            telemetry.addData("Y", FY);
+            telemetry.addData("CA", CA);
+            telemetry.addData("RSA", RSA);
+            telemetry.addData("RA", getAngle());
+
+            telemetry.addData("zMag", zMag);
+            telemetry.addData("ZTar", ZTar);
+            telemetry.addData("Elevator Position", elevatorMotor.getCurrentPosition());
+            telemetry.addData("Servo Position",servo1.getPosition());
+
 //            telemetry.addData("FREV", frontRightMotor.getCurrentPosition());
 //            telemetry.addData("FLEV", frontLeftMotor.getCurrentPosition());
 //            telemetry.addData("RREV", rearRightMotor.getCurrentPosition());
 //            telemetry.addData("RLEV", rearLeftMotor.getCurrentPosition());
-//
-//
-//            telemetry.addData("Status", "Running");
+
+
+            telemetry.addData("Status", "Running");
+            telemetry.update();
         }
     }
 
 
-    private double armPID(double targetValue, double currentValue) {
+    private double elevatorPID(double targetValue, double currentValue) {
 
 
         propError = (targetValue - currentValue);
@@ -543,16 +376,12 @@ public class NerdBotsTeleOp extends LinearOpMode {
         prevDerError = targetValue - currentValue;
 
         if (Math.abs(targetValue - currentValue) < angletolerance) {
-//                    onTarget = true;
-//                    runTest = false;
-            motorPower = propError * armKp + intError * armKi;
+            motorPower = propError * elevatorKp + intError * elevatorKi;
             intError = 0;
         } else {
-            motorPower = propError * armKp + intError * armKi + derError * armKd;
+            motorPower = propError * elevatorKp + intError * elevatorKi + derError * elevatorKd;
         }
-//        if (Math.abs(targetValue - currentValue) < 0.5) {
-//            motor1.setPower(0);
-//       }
+
         double motorPowersin = Math.signum(motorPower);
         if (Math.abs(motorPower) > maxPower) {
             motorPower = maxPower * motorPowersin;
@@ -588,7 +417,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         MaxSpeed = MaxSpeedZ;
 
         //calculate error (Proportional)
-        error = targetAngle - currentAngle;
+        error = MathFunctions.AngleWrapDeg(targetAngle - currentAngle);
 
         //Calculate Total error (Integral)
         TotalError = (error * PIDTime.seconds()) + TotalError;
@@ -598,7 +427,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
             error = 0;
             //TotalError = 0;
         }
-
+        //im indian ding a ling a ling a ling
         //calculate delta error (Derivative)
         DError = -(currentAngle/*error*/ - PrevError) / PIDTime.seconds();
 
@@ -656,7 +485,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         globalAngle += deltaAngle;
 
         lastAngles = angles;
-
+//        return MathFunctions.AngleWrapDeg(globalAngle);
         return globalAngle;
     }
     private void driveMath (double Xmath, double Ymath) {
@@ -667,7 +496,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         if (Math.sqrt(zMag) > 0.5) {
             //11_09
 //            ZTar = Math.atan2(-Xmath, -Ymath) * 180 / 3.14159;
-            ZTar = Math.atan2(-Xmath, -Ymath) * 180 / 3.14159 + 90;
+            ZTar = Math.atan2(-Xmath, -Ymath) * 180 / 3.14159 - 90;
 
         }
 
@@ -683,7 +512,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         //more complicated math I barely understand. If the drivetrain angle changes, play around with this number.
         // 11_09
 //        CA = (Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) * 180 / 3.14) + 45;
-        CA = (Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) * 180 / 3.14) + 135;
+        CA = (Math.atan2(gamepad1.right_stick_y, -gamepad1.right_stick_x) * 180 / 3.14 - 45);
 
 
         RSA = (CA - getAngle()) * 3.14 / 180;
@@ -700,7 +529,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
             RLMP = -gamepad1.left_stick_x + FY;
             FRMP = -gamepad1.left_stick_x - FY;
             //11_09 added below
-            ZTar = 0;
 
         } else {  //Allowing you to use tank turning if you're using slow mode
             RRMP = (ZSpeed * multZ) + FX; //multZ will only affect Z. This is because if joypad Z is zero then Z is zero.
