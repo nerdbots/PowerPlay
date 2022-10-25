@@ -4,14 +4,15 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import teamcode.RobotUtilities.company.ComputerDebugging;
-import teamcode.RobotUtilities.company.FloatPoint;
+import company.ComputerDebugging;
+import company.FloatPoint;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -20,9 +21,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-//import opencv.teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.*;
+//import opencv.core.PointPP;
+import core.PointPP;
+import treamcode.CurvePoint;
+import treamcode.MathFunctions;
+import treamcode.NerdPID_PurePursuit;
+import treamcode.NerdVelocityFollowing;
+
 import java.util.ArrayList;
 
 public class PurePursuitRobotMovement6 {
@@ -40,7 +45,7 @@ public class PurePursuitRobotMovement6 {
     private DcMotor rearLeftMotor;
     private DcMotor rearRightMotor;
 
-    private DcMotor frontEncoder;
+    private DcMotorEx frontEncoder;
     private DcMotor rightEncoder;
     private DcMotor leftEncoder;
     private DcMotor backEncoder;
@@ -240,13 +245,13 @@ public class PurePursuitRobotMovement6 {
         this.rearLeftMotor = this.hardwareMap.get(DcMotor.class, "Rear_Left_Motor");
         this.rearRightMotor = this.hardwareMap.get(DcMotor.class, "Rear_Right_Motor");
 
-        this.frontEncoder = this.hardwareMap.get(DcMotor.class, "Front");
+        this.frontEncoder = this.hardwareMap.get(DcMotorEx.class, "Front");
         this.rightEncoder = this.hardwareMap.get(DcMotor.class, "Right");
         this.leftEncoder = this.hardwareMap.get(DcMotor.class, "Left");
         this.backEncoder = this.hardwareMap.get(DcMotor.class, "Back");
 
-//        this.wobbleServo = hardwareMap.get(Servo.class, "wobble_Goal_Servo");
-//        this.indexingServo = hardwareMap.get(Servo.class, "indexingServo");
+        this.wobbleServo = hardwareMap.get(Servo.class, "wobble_Goal_Servo");
+        this.indexingServo = hardwareMap.get(Servo.class, "indexingServo");
 
         // Set up the parameters with which we will use our IMU. Note that integration
         // algorithm here just reports accelerations to the logcat log; it doesn't actually
@@ -272,14 +277,14 @@ public class PurePursuitRobotMovement6 {
 
         imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
 
-        this.frontEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.frontEncoder.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         this.rightEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.leftEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.backEncoder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-//        this.frontEncoder.setVelocityPIDFCoefficients(200, 0.1, 0, 16);
+        this.frontEncoder.setVelocityPIDFCoefficients(200, 0.1, 0, 16);
 
-        this.frontEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.frontEncoder.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
         this.rightEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.leftEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.backEncoder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -292,7 +297,7 @@ public class PurePursuitRobotMovement6 {
         //this.frontEncoder.setDirection(DcMotorEx.Direction.REVERSE);
         this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
         this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
-        this.backEncoder.setDirection(DcMotor.Direction.FORWARD);
+        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
 
         xPosition = 0;
         yPosition = 0;
@@ -407,7 +412,7 @@ public class PurePursuitRobotMovement6 {
             robotTargetAngle = absoluteAngleToTarget;
 
 //            robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-            motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+            motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
             xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
             yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
@@ -415,7 +420,7 @@ public class PurePursuitRobotMovement6 {
 
 
 //            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotAngleToTarget - 180 + preferredAngle);
-            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
+            double relativeTurnAngle = mathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
 
             if (Math.abs(preferredAngle - (getAngle() + 90)) > 35){
                 useZPID = false;
@@ -815,7 +820,7 @@ public class PurePursuitRobotMovement6 {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            ArrayList<PointPP> intersections = MathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
+            ArrayList<PointPP> intersections = mathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
 
             double closestAngle = 100000000;
 
@@ -901,12 +906,12 @@ public class PurePursuitRobotMovement6 {
         robotTargetAngle = absoluteAngleToTarget;
 
 //        robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * movementSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * movementSpeed;
 
-        double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
+        double relativeTurnAngle = mathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
 
         if (Math.abs(parkAngleTarget - (getAngle() + 90)) > 90){
             useZPID = false;
@@ -1030,8 +1035,8 @@ public class PurePursuitRobotMovement6 {
 
         robotTargetAngle = absoluteAngleToTarget;
 
-        robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        robotAngleToTarget = mathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
+        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
@@ -1039,7 +1044,7 @@ public class PurePursuitRobotMovement6 {
 
 
 //            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotAngleToTarget - 180 + preferredAngle);
-        double relativeTurnAngle = MathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
+        double relativeTurnAngle = mathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
         double targetParkAngle = targetAngleForPark;
         zPIDAngle = 90 + getAngle();
         zPower = NerdPID_PurePursuit.zPowerPark(targetParkAngle, zPIDAngle, loopTime);
@@ -1221,46 +1226,46 @@ public class PurePursuitRobotMovement6 {
 
     //Function to run shooter motor. Run this function and then sleep for a little bit to let
 //the motor charge up. Then run the indexRings function
-//    public void runShoot() {
-//        this.frontEncoder.setVelocity(shooterVeloc);
-//        indexRings();
-//    }
-//    public void indexRings() {
-//        boolean shouldIndex = false;
-//        int count = 0;
-//        boolean cycle = true;
-//        indexingServo.setPosition(indexerHomePos);
-//        while(count < 8){
-//            double position = 0.0;
-//            if(shouldIndex) {
-//                if (cycle) {
-//                    //Make Indexer go forward
-//                    position = this.indexerPushedPos;
-//                    cycle = false;
-//                } else {
-//                    //Make Indexer go backward
-//                    position = this.indexerHomePos;
-//                    cycle = true;
-//                }
-//                if (count == 6 || count == 7) {
-//                    this.rightEncoder.setPower(-1);
-//                }
-//            }
-//            // Set the servo to the new position and pause;
-//            indexingServo.setPosition(position);
-//            //checks if the velocity is within a threshold
-//            if((Math.abs(Math.abs(frontEncoder.getVelocity()) - Math.abs(shooterVeloc))) < 100) {
-//                shouldIndex = true;
-//                count++;
-//            } else {
-//                shouldIndex = false;
-//            }
-//        }
-//        //Stop Motor
-//        this.frontEncoder.setVelocity(0);
-//        //this.frontEncoder.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-//        this.rightEncoder.setPower(0);
-//    }
+    public void runShoot() {
+        this.frontEncoder.setVelocity(shooterVeloc);
+        indexRings();
+    }
+    public void indexRings() {
+        boolean shouldIndex = false;
+        int count = 0;
+        boolean cycle = true;
+        indexingServo.setPosition(indexerHomePos);
+        while(count < 8){
+            double position = 0.0;
+            if(shouldIndex) {
+                if (cycle) {
+                    //Make Indexer go forward
+                    position = this.indexerPushedPos;
+                    cycle = false;
+                } else {
+                    //Make Indexer go backward
+                    position = this.indexerHomePos;
+                    cycle = true;
+                }
+                if (count == 6 || count == 7) {
+                    this.rightEncoder.setPower(-1);
+                }
+            }
+            // Set the servo to the new position and pause;
+            indexingServo.setPosition(position);
+            //checks if the velocity is within a threshold
+            if((Math.abs(Math.abs(frontEncoder.getVelocity()) - Math.abs(shooterVeloc))) < 100) {
+                shouldIndex = true;
+                count++;
+            } else {
+                shouldIndex = false;
+            }
+        }
+        //Stop Motor
+        this.frontEncoder.setVelocity(0);
+        //this.frontEncoder.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        this.rightEncoder.setPower(0);
+    }
 
 
 

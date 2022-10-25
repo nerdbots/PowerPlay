@@ -1,15 +1,16 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import teamcode.RobotUtilities.*;
+//import org.firstinspires.ftc.teamcode.DetectObjects_Shoot_Class;
+//import org.firstinspires.ftc.teamcode.PurePursuitRobotMovement6;
+
 
 import java.util.ArrayList;
 
 //import Functions.CurvePoint;
-@Disabled
+
 @Autonomous(name="PurePursuitOpMode", group="Linear Opmode")
 
 public class PurePursuitOpMode extends LinearOpMode {

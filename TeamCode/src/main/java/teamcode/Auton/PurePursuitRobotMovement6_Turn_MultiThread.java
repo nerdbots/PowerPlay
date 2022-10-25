@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
-import teamcode.RobotUtilities.Odometry.OdometryGlobalCoordinatePositionNERD;
-
+import Odometry.OdometryGlobalCoordinatePositionNERD;
+import company.FloatPoint;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -21,9 +21,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-//import opencv.teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.*;
+//import opencv.core.PointPP;
+import company.Robot;
+import core.PointPP;
+import treamcode.CurvePoint;
+import treamcode.MathFunctions;
+import treamcode.NerdPID_PurePursuit;
+import treamcode.NerdVelocityFollowing;
 
 import java.util.ArrayList;
 
@@ -209,7 +213,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     final double COUNTS_PER_INCH = 194.044;
 
-    //teamcode.RobotUtilities.Odometry
+    //Odometry
 
     OdometryGlobalCoordinatePositionNERD globalPositionUpdate ;
     Thread positionThread;
@@ -753,7 +757,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
 //            double[] robotPositionXYV = findDisplacementOptical();
 
-            ArrayList<PointPP> intersections = MathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
+            ArrayList<PointPP> intersections = mathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
 
             double closestAngle = 100000000;
 
@@ -810,12 +814,12 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
         robotTargetAngle = absoluteAngleToTarget;
 
-        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * movementSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * movementSpeed;
 
-        double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
+        double relativeTurnAngle = mathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
 
         double distanceFromStart = Math.hypot(robotLocationMT.x - robotPositionXStart, robotLocationMT.y - robotPositionYStart);
         double distanceAtStart = Math.hypot(endPointX - robotPositionXStart, endPointY - robotPositionYStart);
@@ -900,8 +904,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
         robotTargetAngle = absoluteAngleToTarget;
 
-        robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        robotAngleToTarget = mathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
+        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
@@ -909,7 +913,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
 
 //            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotAngleToTarget - 180 + preferredAngle);
-        double relativeTurnAngle = MathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
+        double relativeTurnAngle = mathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
         double targetParkAngle = targetAngleForPark;
         zPIDAngle = 90 + getAngle();
         zPower = Range.clip(NerdPID_PurePursuit.zPowerPark(targetParkAngle, zPIDAngle, loopTime), -0.3, 0.3);
@@ -1163,7 +1167,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
         double turnPIDAngle = getAngle() + 90;
 
-        turnPIDpropError = MathFunctions.AngleWrapDeg(turnPIDrobotTargetAngle - turnPIDAngle);
+        turnPIDpropError = mathFunctions.AngleWrapDeg(turnPIDrobotTargetAngle - turnPIDAngle);
 
         if (Math.abs(turnPIDpropError) < 1) {
 //                    Kp = 0.0940;
