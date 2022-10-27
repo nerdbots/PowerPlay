@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.RobotUtilities.Odometry.OdometryGlobalCoordinatePositionNERD;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;

@@ -20,6 +20,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 //import opencv.teamcode.RobotUtilities.core.PointPP;
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.RobotUtilities.core.PointPP;
 import teamcode.RobotUtilities.*;
 

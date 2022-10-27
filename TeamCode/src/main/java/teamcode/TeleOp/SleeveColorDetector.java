@@ -49,7 +49,7 @@ public class SleeveColorDetector {
         this.opMode = opMode;
     }
 
-    public void initSleeveColorDetector() {
+    public void initSleeveColorDetector () {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
