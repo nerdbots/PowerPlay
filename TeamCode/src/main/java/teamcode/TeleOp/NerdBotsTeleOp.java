@@ -67,7 +67,7 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@Disabled
+//@Disabled
 @TeleOp(name="NerdBotsTeleop", group="Final")
 //@Config
 public class NerdBotsTeleOp extends LinearOpMode {
@@ -154,8 +154,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
     private DcMotor leftArmMotor;
     private DcMotor rightArmMotor;
     //Wrist servos
-    private Servo leftArmServo;
-    private Servo rightArmServo;
+
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
@@ -163,8 +162,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
     //For Arm PID
     public static double armKp = 0.005;//0.01
     public static double armKi = 0.0;
-    public static double armKd = 0.0002;
-    public static double maxPower = 0.4;
+    public static double armKd = 0;
+    public static double maxPower = 1;
 
 
     public static int armServoPosition = 0;
@@ -194,7 +193,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double startTime = 0;
 
     public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
-    public  volatile FingerPositions fingerPosition = FingerPositions.ENTER_INTAKE;
+    public  volatile FingerPositions fingerPosition = FingerPositions.INTAKE_READY;
     public volatile  ArmShoulderPositions previousShoulderPosition =ArmShoulderPositions.INTAKE;
     public volatile  ArmShoulderPositions currentShoulderPosition =ArmShoulderPositions.INTAKE;
 
@@ -226,8 +225,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
         frontRightMotor = hardwareMap.get(DcMotor.class, "Front_Right_Motor");
         rearRightMotor = hardwareMap.get(DcMotor.class, "Rear_Right_Motor");
 
-        duckyDiskMotor = hardwareMap.get(DcMotor.class, "Ducky_Disk");
-        intakeMotor = hardwareMap.get(DcMotor.class, "Intake");
+//        duckyDiskMotor = hardwareMap.get(DcMotor.class, "Ducky_Disk");
+//        intakeMotor = hardwareMap.get(DcMotor.class, "Intake");
         //initialize the gyro
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
@@ -244,9 +243,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         //reset the gyro angle to zero
         resetAngle();
 
-        //Initialize Arm Components
-        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
-        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+//        //Initialize Arm Components
         leftArmMotor = hardwareMap.get(DcMotor.class, "leftArmMotor");
         rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
@@ -255,14 +252,13 @@ public class NerdBotsTeleOp extends LinearOpMode {
         rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
 
-        leftArmServo.setPosition(0.3);
-        rightArmServo.setPosition(0.7);
-        leftGrab.setPosition(0.53);
-        rightGrab.setPosition(0.55);
+
+        leftGrab.setPosition(FingerPositions.INTAKE_READY.getLeftFingerPosition());
+        rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
         //End Positions to get in the intake
 
 
@@ -424,15 +420,16 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
             }
 
-            intakeMotor.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
+//            intakeMotor.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
-            if(gamepad1.x){
-                duckyDiskMotor.setPower(1.0);
-            }
+//            if(gamepad1.x){
+//                duckyDiskMotor.setPower(1.0);
+//            }
             //Nov 8 Change
-            else {
-                duckyDiskMotor.setPower(0);
-            }
+//            else {
+//
+////                duckyDiskMotor.setPower(0);
+//            }
             //End of Nov 8 Change
 
 //            if(gamepad1.y){
@@ -444,7 +441,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
             double armPidOutput = 0.0;
 
-            if (usingFTCDashboard == true){
+            if (usingFTCDashboard){
 
                 armPidOutput = armPID(ARM_TARGET, leftArmMotor.getCurrentPosition() * -1);
                 armMotorsign = Math.signum(armPidOutput);
@@ -480,6 +477,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 //
             leftArmMotor.setPower(armMotorPower);
             rightArmMotor.setPower(armMotorPower);
+            telemetry.addData("Arm Motor Power", armMotorPower);
+            telemetry.update();
 
             if(usingFTCDashboard == true) {
 
@@ -496,8 +495,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 LEFT_FINGER_SERVO_POSITION = fingerPosition.getLeftFingerPosition();
                 RIGHT_FINGER_SERVO_POSITION = fingerPosition.getRightFingerPosition();
              }
-                leftArmServo.setPosition(LEFT_WRIST_SERVO_POSITION + WRIST_SERVO_INCREMENT);
-                rightArmServo.setPosition(RIGHT_WRIST_SERVO_POSITION - WRIST_SERVO_INCREMENT);
+
                 leftGrab.setPosition(LEFT_FINGER_SERVO_POSITION);
                 rightGrab.setPosition(RIGHT_FINGER_SERVO_POSITION);
 

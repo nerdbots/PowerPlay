@@ -14,7 +14,7 @@ import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetector;
 
 //@Disabled
-@Autonomous(name="Powerplays_test_auton right", group="Linear Opmode")
+@Autonomous(name="Power_Play", group="Linear Opmode")
 
 public class Power_Play extends LinearOpMode {
 

@@ -10,11 +10,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import org.firstinspires.ftc.teamcode.FingerPositions;
 
 import java.util.ArrayList;
-
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 
 //@Disabled
-@Autonomous(name="Powerplays_test_auton right", group="Linear Opmode")
+@Autonomous(name="Powerplays_red_side", group="Linear Opmode")
 
 public class Powerplay_red_side extends LinearOpMode {
 
