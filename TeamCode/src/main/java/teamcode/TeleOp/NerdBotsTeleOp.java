@@ -1,4 +1,5 @@
-package teamcode.TeleOp;/*
+package teamcode.TeleOp;
+/*
 Copyright 2018 FIRST Tech Challenge Team [Phone] SAMSUNG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -147,7 +148,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
 
     boolean isSlowMode = false;
-
+    boolean buttonReadyLeft = true;
+    boolean buttonReadyRight = true;
     //Freight Frenzy Arm Variables
 
     //Shoulder Motors
@@ -160,8 +162,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
     private Servo rightGrab;
 
     //For Arm PID
-    public static double armKp = 0.005;//0.01
-    public static double armKi = 0.0;
+    public static double armKp = 0.02;//0.01
+    public static double armKi = 0.001;
     public static double armKd = 0;
     public static double maxPower = 1;
 
@@ -209,7 +211,9 @@ public class NerdBotsTeleOp extends LinearOpMode {
     public static double RIGHT_WRIST_SERVO_POSITION=1.0;
     public static double LEFT_FINGER_SERVO_POSITION=0.53;
     public static double RIGHT_FINGER_SERVO_POSITION=0.55;
-    public  static  double INTERMEDIATE_SERVO_POSIITON=0.0;
+    public static double INTERMEDIATE_SERVO_POSIITON=0.0;
+
+    int armValue = 0;
 
     //Freight Frenzy Arm Variables
 
@@ -296,6 +300,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
             oldTime = currentTime;
             deltaTime = currentTime - startTime;
 
+
             //mapping the joysticks to turning.
             if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0 ) {
                 joyX = gamepad1.left_stick_x;
@@ -351,7 +356,28 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
             rearLeftMotor.setPower(RLMP * mult);
             frontRightMotor.setPower(FRMP * mult);
+            if (gamepad2.left_bumper && buttonReadyLeft){
+                armTarget -= 100;
+                buttonReadyLeft=false;
+            }
+            else if (!gamepad2.left_bumper) {
+                buttonReadyLeft=true;
+            }
+            if (gamepad2.right_bumper && buttonReadyRight ){
+                armTarget += 100;
+                buttonReadyRight=false;
+            }
+            else if (!gamepad2.right_bumper) {
+                buttonReadyRight=true;
+            }
+            armValue = leftArmMotor.getCurrentPosition();
 
+            if(armValue > 915) {
+                armValue = 915;
+            }
+            else if(armValue < 0) {
+                armValue = 0;
+            }
             //ARM
             if (gamepad2.a){
                 WRIST_SERVO_INCREMENT = 0.0;
@@ -360,32 +386,37 @@ public class NerdBotsTeleOp extends LinearOpMode {
                     HOME_MAX_POWER = 0.2;
                 }
                 shoulderPosition = ArmShoulderPositions.INTAKE;
-                fingerPosition = FingerPositions.ENTER_INTAKE;
-             }
+                fingerPosition = FingerPositions.INTAKE_READY;
+                armTarget = shoulderPosition.getArmTarget();
+
+            }
             if (gamepad2.b) {
                 WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.LEVEL1;
+                armTarget = shoulderPosition.getArmTarget();
 
             }
             if (gamepad2.x) {
                 WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.LEVEL2;
+                armTarget = shoulderPosition.getArmTarget();
             }
             if (gamepad2.y) {
 
                 WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.LEVEL3;
+                armTarget = shoulderPosition.getArmTarget();
 
             }
-             if(gamepad2.left_bumper){
-                 WRIST_SERVO_INCREMENT = 0.0;
-                 shoulderPosition = ArmShoulderPositions.GROUND_PICKUP;
-             }
-
-            if(gamepad2.right_bumper){
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.TSE_DROP;
-            }
+//             if(gamepad2.left_bumper){
+//                 WRIST_SERVO_INCREMENT = 0.0;
+//                 shoulderPosition = ArmShoulderPositions.GROUND_PICKUP;
+//             }
+//
+//            if(gamepad2.right_bumper){
+//                WRIST_SERVO_INCREMENT = 0.0;
+//                shoulderPosition = ArmShoulderPositions.TSE_DROP;
+//            }
 
             if(gamepad2.dpad_up){
                 fingerPosition = FingerPositions.GRAB;
@@ -409,16 +440,16 @@ public class NerdBotsTeleOp extends LinearOpMode {
             }
 
             //Minor Wrist adjustments
-
-            if(gamepad2.right_bumper && gamepad2.dpad_up){
-                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
-                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
-            }
-
-            if(gamepad2.right_bumper && gamepad2.dpad_down){
-                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
-                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
-            }
+//
+//            if(gamepad2.right_bumper && gamepad2.dpad_up){
+//                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
+//                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
+//            }
+//
+//            if(gamepad2.right_bumper && gamepad2.dpad_down){
+//                WRIST_SERVO_INCREMENT -= WRIST_SERVO_INCREMENT_STEP;
+//                WRIST_SERVO_INCREMENT += WRIST_SERVO_INCREMENT_STEP;
+//            }
 
 //            intakeMotor.setPower(gamepad1.left_trigger-gamepad1.right_trigger);
 
@@ -443,7 +474,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
             if (usingFTCDashboard){
 
-                armPidOutput = armPID(ARM_TARGET, leftArmMotor.getCurrentPosition() * -1);
+                armPidOutput = armPID(ARM_TARGET, leftArmMotor.getCurrentPosition());
                 armMotorsign = Math.signum(armPidOutput);
                 if (Math.abs(armPidOutput) > MAX_POWER) {
                     armMotorPower = armMotorsign * MAX_POWER;
@@ -455,29 +486,40 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 telemetry.addData("target angle", leftArmMotor.getTargetPosition());
                 telemetry.addData("actual position", leftArmMotor.getCurrentPosition());
                 telemetry.addData("Arm target", shoulderPosition.getArmTarget());
+                telemetry.addData("LeftTriggerReady", buttonReadyLeft);
+                telemetry.addData("RightTriggerReady", buttonReadyRight);
                 telemetry.update();
-                armPidOutput = armPID(shoulderPosition.getArmTarget(), leftArmMotor.getCurrentPosition() * -1);
+                armPidOutput = armPID(armTarget, leftArmMotor.getCurrentPosition());
                 armMotorsign = Math.signum(armPidOutput);
-                if(shoulderPosition.equals(ArmShoulderPositions.HOME) || shoulderPosition.equals(ArmShoulderPositions.INTAKE)) {
-                    if (Math.abs(armPidOutput) > HOME_MAX_POWER) {
-                        armMotorPower = armMotorsign * HOME_MAX_POWER;
-                    } else {
-                        armMotorPower = armPidOutput;
-                    }
+//                if(shoulderPosition.equals(ArmShoulderPositions.HOME) || shoulderPosition.equals(ArmShoulderPositions.INTAKE)) {
+//                    if (Math.abs(armPidOutput) > HOME_MAX_POWER) {
+//                        armMotorPower = armMotorsign * HOME_MAX_POWER;
+//                    } else {
+//                        armMotorPower = armPidOutput;
+//                    }
+//                }
+//                else {
+//                    if (Math.abs(armPidOutput) > shoulderPosition.getMaxPower()) {
+//                        armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
+//                    } else {
+//                        armMotorPower = armPidOutput;
+//                    }
+//                }
+                if (Math.abs(armPidOutput) > shoulderPosition.getMaxPower()) {
+                        armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
                 }
                 else {
-                    if (Math.abs(armPidOutput) > shoulderPosition.getMaxPower()) {
-                        armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
-                    } else {
-                        armMotorPower = armPidOutput;
-                    }
+                    armMotorPower = armPidOutput;
                 }
+//
 
             }
 //
             leftArmMotor.setPower(armMotorPower);
             rightArmMotor.setPower(armMotorPower);
             telemetry.addData("Arm Motor Power", armMotorPower);
+            telemetry.addData("Encoder Value", leftArmMotor);
+            telemetry.addData("Arm Value", leftArmMotor.getCurrentPosition());
             telemetry.update();
 
             if(usingFTCDashboard == true) {
@@ -528,7 +570,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
 //            telemetry.addData("Status", "Running");
         }
     }
-
 
     private double armPID(double targetValue, double currentValue) {
 
@@ -710,7 +751,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         //using the PID
         ZPID(getAngle(), ZTar, ZkP, ZkI, ZkD);
-
     }
 }
 
