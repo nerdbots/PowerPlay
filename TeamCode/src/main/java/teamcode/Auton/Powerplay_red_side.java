@@ -17,7 +17,7 @@ import teamcode.TeleOp.SleeveColorDetector;
 import teamcode.TeleOp.SleeveColorDetectorTest;
 
 //@Disabled
-@Autonomous(name="Powerplays_test_auton right", group="Linear Opmode")
+@Autonomous(name="PowerPlay Red Side", group="Linear Opmode")
 
 public class Powerplay_red_side extends LinearOpMode {
 
@@ -59,13 +59,13 @@ public class Powerplay_red_side extends LinearOpMode {
         myPurePursuitRobotMovement6_Turn_MultiThread.startOdometryThread();
 
 
-        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
-
-        myPurePursuitRobotMovement6_Turn_MultiThread.resetITerm();
-
-        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
-
-        myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
+//        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.resetITerm();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
@@ -84,6 +84,13 @@ public class Powerplay_red_side extends LinearOpMode {
 
 
         if (purePursuitPath == 1) {
+//            ArrayList<CurvePoint> allPoints = new ArrayList<>();
+//            allPoints.add(new CurvePoint(0, 0, 0.7, 0.3, 25, 0, 0.3));
+//            allPoints.add(new CurvePoint(0, 24, 0.9, 0.3, 23, 0, 0.8));
+//            allPoints.add(new CurvePoint(0, 48, 0.7, 0.3, 25, 0, 0.3));
+//
+//
+//            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, 0, 3);
 
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(0, 0, 0.7, 0.3, 25, 0, 0.3));
@@ -91,7 +98,7 @@ public class Powerplay_red_side extends LinearOpMode {
             allPoints.add(new CurvePoint(-18, 24, 0.7, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-26, 33, 0.7, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-26, 46, 0.7, 0.3, 25, 0, 0.3));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, 135, 3);
             sleep(1500);

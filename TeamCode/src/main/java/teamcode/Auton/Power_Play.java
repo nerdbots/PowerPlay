@@ -18,7 +18,7 @@ import teamcode.TeleOp.SleeveColorDetector;
 
 public class Power_Play extends LinearOpMode {
 
-    private PurePursuitRobotMovement6_Turn_MultiThread myPurePursuitRobotMovement6_Turn_MultiThread;
+    private PurePursuitRobotMovement6_Turn_MultiThread_V2 myPurePursuitRobotMovement6_Turn_MultiThread;
 
     boolean debugFlag = true;
     //    SleeveColorDetector.ColorDeterminationPipeline.SleeveColor SleeveColor;
@@ -41,7 +41,7 @@ public class Power_Play extends LinearOpMode {
         colorDetector = new SleeveColorDetector(this);
         colorDetector.initSleeveColorDetector();
         //Create a NerdBOT object
-        myPurePursuitRobotMovement6_Turn_MultiThread = new PurePursuitRobotMovement6_Turn_MultiThread(this);
+        myPurePursuitRobotMovement6_Turn_MultiThread = new PurePursuitRobotMovement6_Turn_MultiThread_V2(this);
         myPurePursuitRobotMovement6_Turn_MultiThread.setDebug(debugFlag);
 
         //Initialize Hardware

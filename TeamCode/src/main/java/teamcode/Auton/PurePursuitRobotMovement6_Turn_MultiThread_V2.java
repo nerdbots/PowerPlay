@@ -4,7 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
+//import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -56,13 +56,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
     private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
 
-    private Servo leftArmServo;
-    private Servo rightArmServo;
+//    private Servo leftArmServo;
+//    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
 
-    ColorSensor colorSensor;
+//    ColorSensor colorSensor;
     RevBlinkinLedDriver blinkinLedDriver;
     ElapsedTime IntakeTimer = new ElapsedTime();
     ElapsedTime IntakeTimer2 = new ElapsedTime();
@@ -303,8 +303,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
         this.backEncoder = this.hardwareMap.get(DcMotor.class, "Intake");
 
 
-        this.colorSensor = this.hardwareMap.get(ColorSensor.class, "colorSensor");
-        this.blinkinLedDriver = this.hardwareMap.get(RevBlinkinLedDriver.class, "led");
+//        this.colorSensor = this.hardwareMap.get(ColorSensor.class, "colorSensor");
+//        this.blinkinLedDriver = this.hardwareMap.get(RevBlinkinLedDriver.class, "led");
 
 
 
@@ -372,15 +372,15 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
         this.rearLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.rearRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
-        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+//        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
+//        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
 
-        leftArmServo.setPosition(0.3);
-        rightArmServo.setPosition(0.7);
+//        leftArmServo.setPosition(0.3);
+//        rightArmServo.setPosition(0.7);
         leftGrab.setPosition(0.53);
         rightGrab.setPosition(0.55);
 
@@ -962,8 +962,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
             }
             frontEncoder.setPower(armMotorPower);
             rightEncoder.setPower(-armMotorPower);
-            leftArmServo.setPosition(currentArmTargetPosition.getLeftWristServoPosition());
-            rightArmServo.setPosition(currentArmTargetPosition.getRightWristServoPosition());
+//            leftArmServo.setPosition(currentArmTargetPosition.getLeftWristServoPosition());
+//            rightArmServo.setPosition(currentArmTargetPosition.getRightWristServoPosition());
 
 
             // If we reach intermediate arm position (HOME), we swap to final arm position.
@@ -1291,56 +1291,56 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
 
     }
 
-    public void AutonBlockIntake(){
-        isBlockIn = false;
-        IntakeTimer.reset();
-        IntakeTimer2.reset();
-        while(this.opmode.opModeIsActive() && isBlockIn == false && !this.opmode.isStopRequested()) {
-            IntakeTimer.reset();
-            blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-            while(!(colorSensor.alpha() > 200) && IntakeTimer.seconds() <= 2) {
-                rearRightMotor.setPower(0.35);
-                frontLeftMotor.setPower(-0.35);
-                rearLeftMotor.setPower(-0.35);
-                frontRightMotor.setPower(0.35);
-                backEncoder.setPower(-1);
-                this.opmode.telemetry.addData("timer 1", IntakeTimer.seconds());
-                this.opmode.telemetry.update();
-
-            }
-            if(colorSensor.alpha() > 200) {
-                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
-            IntakeTimer2.reset();
-            while (IntakeTimer2.seconds() < 0.75) {
-                rearRightMotor.setPower(-0.35);
-                frontLeftMotor.setPower(0.35);
-                rearLeftMotor.setPower(0.35);
-                frontRightMotor.setPower(-0.35);
-                backEncoder.setPower(0);
-                this.opmode.telemetry.addData("timer 2", IntakeTimer2.seconds());
-                this.opmode.telemetry.update();
-
-            }
-            rearRightMotor.setPower(0);
-            frontLeftMotor.setPower(0);
-            rearLeftMotor.setPower(0);
-            frontRightMotor.setPower(0);
-            if(colorSensor.alpha() > 200) {
-                backEncoder.setPower(0.5);
-            }
-            if(colorSensor.alpha() > 200)  { isBlockIn = true; }
-
-        }
-
-
-
-    }
-
-    public boolean checkIfBlockIsIn(){
-        boolean blockIsIn = false;
-        if(colorSensor.alpha() > 200) blockIsIn = true;
-        return  blockIsIn;
-    }
+//    public void AutonBlockIntake(){
+//        isBlockIn = false;
+//        IntakeTimer.reset();
+//        IntakeTimer2.reset();
+//        while(this.opmode.opModeIsActive() && isBlockIn == false && !this.opmode.isStopRequested()) {
+//            IntakeTimer.reset();
+//            blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+//            while(!(colorSensor.alpha() > 200) && IntakeTimer.seconds() <= 2) {
+//                rearRightMotor.setPower(0.35);
+//                frontLeftMotor.setPower(-0.35);
+//                rearLeftMotor.setPower(-0.35);
+//                frontRightMotor.setPower(0.35);
+//                backEncoder.setPower(-1);
+//                this.opmode.telemetry.addData("timer 1", IntakeTimer.seconds());
+//                this.opmode.telemetry.update();
+//
+//            }
+//            if(colorSensor.alpha() > 200) {
+//                blinkinLedDriver.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);}
+//            IntakeTimer2.reset();
+//            while (IntakeTimer2.seconds() < 0.75) {
+//                rearRightMotor.setPower(-0.35);
+//                frontLeftMotor.setPower(0.35);
+//                rearLeftMotor.setPower(0.35);
+//                frontRightMotor.setPower(-0.35);
+//                backEncoder.setPower(0);
+//                this.opmode.telemetry.addData("timer 2", IntakeTimer2.seconds());
+//                this.opmode.telemetry.update();
+//
+//            }
+//            rearRightMotor.setPower(0);
+//            frontLeftMotor.setPower(0);
+//            rearLeftMotor.setPower(0);
+//            frontRightMotor.setPower(0);
+//            if(colorSensor.alpha() > 200) {
+//                backEncoder.setPower(0.5);
+//            }
+//            if(colorSensor.alpha() > 200)  { isBlockIn = true; }
+//
+//        }
+//
+//
+//
+//    }
+//
+//    public boolean checkIfBlockIsIn(){
+//        boolean blockIsIn = false;
+//        if(colorSensor.alpha() > 200) blockIsIn = true;
+//        return  blockIsIn;
+//    }
 
 
     public void runMotor(String motor, double power, double timeInSeconds){
@@ -1489,8 +1489,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
             rightEncoder.setPower(-armMotorPower); //11_08 check
             leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
             rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
-            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
-            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
+//            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
+//            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
 
         }
 
@@ -1605,10 +1605,10 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
         deltaTimeArm = 0;
         startTimeArm = 0;
     }
-
-    public void resetColorSensor(){
-        colorSensor.resetDeviceConfigurationForOpMode();
-    }
+//
+//    public void resetColorSensor(){
+//        colorSensor.resetDeviceConfigurationForOpMode();
+//    }
 
 
 }
