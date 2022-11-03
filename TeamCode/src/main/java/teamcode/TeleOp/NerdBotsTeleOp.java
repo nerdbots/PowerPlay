@@ -161,6 +161,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
     private Servo leftGrab;
     private Servo rightGrab;
 
+    //Initializing Elevator
+    ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
+
+
     //For Arm PID
     public static double armKp = 0.02;//0.01
     public static double armKi = 0.001;
@@ -193,6 +197,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double oldTime = 0;
     double deltaTime = 0;
     double startTime = 0;
+
 
     public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
     public  volatile FingerPositions fingerPosition = FingerPositions.INTAKE_READY;
@@ -280,7 +285,17 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         ftcDashboard = FtcDashboard.getInstance();
         dashboardTelemetry = ftcDashboard.getTelemetry();
-
+        elevatorinitElapsedTime.reset();
+        while(elevatorinitElapsedTime.seconds() <= 1) {
+            rightArmMotor.setPower(-1);
+            leftArmMotor.setPower(-1);
+        }
+        leftArmMotor.setPower(0);
+        rightArmMotor.setPower(0);
+        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         //anything between here and while(opmodeIsActive) runs exactly once, right when the play button is pressed.
         waitForStart();
 
@@ -627,7 +642,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
         MaxSpeed = MaxSpeedZ;
 
         //calculate error (Proportional)
-        error = targetAngle - currentAngle;
+//        error = targetAngle - currentAngle;
+        error = MathFunctions.AngleWrapDeg(targetAngle - currentAngle);
+
+
 
         //Calculate Total error (Integral)
         TotalError = (error * PIDTime.seconds()) + TotalError;

@@ -43,10 +43,10 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     private DcMotor rearLeftMotor;
     private DcMotor rearRightMotor;
 
-    private DcMotor frontEncoder;
-    private DcMotor rightEncoder;
-    private DcMotor leftEncoder;
-    private DcMotor backEncoder;
+     public DcMotor frontEncoder;
+     public DcMotor rightEncoder;
+     public DcMotor leftEncoder;
+     public DcMotor backEncoder;
 
     private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
@@ -318,7 +318,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         this.frontEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
         this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
         this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
-        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
+//        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
 
         this.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

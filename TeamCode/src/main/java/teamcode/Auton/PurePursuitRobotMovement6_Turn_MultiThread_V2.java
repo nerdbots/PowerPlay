@@ -355,7 +355,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
         this.frontEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
         this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
         this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
-        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
+//        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
 
         this.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

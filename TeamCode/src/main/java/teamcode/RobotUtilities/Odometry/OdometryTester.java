@@ -32,6 +32,7 @@ public class OdometryTester extends LinearOpMode {
     int purePursuitPath = 1;
     int sleeveColor;
     SleeveColorDetector sleeveColorDetector;
+    OdometryGlobalCoordinatePosition globalPositionUpdate;
 
 
     @Override
@@ -51,17 +52,20 @@ public class OdometryTester extends LinearOpMode {
         sleeveColorDetector = new SleeveColorDetector(this);
         sleeveColorDetector.initSleeveColorDetector();
         waitForStart();
-
-        telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / COUNTS_PER_INCH);
-        telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / COUNTS_PER_INCH);
+        globalPositionUpdate = new OdometryGlobalCoordinatePosition(myPurePursuitRobotMovement6_Turn_MultiThread.leftEncoder, myPurePursuitRobotMovement6_Turn_MultiThread.rightEncoder, myPurePursuitRobotMovement6_Turn_MultiThread.backEncoder, 194.044, 75);
+        Thread positionThread = new Thread(globalPositionUpdate);
+        positionThread.start();
+    while(opModeIsActive()) {
+        telemetry.addData("X Position", globalPositionUpdate.returnXCoordinate() / 194.044);
+        telemetry.addData("Y Position", globalPositionUpdate.returnYCoordinate() / 194.044);
         telemetry.addData("Orientation (Degrees)", globalPositionUpdate.returnOrientation());
 
-        telemetry.addData("Vertical left encoder position", verticalLeft.getCurrentPosition());
-        telemetry.addData("Vertical right encoder position", verticalRight.getCurrentPosition());
-        telemetry.addData("horizontal encoder position", horizontal.getCurrentPosition());
+        telemetry.addData("Left encoder position", myPurePursuitRobotMovement6_Turn_MultiThread.leftEncoder.getCurrentPosition());
+        telemetry.addData("Right encoder position", myPurePursuitRobotMovement6_Turn_MultiThread.rightEncoder.getCurrentPosition());
+        telemetry.addData("Back encoder position", myPurePursuitRobotMovement6_Turn_MultiThread.backEncoder.getCurrentPosition());
 
         telemetry.addData("Thread Active", positionThread.isAlive());
         telemetry.update();
-
+    }
     }
 }
