@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import teamcode.RobotUtilities.*;
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 
 import java.util.ArrayList;
 

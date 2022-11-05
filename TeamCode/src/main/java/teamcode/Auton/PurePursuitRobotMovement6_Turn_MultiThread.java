@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.RobotUtilities.Odometry.OdometryGlobalCoordinatePositionNERD;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -42,16 +43,16 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     private DcMotor rearLeftMotor;
     private DcMotor rearRightMotor;
 
-    private DcMotor frontEncoder;
-    private DcMotor rightEncoder;
-    private DcMotor leftEncoder;
-    private DcMotor backEncoder;
+     public DcMotor frontEncoder;
+     public DcMotor rightEncoder;
+     public DcMotor leftEncoder;
+     public DcMotor backEncoder;
 
     private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
 
-    private Servo leftArmServo;
-    private Servo rightArmServo;
+//    private Servo leftArmServo;
+//    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
@@ -317,7 +318,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         this.frontEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
         this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
         this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
-        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
+//        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
 
         this.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         this.frontRightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -334,15 +335,15 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         this.rearLeftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.rearRightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
-        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
+//        leftArmServo = hardwareMap.get(Servo.class, "leftArmServo");
+//        rightArmServo = hardwareMap.get(Servo.class, "rightArmServo");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
 
-        leftArmServo.setPosition(0.3);
-        rightArmServo.setPosition(0.7);
+//        leftArmServo.setPosition(0.3);
+//        rightArmServo.setPosition(0.7);
         leftGrab.setPosition(0.53);
         rightGrab.setPosition(0.55);
 
@@ -651,8 +652,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("NERDBLUEAUTON Motor powers %f, LooptimeARM %f", armMotorPower, loopTimeArm);
             frontEncoder.setPower(armMotorPower);
             rightEncoder.setPower(-armMotorPower);
-            leftArmServo.setPosition(currentArmTargetPosition.getLeftWristServoPosition());
-            rightArmServo.setPosition(currentArmTargetPosition.getRightWristServoPosition());
+//            leftArmServo.setPosition(currentArmTargetPosition.getLeftWristServoPosition());
+//            rightArmServo.setPosition(currentArmTargetPosition.getRightWristServoPosition());
 
             RobotLog.d("originalArmTargetPosition %d, intermediateArmTargetPosition %d, targetShoulderPosition %d, previousArmPosition %d",
                     originalArmTargetPosition.getArmTarget(), intermediateArmTargetPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),previousArmPosition.getArmTarget());
@@ -1116,8 +1117,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             rightEncoder.setPower(-armMotorPower); //11_08 check
             leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
             rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
-            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
-            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
+//            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
+//            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
 
         }
 

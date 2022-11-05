@@ -49,7 +49,7 @@ public class SleeveColorDetector {
         this.opMode = opMode;
     }
 
-    public void initDuckDetector() {
+    public void initSleeveColorDetector () {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
@@ -137,10 +137,10 @@ public class SleeveColorDetector {
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
 
-        static final Point REGION_ANCHOR_POINT = new Point(300,240);
+        static final Point REGION_ANCHOR_POINT = new Point(300,140);
 
 
-        static final int REGION_WIDTH = 100;
+        static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 50;
 
         /*

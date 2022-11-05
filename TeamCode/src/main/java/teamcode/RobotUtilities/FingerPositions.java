@@ -2,10 +2,10 @@ package teamcode.RobotUtilities;
 
 public  enum FingerPositions {
 
-    ENTER_INTAKE(0.53,0.55),
-    INTAKE_READY(0.57,0.51),
-    GRAB(0.5,0.65),
-    RELEASE(0.6,0.5);
+    ENTER_INTAKE(0.53,0.55), //Not using anymore for PowerPlay
+    INTAKE_READY(0.2,0.8), //Opens the claw
+    GRAB(0.62,0.38),
+    RELEASE(0.584,0.416); //Not using anymore for PowerPlay
 
     private final double leftFingerPosition;
     private final double rightFingerPosition;
