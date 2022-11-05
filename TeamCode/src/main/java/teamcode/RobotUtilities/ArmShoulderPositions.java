@@ -2,19 +2,19 @@ package teamcode.RobotUtilities;
 
 public enum ArmShoulderPositions {
 
-    INTAKE(0,1,0.28,0.72),
-    LEVEL1(400,1,0.28,0.72),
-    LEVEL2(670,1,0.53,0.47),
-    LEVEL3(915,1,0.7,0.3),
-    TSE_DROP(600,1,0.62,0.38),
-    GROUND_PICKUP(1000,1,0.63,0.37),
-    HOME(100,1,0.15,0.85),
-    SHARED_HUB(1000, 1, 0.28,0.72);
+    INTAKE(0,0.5,0.28,0.72),
+    LEVEL1(900,0.5,0.28,0.72),
+    LEVEL2(1500,0.5,0.53,0.47),
+    LEVEL3(2050,0.5,0.7,0.3),
+    TSE_DROP(600,0.5,0.62,0.38),
+    GROUND_PICKUP(1000,0.5,0.63,0.37),
+    HOME(100,0.5,0.15,0.85),
+    SHARED_HUB(1000, 0.5, 0.28,0.72);
 
     private  final int armTarget;
     private final double maxPower;
     private final double leftWristServoPosition;
-    private final double rightWristServoPosition;
+        private final double rightWristServoPosition;
 
 
     private ArmShoulderPositions(int armTarget, double maxPower, double leftWristServoPosition, double rightWristServoPosition) {

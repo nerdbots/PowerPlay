@@ -286,9 +286,9 @@ public class NerdBotsTeleOp extends LinearOpMode {
         ftcDashboard = FtcDashboard.getInstance();
         dashboardTelemetry = ftcDashboard.getTelemetry();
         elevatorinitElapsedTime.reset();
-        while(elevatorinitElapsedTime.seconds() <= 1) {
-            rightArmMotor.setPower(-1);
-            leftArmMotor.setPower(-1);
+        while(elevatorinitElapsedTime.seconds() <= 0.5) {
+            rightArmMotor.setPower(-0.5);
+            leftArmMotor.setPower(-0.5);
         }
         leftArmMotor.setPower(0);
         rightArmMotor.setPower(0);
@@ -378,15 +378,15 @@ public class NerdBotsTeleOp extends LinearOpMode {
             else if (!gamepad2.left_bumper) {
                 buttonReadyLeft=true;
             }
-            if (gamepad2.right_bumper && buttonReadyRight ){
-                armTarget += 100;
-                buttonReadyRight=false;
-            }
-            else if (!gamepad2.right_bumper) {
-                buttonReadyRight=true;
-            }
+//            if (gamepad2.right_bumper && buttonReadyRight ){
+//                armTarget += 100;
+//                buttonReadyRight=false;
+//            }
+//            else if (!gamepad2.right_bumper) {
+//                buttonReadyRight=true;
+//            }
             armValue = leftArmMotor.getCurrentPosition();
-
+            //capping the arm value
             if(armValue > 915) {
                 armValue = 915;
             }

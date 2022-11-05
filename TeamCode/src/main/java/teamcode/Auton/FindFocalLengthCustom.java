@@ -126,19 +126,19 @@ public class FindFocalLengthCustom extends LinearOpMode {
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
                     if (updatedRecognitions != null) {
-                      telemetry.addData("# Object Detected", updatedRecognitions.size());
-                      // step through the list of recognitions and display boundary info.
-                      int i = 0;
-                      for (Recognition recognition : updatedRecognitions) {
-                          if(recognition.estimateAngleToObject(AngleUnit.DEGREES) >= 5.0 || recognition.estimateAngleToObject(AngleUnit.DEGREES) <= -5) {
-                              telemetry.addData("Error:", "Angle too severe. Please align your camera to the center of the object and make sure angle is as close to zero as possible.");
-                          }
-                          else {
-                              telemetry.addData("Focal Length", this.getFocalLength(recognition));
-                          }
-                          telemetry.update();
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        // step through the list of recognitions and display boundary info.
+                        int i = 0;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if(recognition.estimateAngleToObject(AngleUnit.DEGREES) >= 5.0 || recognition.estimateAngleToObject(AngleUnit.DEGREES) <= -5) {
+                                telemetry.addData("Error:", "Angle too severe. Please align your camera to the center of the object and make sure angle is as close to zero as possible.");
+                            }
+                            else {
+                                telemetry.addData("Focal Length", this.getFocalLength(recognition));
+                            }
+                            telemetry.update();
 
-                      }
+                        }
                     }
                 }
             }
@@ -172,11 +172,11 @@ public class FindFocalLengthCustom extends LinearOpMode {
      */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
-       tfodParameters.minResultConfidence = 0.8f;
-       tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-       tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
     public double getFocalLength(Recognition recognition) {
         return (recognition.getHeight() * this.KNOWN_DISTANCE_TO_OBJECT)/ this.KNOWN_LENGTH_OF_OBJECT;

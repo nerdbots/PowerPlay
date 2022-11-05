@@ -8,6 +8,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.Semaphore;
 
+import teamcode.RobotUtilities.company.Range;
+
 public class UdpServer implements Runnable{
     //the port of the client
     private final int clientPort;
