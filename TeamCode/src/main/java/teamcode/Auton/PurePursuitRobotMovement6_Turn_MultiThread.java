@@ -534,7 +534,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     public void followCurveArm(ArrayList<CurvePoint> allPoints, double zPowerFF, double distanceToPark, double parkAngleTarget,
                                double parkRadius, ArmShoulderPositions initialShoulderPosition, ArmShoulderPositions targetShoulderPosition,
-                               FingerPositions targetFingerPosition, FingerPositions endFingerPosition,
+                               FingerPositions initialFingerPosition, FingerPositions endFingerPosition,
                                double armDelay, double armHoldPositionTime, String motor, double power){
 
         resetArmVariables();
@@ -555,13 +555,6 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         oldTimeArm = startTimeArm;
 
 
-        ArmShoulderPositions originalArmTargetPosition = targetShoulderPosition;
-        ArmShoulderPositions intermediateArmTargetPosition = ArmShoulderPositions.HOME;
-        ArmShoulderPositions currentArmTargetPosition;
-        ArmShoulderPositions previousArmPosition = initialShoulderPosition;
-
-        RobotLog.d("originalArmTargetPosition %d, intermediateArmTargetPosition %d, targetShoulderPosition %d, previousArmPosition %d",
-                originalArmTargetPosition.getArmTarget(), intermediateArmTargetPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),previousArmPosition.getArmTarget());
 
 
         boolean finalArmTargetReached = false;
@@ -569,20 +562,12 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         if(armDelay >0)
             armDelayTimer = armElapsedTime.seconds();
 
-        if(initialShoulderPosition != targetShoulderPosition) {
-            currentArmTargetPosition = intermediateArmTargetPosition;
-        }else{
-            currentArmTargetPosition = targetShoulderPosition;
-        }
 
         armHoldStartTime = 0.0;
 
-        leftGrab.setPosition(targetFingerPosition.getLeftFingerPosition());
-        rightGrab.setPosition(targetFingerPosition.getRightFingerPosition());
-//11_15
-//        OdometryGlobalCoordinatePositionNERD globalPositionUpdate = new OdometryGlobalCoordinatePositionNERD(leftEncoder, rightEncoder, backEncoder, imu, COUNTS_PER_INCH, 75);
-//        Thread positionThread = new Thread(globalPositionUpdate);
-//        positionThread.start();
+        leftGrab.setPosition(initialFingerPosition.getLeftFingerPosition());
+        rightGrab.setPosition(initialFingerPosition.getRightFingerPosition());
+
 
         while (this.opmode.opModeIsActive() && !this.opmode.isStopRequested() &&
                 !distanceTargetReached(distanceToEndPoint, parkRadius) &&
@@ -595,7 +580,6 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             oldTimeArm = currentTimeArm;
             deltaTimeArm = currentTimeArm - startTimeArm;
 
-//            double[] robotPositionXYV = findDisplacementOptical();
 //
              robotXMultiThread = globalPositionUpdate.returnXCoordinate();
              robotYMultiThread = globalPositionUpdate.returnYCoordinate();
@@ -631,61 +615,30 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("NERD FRONT ONE #### FollowCurveArm - currentArmTargetPosition %d", frontEncoder.getCurrentPosition());
 
 
-            armPidOutput = armPID(currentArmTargetPosition.getArmTarget(), frontEncoder.getCurrentPosition() * -1);
+            armPidOutput = armPID(targetShoulderPosition.getArmTarget(), frontEncoder.getCurrentPosition());
             armMotorsign = Math.signum(armPidOutput);
-            if((currentArmTargetPosition == ArmShoulderPositions.HOME && previousArmPosition == ArmShoulderPositions.INTAKE) ||
-                    (currentArmTargetPosition == ArmShoulderPositions.INTAKE && previousArmPosition == ArmShoulderPositions.HOME)) {
-                RobotLog.d(" NERD INSIDE setting HOME_MAX_POWER ");
-                if (Math.abs(armPidOutput) > HOME_MAX_POWER) {
-                    armMotorPower = armMotorsign * HOME_MAX_POWER;
+
+                if (Math.abs(armPidOutput) > targetShoulderPosition.getMaxPower()) {
+                    armMotorPower = armMotorsign * targetShoulderPosition.getMaxPower();
                 } else {
                     armMotorPower = armPidOutput;
                 }
-            }
-            else {
-                if (Math.abs(armPidOutput) > currentArmTargetPosition.getMaxPower()) {
-                    armMotorPower = armMotorsign * currentArmTargetPosition.getMaxPower();
-                } else {
-                    armMotorPower = armPidOutput;
-                }
-            }
+
             RobotLog.d("NERDBLUEAUTON Motor powers %f, LooptimeARM %f", armMotorPower, loopTimeArm);
             frontEncoder.setPower(armMotorPower);
             rightEncoder.setPower(-armMotorPower);
-//            leftArmServo.setPosition(currentArmTargetPosition.getLeftWristServoPosition());
-//            rightArmServo.setPosition(currentArmTargetPosition.getRightWristServoPosition());
-
-            RobotLog.d("originalArmTargetPosition %d, intermediateArmTargetPosition %d, targetShoulderPosition %d, previousArmPosition %d",
-                    originalArmTargetPosition.getArmTarget(), intermediateArmTargetPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),previousArmPosition.getArmTarget());
-
-            if(initialShoulderPosition != targetShoulderPosition){
-                if(currentArmTargetPosition == intermediateArmTargetPosition){
-
-                    if(isArmTargetReached(currentArmTargetPosition, frontEncoder.getCurrentPosition())){
-                        RobotLog.d("NERD_11_08 #### FollowCurveArm - ArmTarget Reached SWAPPED, originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
-                                originalArmTargetPosition.getArmTarget(),currentArmTargetPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
-                        previousArmPosition = currentArmTargetPosition;
-                        currentArmTargetPosition = originalArmTargetPosition;
-                    }
-
-                    RobotLog.d("NERD_11_08 #### FollowCurveArm - Did NOT SWAP originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
-                            originalArmTargetPosition.getArmTarget(),currentArmTargetPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
-
-                }
-            }
-            if((distanceTargetReached(distanceToEndPoint,parkRadius) && isArmTargetReached(originalArmTargetPosition,frontEncoder.getCurrentPosition()))){
+       }
+            if((distanceTargetReached(distanceToEndPoint,parkRadius) && isArmTargetReached(targetShoulderPosition,frontEncoder.getCurrentPosition()))){
                 finalArmTargetReached = true;
                 if(armHoldPositionTime > 0)
                     armHoldStartTime = armElapsedTime.seconds();
                 RobotLog.d("NERD_11_08 #### FollowCurveArm - Arm Hold Timer Started originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
-                        originalArmTargetPosition.getArmTarget(),currentArmTargetPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
-                if(originalArmTargetPosition == ArmShoulderPositions.INTAKE){
-                    leftGrab.setPosition(FingerPositions.INTAKE_READY.getLeftFingerPosition());
-                    rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
-                }else {
+                        targetShoulderPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
+
+
                     leftGrab.setPosition(endFingerPosition.getLeftFingerPosition());
                     rightGrab.setPosition(endFingerPosition.getRightFingerPosition());
-                }
+
 
 
             }
@@ -694,24 +647,12 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
             //ARM 11_08
 
-            if(motor.equals("intake")) {
-                //   if(finalArmTargetReached == true && originalArmTargetPosition == ArmShoulderPositions.INTAKE)
-                runMotor("intake", power);
-            }
-            else if (motor.equals("duckyDisc"))
-                runMotor("duckyDisc", power);
+
 
         }
-        frontLeftMotor.setPower(0);
-        frontRightMotor.setPower(0);
-        rearLeftMotor.setPower(0);
-        rearRightMotor.setPower(0);
-        runMotor("intake",0);
-        runMotor("duckyDisc", 0);
-//11_15
-//        globalPositionUpdate.stop();
 
-    }
+
+
 
     public void setFingerPositions(FingerPositions targetFingerPosition)
     {

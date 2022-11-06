@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.ArrayList;
 
 import teamcode.RobotUtilities.Odometry.CurvePoint;
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetector;
 import teamcode.TeleOp.SleeveColorDetectorTest;
 
@@ -153,6 +154,7 @@ public class Powerplay_red_side extends LinearOpMode {
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, -135, 3);
             myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
             if (path == 2) {
+                
                 ParkDistanceX = 0;
                 ParkDistanceY = 0;
 
