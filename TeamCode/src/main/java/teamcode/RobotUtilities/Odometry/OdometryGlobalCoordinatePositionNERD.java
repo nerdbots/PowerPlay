@@ -148,7 +148,7 @@ public class OdometryGlobalCoordinatePositionNERD implements Runnable{
         //Now, remove the ticks caused by z movement from the total encoder count, each loop
         double leftDispNoRot = leftDisplacement - robotRotDisplacementOptRight;
         double rightDispNoRot = rightDisplacement - robotRotDisplacementOptLeft;
-        double rearDispNoRot = rearDisplacement - robotRotDisplacementOptBack;
+        double rearDispNoRot = rearDisplacement + robotRotDisplacementOptBack;
 
 //        //This section was created for debugging
 //        leftDispNoRotTotOpt += leftDispNoRot;

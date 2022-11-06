@@ -24,10 +24,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 //import opencv.core.PointPP;
 import teamcode.RobotUtilities.core.PointPP;
-import teamcode.Auton.CurvePoint;
-import teamcode.Auton.MathFunctions;
-import teamcode.Auton.NerdPID_PurePursuit;
-import teamcode.Auton.NerdVelocityFollowing;
 
 import java.util.ArrayList;
 

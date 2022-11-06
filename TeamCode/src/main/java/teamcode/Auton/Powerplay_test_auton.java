@@ -2,16 +2,15 @@ package teamcode.Auton;
 
 import
         com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 //import org.firstinspires.ftc.teamcode.ArmShoulderPositions;
 //import org.firstinspires.ftc.teamcode.DuckDetector;
 //import org.firstinspires.ftc.teamcode.FingerPositions;
 
 import java.util.ArrayList;
 
-import teamcode.Auton.CurvePoint;
+import teamcode.RobotUtilities.ArmShoulderPositions;
 
 //@Disabled
 @Autonomous(name="Powerplay_test_auton", group="Linear Opmode")
@@ -29,7 +28,7 @@ public class Powerplay_test_auton extends LinearOpMode {
 //    DuckDetector.DuckDeterminationPipeline.DuckPosition duckPosition;
 //    DuckDetector duckDetector;
 //
-//    public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
+//    public  volatile ArmShoulderPositions shoulderPosition = INTAKE;
 //    public  volatile FingerPositions fingerPosition = FingerPositions.ENTER_INTAKE;
 
 

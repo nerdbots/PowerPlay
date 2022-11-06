@@ -13,7 +13,7 @@
 //import teamcode.RobotUtilities.ArmShoulderPositions;
 //import teamcode.RobotUtilities.FingerPositions;
 //import teamcode.TeleOp.DuckDetector;
-//import teamcode.Auton.CurvePoint;
+//import teamcode.RobotUtilities.ArmShoulderPositions.CurvePoint;
 //
 //@Disabled
 //@Autonomous(name="PurePursuitOpMode_Original_Turn", group="Linear Opmode")

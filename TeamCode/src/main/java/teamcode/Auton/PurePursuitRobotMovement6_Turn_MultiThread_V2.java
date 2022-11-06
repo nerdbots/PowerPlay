@@ -56,13 +56,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
     private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
 
-//    private Servo leftArmServo;
+    //    private Servo leftArmServo;
 //    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
 
-//    ColorSensor colorSensor;
+    //    ColorSensor colorSensor;
     RevBlinkinLedDriver blinkinLedDriver;
     ElapsedTime IntakeTimer = new ElapsedTime();
     ElapsedTime IntakeTimer2 = new ElapsedTime();
@@ -1612,5 +1612,4 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
 
 
 }
-
 

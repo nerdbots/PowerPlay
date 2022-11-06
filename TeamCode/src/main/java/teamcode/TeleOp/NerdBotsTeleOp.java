@@ -67,7 +67,6 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@Disabled
 @TeleOp(name="NerdBotsTeleop", group="Final")
 //@Config
 public class NerdBotsTeleOp extends LinearOpMode {
@@ -147,7 +146,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
 
     boolean isSlowMode = false;
-
+    boolean buttonReadyLeft = true;
     //Freight Frenzy Arm Variables
 
     //Shoulder Motors
@@ -214,7 +213,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
     int armValue = 0;
 
-    //Freight Frenzy Arm Variables
+    //init elevator
+    ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
 
 
     @Override
@@ -494,7 +494,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 telemetry.addData("actual position", leftArmMotor.getCurrentPosition());
                 telemetry.addData("Arm target", shoulderPosition.getArmTarget());
                 telemetry.addData("LeftTriggerReady", buttonReadyLeft);
-                telemetry.addData("RightTriggerReady", buttonReadyRight);
+//                telemetry.addData("RightTriggerReady", buttonReadyRight);
                 telemetry.update();
                 armPidOutput = armPID(armTarget, leftArmMotor.getCurrentPosition());
                 armMotorsign = Math.signum(armPidOutput);
