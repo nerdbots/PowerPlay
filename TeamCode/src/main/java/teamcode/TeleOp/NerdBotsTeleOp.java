@@ -144,6 +144,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
 
     boolean isSlowMode = false;
+    boolean buttonReadyRight = true;
+    boolean buttonReadyLeft = true;
 
     //Freight Frenzy Arm Variables
 
@@ -171,6 +173,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double startTime = 0;
 
     double elePower = 0;
+    double armTarget = 0;
     //Freight Frenzy Arm Variables
 
 
@@ -314,22 +317,20 @@ public class NerdBotsTeleOp extends LinearOpMode {
             frontRightMotor.setPower(FRMP * mult);
 
             //elevator
-            //high
-            if (gamepad2.a){
-                elePower = elevatorPID(500, elevatorMotor.getCurrentPosition());
+            if (gamepad2.left_bumper && buttonReadyLeft){
+                armTarget -= 100;
+                buttonReadyLeft=false;
             }
-            //medium
-            else if(gamepad2.b){
-                elePower = elevatorPID(400, elevatorMotor.getCurrentPosition());
+            else if (!gamepad2.left_bumper) {
+                buttonReadyLeft=true;
             }
-            //low
-            else if (gamepad2.x) {
-                elePower = elevatorPID(200, elevatorMotor.getCurrentPosition());
+           if (gamepad2.right_bumper && buttonReadyRight){
+                armTarget =+ 100;
+                buttonReadyRight=false;
             }
-            //ground
-            else if (gamepad2.y) {
-                elePower = elevatorPID(0, elevatorMotor.getCurrentPosition());
-            }
+           else if (!gamepad2.right_bumper) {
+               buttonReadyRight=true;
+           }
 
 //            elevatorMotor.setPower(elePower);
 
@@ -427,7 +428,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
             error = 0;
             //TotalError = 0;
         }
-        //im indian ding a ling a ling a ling
         //calculate delta error (Derivative)
         DError = -(currentAngle/*error*/ - PrevError) / PIDTime.seconds();
 
