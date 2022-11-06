@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.ArrayList;
 
 import teamcode.Auton.CurvePoint;
+import teamcode.RobotUtilities.ArmShoulderPositions;
+import teamcode.RobotUtilities.FingerPositions;
 import teamcode.TeleOp.SleeveColorDetector;
 import teamcode.TeleOp.SleeveColorDetectorTest;
 
@@ -32,7 +34,8 @@ public class Powerplay_red_side extends LinearOpMode {
     int purePursuitPath = 1;
     int sleeveColor;
     SleeveColorDetector sleeveColorDetector;
-
+    public volatile ArmShoulderPositions shoulderPositions = ArmShoulderPositions.INTAKE;
+    public volatile FingerPositions fingerPositions = FingerPositions.GRAB;
 
     @Override
     public void runOpMode() {
@@ -101,6 +104,7 @@ public class Powerplay_red_side extends LinearOpMode {
             allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, 135, 3);
+
             sleep(1500);
             allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(-20, 29, 0.7, 0.3, 25, 0, 0.3));
