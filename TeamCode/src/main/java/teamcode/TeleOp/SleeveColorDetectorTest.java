@@ -37,15 +37,17 @@ public class SleeveColorDetectorTest extends LinearOpMode
         String color = "Not Found";
 
         colorDetector = new SleeveColorDetector(this);
-        colorDetector.initDuckDetector();
+        colorDetector.initSleeveColorDetector();
+
         waitForStart();
 
         while(opModeIsActive()) {
-            if(cbValue <=145 & cbValue >= 125) {
+            cbValue = colorDetector.getAnalysis();
+            if(cbValue <=147 & cbValue >= 125) {
                 color = "PURPLE";
                 path = 2;
             }
-            else if(cbValue <=110 & cbValue >=90) {
+            else if(cbValue <=105 & cbValue >=95) {
                 color = "ORANGE";
                 path = 1;
             }

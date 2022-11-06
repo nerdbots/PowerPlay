@@ -1,7 +1,7 @@
 package teamcode.Auton;
 
 //import opencv.core.Point;
-import core.PointPP;
+import teamcode.RobotUtilities.core.PointPP;
 
 public class CurvePoint {
     public double x;

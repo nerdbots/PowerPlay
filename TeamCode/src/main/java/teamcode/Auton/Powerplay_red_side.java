@@ -1,7 +1,6 @@
 package teamcode.Auton;
 
-import
-        com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -13,21 +12,26 @@ import java.util.ArrayList;
 
 import java.util.ArrayList;
 
+import teamcode.Auton.CurvePoint;
+import teamcode.TeleOp.SleeveColorDetector;
+import teamcode.TeleOp.SleeveColorDetectorTest;
+
 //@Disabled
-@Autonomous(name="Powerplays_test_auton right", group="Linear Opmode")
+@Autonomous(name="PowerPlay Red Side", group="Linear Opmode")
 
 public class Powerplay_red_side extends LinearOpMode {
 
     private PurePursuitRobotMovement6_Turn_MultiThread myPurePursuitRobotMovement6_Turn_MultiThread;
-
     boolean debugFlag = true;
-
     double armDelay = 0.0;
     double shippingHubPark = 0;
-
+    int cbValue = 0;
+    int path = 2;
+    double ParkDistanceX = 0;
+    double ParkDistanceY = 0;
     int purePursuitPath = 1;
-//    DuckDetector.DuckDeterminationPipeline.DuckPosition duckPosition;
-//    DuckDetector duckDetector;
+    int sleeveColor;
+    SleeveColorDetector sleeveColorDetector;
 
 
     @Override
@@ -44,21 +48,49 @@ public class Powerplay_red_side extends LinearOpMode {
         telemetry.addData("NerdBOT", "Initialized");
         telemetry.update();
 
+        sleeveColorDetector = new SleeveColorDetector(this);
+        sleeveColorDetector.initSleeveColorDetector();
         waitForStart();
 
+        sleeveColor = sleeveColorDetector.getAnalysis();
+        telemetry.addData("Analysis", sleeveColorDetector.getAnalysis());
+        telemetry.update();
+        sleeveColorDetector.closeCameraDevice();
         myPurePursuitRobotMovement6_Turn_MultiThread.startOdometryThread();
 
 
-        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
+//        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.resetITerm();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
+//
+//        myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
 
-        myPurePursuitRobotMovement6_Turn_MultiThread.resetITerm();
+        cbValue = sleeveColorDetector.getAnalysis();
+        //Detecting purple
+        if (cbValue <= 147 & cbValue >= 125) {
 
-        myPurePursuitRobotMovement6_Turn_MultiThread.printI();
-
-        myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
+            path = 2;
+        }
+        //Detecting orange
+        else if (cbValue <= 105 & cbValue >= 95) {
+            path = 1;
+        }
+        //Detecting green
+        else {
+            path = 3;
+        }
 
 
         if (purePursuitPath == 1) {
+//            ArrayList<CurvePoint> allPoints = new ArrayList<>();
+//            allPoints.add(new CurvePoint(0, 0, 0.7, 0.3, 25, 0, 0.3));
+//            allPoints.add(new CurvePoint(0, 24, 0.9, 0.3, 23, 0, 0.8));
+//            allPoints.add(new CurvePoint(0, 48, 0.7, 0.3, 25, 0, 0.3));
+//
+//
+//            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, 0, 3);
 
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(0, 0, 0.7, 0.3, 25, 0, 0.3));
@@ -66,10 +98,10 @@ public class Powerplay_red_side extends LinearOpMode {
             allPoints.add(new CurvePoint(-18, 24, 0.7, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-26, 33, 0.7, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-26, 46, 0.7, 0.3, 25, 0, 0.3));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, 135, 3);
-sleep(1500);
+            sleep(1500);
             allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(-20, 29, 0.7, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-12, 25, 0.7, 0.3, 25, 0, 0.3));
@@ -118,11 +150,22 @@ sleep(1500);
             allPoints.add(new CurvePoint(-26, 54, 0.7, 0.3, 20, 0, 0.3));
             allPoints.add(new CurvePoint(-36, 64, 0.7, 0.3, 20, 0, 0.3));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15,-135, 3);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, -135, 3);
             myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
+            if (path == 2) {
+                ParkDistanceX = 0;
+                ParkDistanceY = 0;
 
+            } else if (path == 1) {
+                ParkDistanceY = 32;
+                ParkDistanceX = 32;
+
+            } else if (path == 3) {
+                ParkDistanceX = 0;
+                ParkDistanceY = 0;
+            }
         }
+
+
     }
 }
-
-

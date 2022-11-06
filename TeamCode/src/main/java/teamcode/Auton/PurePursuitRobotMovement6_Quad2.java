@@ -21,14 +21,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.ArrayList;
 
-import company.ComputerDebugging;
-import company.FloatPoint;
+import teamcode.RobotUtilities.company.ComputerDebugging;
+import teamcode.RobotUtilities.company.FloatPoint;
 //import opencv.core.PointPP;
-import core.PointPP;
-import treamcode.CurvePoint;
-import treamcode.MathFunctions;
-import treamcode.NerdPID_PurePursuit;
-import treamcode.NerdVelocityFollowing;
+import teamcode.RobotUtilities.core.PointPP;
+import teamcode.Auton.CurvePoint;
+import teamcode.Auton.MathFunctions;
+import teamcode.Auton.NerdPID_PurePursuit;
+import teamcode.Auton.NerdVelocityFollowing;
 
 public class PurePursuitRobotMovement6_Quad2 {
 
@@ -455,7 +455,7 @@ public class PurePursuitRobotMovement6_Quad2 {
             robotTargetAngle = absoluteAngleToTarget;
 
 //            robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-            motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+            motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
             xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
             yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
@@ -463,7 +463,7 @@ public class PurePursuitRobotMovement6_Quad2 {
 
 
 //            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotAngleToTarget - 180 + preferredAngle);
-            double relativeTurnAngle = mathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
+            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
 
             if (Math.abs(preferredAngle - (getAngle() + 90)) > 35){
                 useZPID = false;
@@ -863,7 +863,7 @@ public class PurePursuitRobotMovement6_Quad2 {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            ArrayList<PointPP> intersections = mathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
+            ArrayList<PointPP> intersections = MathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
 
             double closestAngle = 100000000;
 
@@ -949,12 +949,12 @@ public class PurePursuitRobotMovement6_Quad2 {
         robotTargetAngle = absoluteAngleToTarget;
 
 //        robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * movementSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * movementSpeed;
 
-        double relativeTurnAngle = mathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
+        double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotTargetAngle - (getAngle() + 90));
 
         if (Math.abs(parkAngleTarget - (getAngle() + 90)) > 90){
             useZPID = false;
@@ -1078,8 +1078,8 @@ public class PurePursuitRobotMovement6_Quad2 {
 
         robotTargetAngle = absoluteAngleToTarget;
 
-        robotAngleToTarget = mathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
-        motorAngleToTarget = mathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
+        robotAngleToTarget = MathFunctions.AngleWrapDeg(robotTargetAngle - getAngle());
+        motorAngleToTarget = MathFunctions.AngleWrapDeg((robotTargetAngle - 45) - getAngle());
 
         xPower = Math.cos(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
         yPower = Math.sin(motorAngleToTarget * 3.14 / 180) * robotTargetSpeed;
@@ -1087,7 +1087,7 @@ public class PurePursuitRobotMovement6_Quad2 {
 
 
 //            double relativeTurnAngle = MathFunctions.AngleWrapDeg(robotAngleToTarget - 180 + preferredAngle);
-        double relativeTurnAngle = mathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
+        double relativeTurnAngle = MathFunctions.AngleWrapDeg(targetAngleForPark - 90 - getAngle());
         double targetParkAngle = targetAngleForPark;
         zPIDAngle = 90 + getAngle();
         zPower = NerdPID_PurePursuit.zPowerPark(targetParkAngle, zPIDAngle, loopTime);

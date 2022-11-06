@@ -1,8 +1,5 @@
 package teamcode.Auton;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.RobotLog;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

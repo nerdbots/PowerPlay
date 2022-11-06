@@ -49,7 +49,7 @@ public class SleeveColorDetector {
         this.opMode = opMode;
     }
 
-    public void initDuckDetector() {
+    public void initSleeveColorDetector () {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
@@ -137,10 +137,10 @@ public class SleeveColorDetector {
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
 
-        static final Point REGION_ANCHOR_POINT = new Point(300,240);
+        static final Point REGION_ANCHOR_POINT = new Point(300,140);
 
 
-        static final int REGION_WIDTH = 100;
+        static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 50;
 
         /*
@@ -206,7 +206,7 @@ public class SleeveColorDetector {
              * buffer. Any changes to the child affect the parent, and the
              * reverse also holds true.
              */
-              region_Cb  = Cb.submat(new Rect(region_pointA, region_pointB));
+            region_Cb  = Cb.submat(new Rect(region_pointA, region_pointB));
 //            region2_Cb = Cb.submat(new Rect(region2_pointA, region2_pointB));
 //            region3_Cb = Cb.submat(new Rect(region3_pointA, region3_pointB));
         }
@@ -261,7 +261,7 @@ public class SleeveColorDetector {
              * pixel value of the 3-channel image, and referenced the value
              * at index 2 here.
              */
-              avg1 = (int) Core.mean(region_Cb).val[0];
+            avg1 = (int) Core.mean(region_Cb).val[0];
 
 //            avg2 = (int) Core.mean(region2_Cb).val[0];
 //            avg3 = (int) Core.mean(region3_Cb).val[0];
@@ -320,7 +320,6 @@ public class SleeveColorDetector {
     }
 
 }
-
 
 
 

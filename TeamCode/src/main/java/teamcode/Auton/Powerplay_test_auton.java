@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.ArrayList;
 
-import treamcode.CurvePoint;
+import teamcode.Auton.CurvePoint;
 
 //@Disabled
 @Autonomous(name="Powerplay_test_auton", group="Linear Opmode")
