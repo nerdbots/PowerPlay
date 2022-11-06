@@ -3,6 +3,7 @@ package teamcode.RobotUtilities.Odometry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ReadWriteFile;
+import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -16,7 +17,7 @@ import java.io.File;
  * Created by Sarthak on 6/1/2019.
  */
 public class OdometryGlobalCoordinatePositionNERD implements Runnable{
-    //teamcode.RobotUtilities.Odometry wheels
+    //Odometry wheels
     private DcMotor verticalEncoderLeft, verticalEncoderRight, horizontalEncoder;
 
     private BNO055IMU robotAngle;
@@ -46,7 +47,7 @@ public class OdometryGlobalCoordinatePositionNERD implements Runnable{
     private int verticalRightEncoderPositionMultiplier = 1;
     private int normalEncoderPositionMultiplier = 1;
 
-    //NERD teamcode.RobotUtilities.Odometry Calculation Parameters
+    //NERD Odometry Calculation Parameters
     double robotRotNewOpt = 0;
     double robotRotOldOpt = 0;
     double robotRotOpt = 0;
@@ -236,6 +237,12 @@ public class OdometryGlobalCoordinatePositionNERD implements Runnable{
      * @return global y coordinate
      */
     public double returnYCoordinate(){ return robotGlobalYCoordinatePosition; }
+
+    /**
+     * Returns the robot's vector heading as observed by Odometry
+     * @return global robot vector, in degrees
+     */
+    public double returnVectorByOdo(){ return robotVectorByOdoOpt; }
 
     /**
      * Returns the robot's global orientation

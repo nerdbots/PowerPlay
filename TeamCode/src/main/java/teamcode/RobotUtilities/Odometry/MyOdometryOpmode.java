@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 /**
  * Created by Sarthak on 10/4/2019.
  */
-@Disabled
+//@Disabled
 @TeleOp(name = "My teamcode.RobotUtilities.Odometry OpMode")
 public class MyOdometryOpmode extends LinearOpMode {
     //Drive motors

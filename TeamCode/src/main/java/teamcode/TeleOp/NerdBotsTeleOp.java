@@ -1,5 +1,4 @@
-package teamcode.TeleOp;
-/*
+package teamcode.TeleOp;/*
 Copyright 2018 FIRST Tech Challenge Team [Phone] SAMSUNG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -68,7 +67,7 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-//@Disabled
+@Disabled
 @TeleOp(name="NerdBotsTeleop", group="Final")
 //@Config
 public class NerdBotsTeleOp extends LinearOpMode {
@@ -148,28 +147,24 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
 
     boolean isSlowMode = false;
-    boolean buttonReadyLeft = true;
-    boolean buttonReadyRight = true;
+
     //Freight Frenzy Arm Variables
 
     //Shoulder Motors
     private DcMotor leftArmMotor;
     private DcMotor rightArmMotor;
     //Wrist servos
-
+    private Servo leftArmServo;
+    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
 
-    //Initializing Elevator
-    ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
-
-
     //For Arm PID
-    public static double armKp = 0.01;//0.01
-    public static double armKi = 0;
-    public static double armKd = 0;
-    public static double maxPower = 0.75;
+    public static double armKp = 0.005;//0.01
+    public static double armKi = 0.0;
+    public static double armKd = 0.0002;
+    public static double maxPower = 0.4;
 
 
     public static int armServoPosition = 0;
@@ -197,7 +192,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double oldTime = 0;
     double deltaTime = 0;
     double startTime = 0;
-
 
     public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
     public  volatile FingerPositions fingerPosition = FingerPositions.INTAKE_READY;
@@ -314,7 +308,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
             loopTime = currentTime - oldTime;
             oldTime = currentTime;
             deltaTime = currentTime - startTime;
-
 
             //mapping the joysticks to turning.
             if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0 ) {
