@@ -27,7 +27,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name="SleeveColorDetector", group="Linear Opmode")
 public class SleeveColorDetectorTest extends LinearOpMode
 {
-    SleeveColorDetector colorDetector;
+    SleeveColorDetectorDoubleWebcam colorDetector;
 
     @Override
     public void runOpMode()
@@ -36,8 +36,12 @@ public class SleeveColorDetectorTest extends LinearOpMode
         int path = 3;
         String color = "Not Found";
 
-        colorDetector = new SleeveColorDetector(this);
-        colorDetector.initSleeveColorDetector();
+//        colorDetector = new SleeveColorDetector(this);
+//        colorDetector.initSleeveColorDetector();
+
+        colorDetector = new SleeveColorDetectorDoubleWebcam(this,"LEFT");
+      colorDetector.InitSleeveColorDetectorDoubleWebcam();
+
         waitForStart();
 
         while(opModeIsActive()) {

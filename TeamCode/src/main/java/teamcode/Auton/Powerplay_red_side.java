@@ -86,13 +86,13 @@ public class Powerplay_red_side extends LinearOpMode {
 
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
-            allPoints.add(new CurvePoint(-21, 0, 0.5, 0.3, 23, 0, 0.8));
-            allPoints.add(new CurvePoint(-18, 33, 0.5, 0.3, 25, 0, 0.3));
-            allPoints.add(new CurvePoint(-18, 66, 0.5, 0.3, 25, 0, 0.3));
+            allPoints.add(new CurvePoint(-27, 0, 0.5, 0.3, 23, 0, 0.8));
+            allPoints.add(new CurvePoint(-22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
+            allPoints.add(new CurvePoint(-22.5, 77.5, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 135, 3, ArmShoulderPositions.HOME,ArmShoulderPositions.LEVEL1, FingerPositions.GRAB, FingerPositions.GRAB,0,0, "none", 0);
-            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL1, 400,FingerPositions.INTAKE_READY);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 135, 3, ArmShoulderPositions.HOME,ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB,0,0, "none", 0);
+            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400,FingerPositions.INTAKE_READY);
 //            sleep(1500)
 //            allPoints = new ArrayList<>();
 //            allPoints.add(new CurvePoint(-20, 29, 0.7, 0.3, 25, 0, 0.3));
