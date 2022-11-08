@@ -173,7 +173,7 @@ public class SleeveColorDetector {
         Mat region_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        public int avg1, avg2, avg3;
+        public int avg1;
 
         // Volatile since accessed by OpMode thread w/o synchronization
 
@@ -308,6 +308,7 @@ public class SleeveColorDetector {
          */
         public int getAnalysis()
         {
+
             return avg1;
         }
 
