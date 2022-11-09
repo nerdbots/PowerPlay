@@ -169,7 +169,7 @@ public class NerdPID_PurePursuit {
     public static double shortParkPID (double robotDistanceToTarget, double prevRobotDistanceToTarget, double deltaTimePIDMS){
         double kPSP = 0.033;
         double kISP = 0.250;
-        double kDSP = 0.010;
+        double kDSP = 0.008;
 
         //calculate error (Proportional)
         propErrorSP = robotDistanceToTarget;
