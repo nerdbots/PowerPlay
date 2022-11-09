@@ -1,5 +1,7 @@
 package teamcode.Auton;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -43,15 +45,15 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     private DcMotor rearLeftMotor;
     private DcMotor rearRightMotor;
 
-     public DcMotor frontEncoder;
-     public DcMotor rightEncoder;
-     public DcMotor leftEncoder;
-     public DcMotor backEncoder;
+    public DcMotor frontEncoder;
+    public DcMotor rightEncoder;
+    public DcMotor leftEncoder;
+    public DcMotor backEncoder;
 
     private DcMotor duckyDiskMotor;
     private DcMotor intakeMotor;
 
-//    private Servo leftArmServo;
+    //    private Servo leftArmServo;
 //    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
@@ -136,17 +138,20 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     double oldTimeArm = 0;
     double deltaTimeArm = 0;
     double startTimeArm = 0;
-    public static double armKp = 0.005;//0.005
+    public static double armKp = 0.01;//0.005
     public static double armKi = 0.00;
-    public static double armKd = 0.00025;//0.00005
-    public static double maxPowerArm = 0.4;
+    public static double armKd = 0.00;//0.00005
+    public static double maxPowerArm = 0.75;
 
     private ElapsedTime armElapsedTime=new ElapsedTime();
 
     public static double HOME_MAX_POWER = 0.2; //Updated 11_09 was 0.2
 
-//    volatile double armHoldStartTime = 0.0;
+    //    volatile double armHoldStartTime = 0.0;
     double armHoldStartTime = 0.0;
+
+    private ElapsedTime clawReleaseDelayTime=new ElapsedTime();
+
 
     //
 
@@ -164,9 +169,9 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     double oldTimeArmOnly = 0;
     double deltaTimeArmOnly = 0;
     double startTimeArmOnly = 0;
-    public static double armKpOnly = 0.005;//0.01
+    public static double armKpOnly = 0.01;//0.01
     public static double armKiOnly = 0.0;
-    public static double armKdOnly = 0.0002;
+    public static double armKdOnly = 0.0;
     public static double maxPowerArmOnly = 0.4;
 
     public static double HOME_MAX_POWER_ARMS_ONLY = 0.2;
@@ -316,8 +321,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         this.backEncoder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         this.frontEncoder.setDirection(DcMotorSimple.Direction.REVERSE);
-        this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
-        this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
+//        this.rightEncoder.setDirection(DcMotor.Direction.REVERSE);
+//        this.leftEncoder.setDirection(DcMotor.Direction.REVERSE);
 //        this.backEncoder.setDirection(DcMotor.Direction.REVERSE);
 
         this.frontLeftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -344,8 +349,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
 //        leftArmServo.setPosition(0.3);
 //        rightArmServo.setPosition(0.7);
-        leftGrab.setPosition(0.53);
-        rightGrab.setPosition(0.55);
+        leftGrab.setPosition(FingerPositions.GRAB.getLeftFingerPosition());
+        rightGrab.setPosition(FingerPositions.GRAB.getRightFingerPosition());
 
         robotXMultiThread = 0;
         robotYMultiThread = 0;
@@ -581,8 +586,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             deltaTimeArm = currentTimeArm - startTimeArm;
 
 //
-             robotXMultiThread = globalPositionUpdate.returnXCoordinate();
-             robotYMultiThread = globalPositionUpdate.returnYCoordinate();
+            robotXMultiThread = globalPositionUpdate.returnXCoordinate();
+            robotYMultiThread = globalPositionUpdate.returnYCoordinate();
 
             CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotXMultiThread, robotYMultiThread),
                     allPoints.get(0).followDistance);
@@ -612,46 +617,50 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             double armMotorsign = 1.0;
             double armMotorPower = 0.0;
 
-            RobotLog.d("NERD FRONT ONE #### FollowCurveArm - currentArmTargetPosition %d", frontEncoder.getCurrentPosition());
 
 
-            armPidOutput = armPID(targetShoulderPosition.getArmTarget(), frontEncoder.getCurrentPosition());
+            armPidOutput = armPID(targetShoulderPosition.getArmTarget(), frontEncoder.getCurrentPosition()*-1);
+
+            RobotLog.d("NERD FRONT ONE #### FollowCurveArm - target %d, currentArmPosition %d, armPIDOut %f", targetShoulderPosition.getArmTarget(), frontEncoder.getCurrentPosition(),armPidOutput);
+
             armMotorsign = Math.signum(armPidOutput);
 
-                if (Math.abs(armPidOutput) > targetShoulderPosition.getMaxPower()) {
-                    armMotorPower = armMotorsign * targetShoulderPosition.getMaxPower();
-                } else {
-                    armMotorPower = armPidOutput;
-                }
-
-            RobotLog.d("NERDBLUEAUTON Motor powers %f, LooptimeARM %f", armMotorPower, loopTimeArm);
-            frontEncoder.setPower(armMotorPower);
-            rightEncoder.setPower(-armMotorPower);
-       }
-            if((distanceTargetReached(distanceToEndPoint,parkRadius) && isArmTargetReached(targetShoulderPosition,frontEncoder.getCurrentPosition()))){
-                finalArmTargetReached = true;
-                if(armHoldPositionTime > 0)
-                    armHoldStartTime = armElapsedTime.seconds();
-                RobotLog.d("NERD_11_08 #### FollowCurveArm - Arm Hold Timer Started originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
-                        targetShoulderPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
-
-
-                    leftGrab.setPosition(endFingerPosition.getLeftFingerPosition());
-                    rightGrab.setPosition(endFingerPosition.getRightFingerPosition());
-
-
-
+            if (Math.abs(armPidOutput) > targetShoulderPosition.getMaxPower()) {
+                armMotorPower = armMotorsign * targetShoulderPosition.getMaxPower();
+            } else {
+                armMotorPower = armPidOutput;
             }
 
-            //ARM End
+            RobotLog.d("NERDBLUEAUTON Motor powers %f, LooptimeARM %f", armMotorPower, loopTimeArm);
+            frontEncoder.setPower(-armMotorPower);
+            rightEncoder.setPower(-armMotorPower);
+        }
+        if((distanceTargetReached(distanceToEndPoint,parkRadius) && isArmTargetReached(targetShoulderPosition,frontEncoder.getCurrentPosition()))){
+            finalArmTargetReached = true;
+            if(armHoldPositionTime > 0)
+                armHoldStartTime = armElapsedTime.seconds();
+            RobotLog.d("NERD_11_08 #### FollowCurveArm - Arm Hold Timer Started originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
+                    targetShoulderPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
 
-            //ARM 11_08
+
+            leftGrab.setPosition(endFingerPosition.getLeftFingerPosition());
+            rightGrab.setPosition(endFingerPosition.getRightFingerPosition());
+
 
 
 
         }
 
+        //ARM End
 
+        //ARM 11_08
+
+        frontLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        rearLeftMotor.setPower(0);
+        rearRightMotor.setPower(0);
+
+    }
 
 
     public void setFingerPositions(FingerPositions targetFingerPosition)
@@ -676,7 +685,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         boolean targetReached = false;
 
         RobotLog.d("NERD #### isArmTargetReached Target %d, current %d", targetPosition.getArmTarget(), currentPosition);
-        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 20){
+        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 50){
 
             targetReached = true;
         }
@@ -684,6 +693,22 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         return targetReached;
 
     }
+
+    public boolean isArmTargetReached(int targetPosition,  int currentPosition){
+        boolean targetReached = false;
+
+        RobotLog.d("NERD #### isArmTargetReached Target %d, current %d", targetPosition, currentPosition);
+        if(Math.abs((targetPosition - Math.abs(currentPosition)) )<= 50){
+
+            targetReached = true;
+        }
+
+        clawReleaseDelayTime.reset();
+        RobotLog.d("NERD #### targetReached %b", targetReached);
+        return targetReached;
+
+    }
+
 
 
     private CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
@@ -1020,46 +1045,58 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     }
 
 
-    public void moveArmsOnly(ArmShoulderPositions armTargetPosition, FingerPositions fingerTargetPosition){
-
+    public void moveArmsOnly(ArmShoulderPositions armTargetPosition, int change, FingerPositions fingerTargetPosition) {
+        ElapsedTime clawRealsetime = new ElapsedTime();
+        int newArmTargetPosition = armTargetPosition.getArmTarget() - change;
         startTimeArmOnly = elapsedTime.seconds();
         oldTimeArmOnly = startTimeArmOnly;
 
-        while (this.opmode.opModeIsActive() && !isArmTargetReached(armTargetPosition,frontEncoder.getCurrentPosition())){
-            currentTimeArmOnly = elapsedTime.seconds();
-            loopTimeArmOnly = currentTimeArmOnly - oldTimeArmOnly;
-            oldTimeArmOnly = currentTimeArmOnly;
-            deltaTimeArmOnly = currentTimeArmOnly - startTimeArmOnly;
+        boolean armTargetReached = false;
+        while (this.opmode.opModeIsActive() ) {
+
+            armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
+
+            RobotLog.d("NERD Arm Target Reached %b",armTargetReached );
+            if(armTargetReached) clawReleaseDelayTime.reset();
+            if (!armTargetReached) {
+                currentTimeArmOnly = elapsedTime.seconds();
+                loopTimeArmOnly = currentTimeArmOnly - oldTimeArmOnly;
+                oldTimeArmOnly = currentTimeArmOnly;
+                deltaTimeArmOnly = currentTimeArmOnly - startTimeArmOnly;
 
 
-            //ARM Start
-            double armPidOutput = 0.0;
-            double armMotorsign = 1.0;
-            double armMotorPower = 0.0;
+                //ARM Start
+                double armPidOutput = 0.0;
+                double armMotorsign = 1.0;
+                double armMotorPower = 0.0;
 
-            armPidOutput = armPID(armTargetPosition.getArmTarget(), frontEncoder.getCurrentPosition() * -1); //11_08 check
-            armMotorsign = Math.signum(armPidOutput);
-            if(armTargetPosition.equals(ArmShoulderPositions.HOME) || armTargetPosition.equals(ArmShoulderPositions.INTAKE)) {
-                if (Math.abs(armPidOutput) > HOME_MAX_POWER_ARMS_ONLY) {
-                    armMotorPower = armMotorsign * HOME_MAX_POWER_ARMS_ONLY;
-                } else {
-                    armMotorPower = armPidOutput;
-                }
-            }
-            else {
+                armPidOutput = armPID(newArmTargetPosition, frontEncoder.getCurrentPosition() * -1); //11_08 check
+                armMotorsign = Math.signum(armPidOutput);
+
                 if (Math.abs(armPidOutput) > armTargetPosition.getMaxPower()) {
                     armMotorPower = armMotorsign * armTargetPosition.getMaxPower();
                 } else {
                     armMotorPower = armPidOutput;
                 }
-            }
 
-            leftEncoder.setPower(armMotorPower);
-            rightEncoder.setPower(-armMotorPower); //11_08 check
-            leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
-            rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
+
+                leftEncoder.setPower(-armMotorPower);
+                rightEncoder.setPower(-armMotorPower); //11_08 check
+
 //            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
 //            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
+
+            }
+
+
+            RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
+
+
+            if (armTargetReached) {
+                leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
+                rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
+                RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
+            }
 
         }
 
@@ -1162,22 +1199,21 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     public void resetArmVariables(){
 
-         propErrorArm = 0;
-         intErrorArm = 0;
-         loopTimeArm = 0;
-         prevDerErrorArm = 0;
-         derErrorArm = 0;
-         angletoleranceArm = 0;
-         motorPowerArm = 0;
-         currentTimeArm = 0;
-         oldTimeArm = 0;
-         deltaTimeArm = 0;
-         startTimeArm = 0;
+        propErrorArm = 0;
+        intErrorArm = 0;
+        loopTimeArm = 0;
+        prevDerErrorArm = 0;
+        derErrorArm = 0;
+        angletoleranceArm = 0;
+        motorPowerArm = 0;
+        currentTimeArm = 0;
+        oldTimeArm = 0;
+        deltaTimeArm = 0;
+        startTimeArm = 0;
     }
 
 
 }
-
 
 
 

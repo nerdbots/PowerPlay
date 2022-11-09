@@ -21,10 +21,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
 import java.util.ArrayList;
 
-import teamcode.RobotUtilities.Odometry.CurvePoint;
-import teamcode.RobotUtilities.MathFunctions;
-import teamcode.RobotUtilities.NerdPID_PurePursuit;
-import teamcode.RobotUtilities.Odometry.CurvePoint;
+import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.company.ComputerDebugging;
 import teamcode.RobotUtilities.company.FloatPoint;
 //import opencv.core.PointPP;
@@ -809,7 +806,7 @@ public class PurePursuitRobotMovement6_Quad2 {
         return  onDistanceTarget;
     }
 
-    public void followCurve(ArrayList<CurvePoint> allPoints, double followAngle, double distanceToPark, double parkAngleTarget, double parkRadius){
+    public void followCurve(ArrayList<ArmShoulderPositions.CurvePoint> allPoints, double followAngle, double distanceToPark, double parkAngleTarget, double parkRadius){
 
         startTime = elapsedTime.seconds();
         oldTime = startTime;
@@ -825,10 +822,10 @@ public class PurePursuitRobotMovement6_Quad2 {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
-            CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
             ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
@@ -854,12 +851,12 @@ public class PurePursuitRobotMovement6_Quad2 {
         rearRightMotor.setPower(0);
     }
 
-    private CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
-        CurvePoint followMe = new CurvePoint(pathPoints.get(0));
+    private ArmShoulderPositions.CurvePoint getFollowPointPath(ArrayList<ArmShoulderPositions.CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
+        ArmShoulderPositions.CurvePoint followMe = new ArmShoulderPositions.CurvePoint(pathPoints.get(0));
 
         for(int i = 0; i < pathPoints.size() - 1; i++){
-            CurvePoint startLine = pathPoints.get(i);
-            CurvePoint endline = pathPoints.get(i + 1);
+            ArmShoulderPositions.CurvePoint startLine = pathPoints.get(i);
+            ArmShoulderPositions.CurvePoint endline = pathPoints.get(i + 1);
 
             double[] robotPositionXYV = findDisplacementOptical();
 
@@ -895,10 +892,10 @@ public class PurePursuitRobotMovement6_Quad2 {
         return followMe;
     }
 
-    private CurvePoint getEndPoint(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
+    private ArmShoulderPositions.CurvePoint getEndPoint(ArrayList<ArmShoulderPositions.CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
 
         int endPathCount = pathPoints.size() - 2;
-        CurvePoint endPoint = new CurvePoint(pathPoints.get(endPathCount));
+        ArmShoulderPositions.CurvePoint endPoint = new ArmShoulderPositions.CurvePoint(pathPoints.get(endPathCount));
 
 //        int pathCount = pathPoints.size();
 //        CurvePoint startPath = pathPoints.get(0);

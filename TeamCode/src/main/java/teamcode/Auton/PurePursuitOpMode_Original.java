@@ -2,10 +2,11 @@ package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 
 import java.util.ArrayList;
 
-import teamcode.RobotUtilities.Odometry.CurvePoint;
+import teamcode.RobotUtilities.ArmShoulderPositions;
 
 //import Functions.CurvePoint;
 
@@ -44,7 +45,7 @@ public class PurePursuitOpMode_Original extends LinearOpMode {
 
         waitForStart();
 
-//        myPurePursuitRobotMovement6.runShoot();
+        myPurePursuitRobotMovement6.runShoot();
 
         //myDetectObjects.runDetectShoot();
 

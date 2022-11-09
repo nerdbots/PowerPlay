@@ -1,26 +1,27 @@
 //package teamcode.Auton;
 //
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //
-//import teamcode.RobotUtilities.Odometry.CurvePoint;
+////import org.firstinspires.ftc.teamcode.DetectObjects_Shoot_Class;
+////import org.firstinspires.ftc.teamcode.PurePursuitRobotMovement6;
+//
 //
 //import java.util.ArrayList;
 //
 ////import Functions.CurvePoint;
-//@Disabled
+//
 //@Autonomous(name="PurePursuitOpMode", group="Linear Opmode")
 //
 //public class PurePursuitOpMode extends LinearOpMode {
 //
 //    private PurePursuitRobotMovement6 myPurePursuitRobotMovement6;
-////    private wobble_Pickup mywobble_Pickup;
+//    private wobble_Pickup mywobble_Pickup;
 ////    private DetectObjects_Shoot_Class myDetectObjects;
 //
 //    private int ringsNum;
 //
-//    boolean debugFlag = true;
+//    boolean debugFlag PurePursuitRobotMovement6_Turn_MultiThread_V2.java = true;
 //
 //    double purePursuitPath;
 //

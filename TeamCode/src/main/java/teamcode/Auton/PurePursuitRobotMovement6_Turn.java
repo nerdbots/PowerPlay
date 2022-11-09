@@ -19,10 +19,10 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
-//import opencv.teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.Odometry.CurvePoint;
+//import opencv.core.PointPP;
 import teamcode.RobotUtilities.core.PointPP;
-import teamcode.RobotUtilities.*;
+import teamcode.RobotUtilities.ArmShoulderPositions;
+import teamcode.RobotUtilities.FingerPositions;
 
 import java.util.ArrayList;
 
@@ -862,7 +862,7 @@ public class PurePursuitRobotMovement6_Turn {
         return  onDistanceTarget;
     }
 
-    public void followCurve(ArrayList<CurvePoint> allPoints, double zPowerFF, double distanceToPark, double parkAngleTarget, double parkRadius){
+    public void followCurve(ArrayList<ArmShoulderPositions.CurvePoint> allPoints, double zPowerFF, double distanceToPark, double parkAngleTarget, double parkRadius){
 
         startTime = elapsedTime.seconds();
         oldTime = startTime;
@@ -883,13 +883,13 @@ public class PurePursuitRobotMovement6_Turn {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
-            CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
-            CurvePoint startPath = getStartPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint startPath = getStartPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
 //            ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
@@ -915,7 +915,7 @@ public class PurePursuitRobotMovement6_Turn {
         rearRightMotor.setPower(0);
     }
 
-    public void followCurveArm(ArrayList<CurvePoint> allPoints, double zPowerFF, double distanceToPark, double parkAngleTarget,
+    public void followCurveArm(ArrayList<ArmShoulderPositions.CurvePoint> allPoints, double zPowerFF, double distanceToPark, double parkAngleTarget,
                                double parkRadius, ArmShoulderPositions initialArmPosition, ArmShoulderPositions targetShoulderPosition, FingerPositions targetFingerPosition, FingerPositions endFingerPosition,
                                double armDelay, double armHoldPositionTime, String motor, double power){
 
@@ -979,13 +979,13 @@ public class PurePursuitRobotMovement6_Turn {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
-            CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
-            CurvePoint startPath = getStartPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
+            ArmShoulderPositions.CurvePoint startPath = getStartPath(allPoints, new PointPP(robotPositionXYV[4], robotPositionXYV[5]),
                     allPoints.get(0).followDistance);
 
 //            ComputerDebugging.sendKeyPoint(new FloatPoint(followMe.x, followMe.y));
@@ -1123,12 +1123,12 @@ public class PurePursuitRobotMovement6_Turn {
     }
 
 
-    private CurvePoint getFollowPointPath(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
-        CurvePoint followMe = new CurvePoint(pathPoints.get(0));
+    private ArmShoulderPositions.CurvePoint getFollowPointPath(ArrayList<ArmShoulderPositions.CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
+        ArmShoulderPositions.CurvePoint followMe = new ArmShoulderPositions.CurvePoint(pathPoints.get(0));
 
         for(int i = 0; i < pathPoints.size() - 1; i++){
-            CurvePoint startLine = pathPoints.get(i);
-            CurvePoint endline = pathPoints.get(i + 1);
+            ArmShoulderPositions.CurvePoint startLine = pathPoints.get(i);
+            ArmShoulderPositions.CurvePoint endline = pathPoints.get(i + 1);
 
             double[] robotPositionXYV = findDisplacementOptical();
 
@@ -1164,17 +1164,17 @@ public class PurePursuitRobotMovement6_Turn {
         return followMe;
     }
 
-    private CurvePoint getEndPoint(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
+    private ArmShoulderPositions.CurvePoint getEndPoint(ArrayList<ArmShoulderPositions.CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
 
         int endPathCount = pathPoints.size() - 2;
-        CurvePoint endPoint = new CurvePoint(pathPoints.get(endPathCount));
+        ArmShoulderPositions.CurvePoint endPoint = new ArmShoulderPositions.CurvePoint(pathPoints.get(endPathCount));
 
         return endPoint;
     }
 
-    private CurvePoint getStartPath(ArrayList<CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
+    private ArmShoulderPositions.CurvePoint getStartPath(ArrayList<ArmShoulderPositions.CurvePoint> pathPoints, PointPP robotLocation, double followRadius){
 
-        CurvePoint startPath = new CurvePoint(pathPoints.get(0));
+        ArmShoulderPositions.CurvePoint startPath = new ArmShoulderPositions.CurvePoint(pathPoints.get(0));
 
         return startPath;
     }

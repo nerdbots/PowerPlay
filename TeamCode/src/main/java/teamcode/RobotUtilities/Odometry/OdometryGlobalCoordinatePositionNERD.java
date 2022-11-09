@@ -126,9 +126,9 @@ public class OdometryGlobalCoordinatePositionNERD implements Runnable{
 
         //robot rotation (each loop) expressed in motor ticks (robot angle, ticks per degree robot rotation...determined through testing for each encoder wheel).
         //double robotRotDisplacementOptFront = robotRotOpt * 0; //21.390 ticks per degree of robot rotation
-        double robotRotDisplacementOptRight = robotRotOpt * 44.542; //21.085each wheel is mounted slightly different on the bot
-        double robotRotDisplacementOptLeft = robotRotOpt * 40.914; //21.318
-        double robotRotDisplacementOptBack = robotRotOpt * 11.861; //21.093
+        double robotRotDisplacementOptRight = robotRotOpt * 43.583; //21.085each wheel is mounted slightly different on the bot
+        double robotRotDisplacementOptLeft = robotRotOpt * 41.126; //21.318
+        double robotRotDisplacementOptBack = robotRotOpt * 17.295; //21.093
 
         //measure encoder position
         //frontPositionOptical = frontEncoder.getCurrentPosition();
@@ -148,7 +148,7 @@ public class OdometryGlobalCoordinatePositionNERD implements Runnable{
         //Now, remove the ticks caused by z movement from the total encoder count, each loop
         double leftDispNoRot = leftDisplacement - robotRotDisplacementOptRight;
         double rightDispNoRot = rightDisplacement - robotRotDisplacementOptLeft;
-        double rearDispNoRot = rearDisplacement - robotRotDisplacementOptBack;
+        double rearDispNoRot = rearDisplacement + robotRotDisplacementOptBack;
 
 //        //This section was created for debugging
 //        leftDispNoRotTotOpt += leftDispNoRot;

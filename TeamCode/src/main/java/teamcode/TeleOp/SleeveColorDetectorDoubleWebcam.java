@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 OpenFTC Team
+ * Copyright (c) 2020 OpenFTC Team
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,83 +25,104 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org  .opencv.core.Core;
+
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
-import org.openftc.easyopencv.OpenCvWebcam;
+import org.openftc.easyopencv.OpenCvSwitchableWebcam;
+import org.openftc.easyopencv.OpenCvCamera;
 
-public class SleeveColorDetector {
-    private OpenCvWebcam webcam;
+import teamcode.TeleOp.SleeveColorDetector;
+
+public class SleeveColorDetectorDoubleWebcam
+{
+    WebcamName webcam1;
+    WebcamName webcam2;
+    OpenCvSwitchableWebcam switchableWebcam;
+    public static String cameraSide = "RIGHT";
     private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private ColorDeterminationPipeline colorDeterminationPipeline;
 
-    public ColorDeterminationPipeline.SleeveColor color = ColorDeterminationPipeline.SleeveColor.YELLOW;
-    public SleeveColorDetector(LinearOpMode opMode) {
+    private SleeveColorDetectorDoubleWebcam selfReference;
+
+
+
+
+    public SleeveColorDetectorDoubleWebcam(LinearOpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
         this.opMode = opMode;
-    }
 
-    public void initSleeveColorDetector() {
+    }
+    public SleeveColorDetectorDoubleWebcam(LinearOpMode opMode, String cameraSide ) {
+        this.hardwareMap = opMode.hardwareMap;
+        this.opMode = opMode;
+        this.cameraSide = cameraSide;
+
+    }
+    public void InitSleeveColorDetectorDoubleWebcam() {
+
+        /**
+         * NOTE: Many comments have been omitted from this sample for the
+         * sake of conciseness. If you're just starting out with EasyOpenCv,
+         * you should take a look at {@link InternalCamera1Example} or its
+         * webcam counterpart, {@link WebcamExample} first.
+         */
+
+        webcam1 = hardwareMap.get(WebcamName.class, "Webcam 1");
+        webcam2 = hardwareMap.get(WebcamName.class, "Webcam 2");
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        /**
+         * Here we use a special factory method that accepts multiple WebcamName arguments. It returns an
+         * {@link OpenCvSwitchableWebcam} which contains a couple extra methods over simply an {@link OpenCvCamera}.
+         */
+        switchableWebcam = OpenCvCameraFactory.getInstance().createSwitchableWebcam(cameraMonitorViewId, webcam1, webcam2);
 
         colorDeterminationPipeline = new ColorDeterminationPipeline();
-        webcam.setPipeline(colorDeterminationPipeline);
+        switchableWebcam.setPipeline(colorDeterminationPipeline);
 
 
-        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        switchableWebcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
         {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+                if(cameraSide.equals("RIGHT")) {
+                    switchableWebcam.setActiveCamera(webcam1);
+                }
+                else{
+                    switchableWebcam.setActiveCamera(webcam2);
+
+                }
+//                switchableWebcam.setPipeline(new ColorDeterminationPipeline());
+
+                if(cameraSide.equals("RIGHT")){
+                    switchableWebcam.startStreaming(640,480, OpenCvCameraRotation.UPSIDE_DOWN);
+                }
+                else {
+                    switchableWebcam.startStreaming(640, 480, OpenCvCameraRotation.UPRIGHT);
+                }
             }
+
             @Override
             public void onError(int errorCode)
             {
                 /*
                  * This will be called if the camera could not be opened
                  */
-                opMode.telemetry.addData("Oh nooooooooo", "It errored in webcam.openCameraDeviceAsync");
-                opMode.telemetry.addData("Error Code", errorCode);
-                opMode.telemetry.update();
             }
         });
 
-//        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-
-        opMode.telemetry.addData("Robot Ready", "");
-        opMode.telemetry.update();
-    }
-    public int getAnalysis() {
-        return colorDeterminationPipeline.getAnalysis();
     }
 
-
-
-    /*
-     * An example image processing pipeline to be run upon receipt of each frame from the camera.
-     * Note that the processFrame() method is called serially from the frame worker thread -
-     * that is, a new camera frame will not come in while you're still processing a previous one.
-     * In other words, the processFrame() method will never be called multiple times simultaneously.
-     *
-     * However, the rendering of your processed image to the viewport is done in parallel to the
-     * frame worker thread. That is, the amount of time it takes to render the image to the
-     * viewport does NOT impact the amount of frames per second that your pipeline can process.
-     *
-     * IMPORTANT NOTE: this pipeline is NOT invoked on your OpMode thread. It is invoked on the
-     * frame worker thread. This should not be a problem in the vast majority of cases. However,
-     * if you're doing something weird where you do need it synchronized with your OpMode thread,
-     * then you will need to account for that accordingly.
-     */
     public static class ColorDeterminationPipeline extends OpenCvPipeline
     {
         /*
@@ -120,7 +141,7 @@ public class SleeveColorDetector {
         static final Scalar PURPLE = new Scalar(238,130,238);
 
 
-        private volatile SleeveColor color = SleeveColor.YELLOW;
+        private volatile SleeveColorDetector.ColorDeterminationPipeline.SleeveColor color = SleeveColorDetector.ColorDeterminationPipeline.SleeveColor.YELLOW;
 
 
 
@@ -136,11 +157,16 @@ public class SleeveColorDetector {
 //        static final Point REGION2_TOPLEFT_ANCHOR_POINT = new Point(138,128);
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
+        //GOOD FOR LEFT CAM
 
-        static final Point REGION_ANCHOR_POINT = new Point(300,240);
+
+        static final Point REGION_ANCHOR_POINT = new Point(225,420);
+        //orig. values
+        //y:140
+        //x:300
 
 
-        static final int REGION_WIDTH = 100;
+        static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 50;
 
         /*
@@ -173,7 +199,7 @@ public class SleeveColorDetector {
         Mat region_Cb;
         Mat YCrCb = new Mat();
         Mat Cb = new Mat();
-        public int avg1;
+        public int avg1, avg2, avg3;
 
         // Volatile since accessed by OpMode thread w/o synchronization
 
@@ -308,803 +334,19 @@ public class SleeveColorDetector {
          */
         public int getAnalysis()
         {
-
             return avg1;
         }
 
     }
 
     public void closeCameraDevice() {
-        webcam.stopRecordingPipeline();
-        webcam.stopStreaming();
-        webcam.closeCameraDevice();
+        switchableWebcam.stopRecordingPipeline();
+        switchableWebcam.stopStreaming();
+        switchableWebcam.closeCameraDevice();
+    }
+
+    public int getAnalysis() {
+        return colorDeterminationPipeline.getAnalysis();
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

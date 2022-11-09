@@ -1,5 +1,4 @@
-package teamcode.TeleOp;
-/*
+package teamcode.TeleOp;/*
 Copyright 2018 FIRST Tech Challenge Team [Phone] SAMSUNG
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -68,7 +67,6 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-//@Disabled
 @TeleOp(name="NerdBotsTeleop", group="Final")
 //@Config
 public class NerdBotsTeleOp extends LinearOpMode {
@@ -149,27 +147,23 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
     boolean isSlowMode = false;
     boolean buttonReadyLeft = true;
-    boolean buttonReadyRight = true;
     //Freight Frenzy Arm Variables
 
     //Shoulder Motors
     private DcMotor leftArmMotor;
     private DcMotor rightArmMotor;
     //Wrist servos
-
+    private Servo leftArmServo;
+    private Servo rightArmServo;
     //Finger Servos
     private Servo leftGrab;
     private Servo rightGrab;
 
-    //Initializing Elevator
-    ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
-
-
     //For Arm PID
-    public static double armKp = 0.02;//0.01
-    public static double armKi = 0.001;
-    public static double armKd = 0;
-    public static double maxPower = 1;
+    public static double armKp = 0.005;//0.01
+    public static double armKi = 0.0;
+    public static double armKd = 0.0002;
+    public static double maxPower = 0.4;
 
 
     public static int armServoPosition = 0;
@@ -198,7 +192,6 @@ public class NerdBotsTeleOp extends LinearOpMode {
     double deltaTime = 0;
     double startTime = 0;
 
-
     public  volatile ArmShoulderPositions shoulderPosition = ArmShoulderPositions.INTAKE;
     public  volatile FingerPositions fingerPosition = FingerPositions.INTAKE_READY;
     public volatile  ArmShoulderPositions previousShoulderPosition =ArmShoulderPositions.INTAKE;
@@ -220,7 +213,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
     int armValue = 0;
 
-    //Freight Frenzy Arm Variables
+    //init elevator
+    ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
 
 
     @Override
@@ -287,8 +281,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
         dashboardTelemetry = ftcDashboard.getTelemetry();
         elevatorinitElapsedTime.reset();
         while(elevatorinitElapsedTime.seconds() <= 0.5) {
-            rightArmMotor.setPower(-0.5);
-            leftArmMotor.setPower(-0.5);
+            rightArmMotor.setPower(-0.25);
+            leftArmMotor.setPower(-0.25);
         }
         leftArmMotor.setPower(0);
         rightArmMotor.setPower(0);
@@ -307,14 +301,13 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-            HOME_MAX_POWER = 0.4;
+            HOME_MAX_POWER = 0.2;
             previousShoulderPosition = shoulderPosition;
 
             currentTime = elapsedTime.seconds();
             loopTime = currentTime - oldTime;
             oldTime = currentTime;
             deltaTime = currentTime - startTime;
-
 
             //mapping the joysticks to turning.
             if (gamepad1.left_stick_x != 0 || gamepad1.left_stick_y != 0 ) {
@@ -386,9 +379,9 @@ public class NerdBotsTeleOp extends LinearOpMode {
 //                buttonReadyRight=true;
 //            }
             armValue = leftArmMotor.getCurrentPosition();
-            //capping the arm value
-            if(armValue > 915) {
-                armValue = 915;
+
+            if(armValue > 2010) {
+                armValue = 2010;
             }
             else if(armValue < 0) {
                 armValue = 0;
@@ -397,9 +390,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
             if (gamepad2.a){
                 WRIST_SERVO_INCREMENT = 0.0;
 
-                if(previousShoulderPosition.equals(ArmShoulderPositions.HOME)) {
                     HOME_MAX_POWER = 0.2;
-                }
+
                 shoulderPosition = ArmShoulderPositions.INTAKE;
                 fingerPosition = FingerPositions.INTAKE_READY;
                 armTarget = shoulderPosition.getArmTarget();
@@ -434,7 +426,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 //            }
 
             if(gamepad2.dpad_up){
-                fingerPosition = FingerPositions.GRAB;
+                fingerPosition = FingerPositions.INTAKE_READY;
             }
 
             if(gamepad2.dpad_down){
@@ -442,7 +434,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.INTAKE_READY;
+                fingerPosition = FingerPositions.GRAB;
             }
 
             if(gamepad2.dpad_left) {
@@ -502,7 +494,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 telemetry.addData("actual position", leftArmMotor.getCurrentPosition());
                 telemetry.addData("Arm target", shoulderPosition.getArmTarget());
                 telemetry.addData("LeftTriggerReady", buttonReadyLeft);
-                telemetry.addData("RightTriggerReady", buttonReadyRight);
+//                telemetry.addData("RightTriggerReady", buttonReadyRight);
                 telemetry.update();
                 armPidOutput = armPID(armTarget, leftArmMotor.getCurrentPosition());
                 armMotorsign = Math.signum(armPidOutput);
@@ -521,7 +513,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
 //                    }
 //                }
                 if (Math.abs(armPidOutput) > shoulderPosition.getMaxPower()) {
-                        armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
+                    armMotorPower = armMotorsign * shoulderPosition.getMaxPower();
                 }
                 else {
                     armMotorPower = armPidOutput;
@@ -551,17 +543,17 @@ public class NerdBotsTeleOp extends LinearOpMode {
                 RIGHT_WRIST_SERVO_POSITION = shoulderPosition.getRightWristServoPosition();
                 LEFT_FINGER_SERVO_POSITION = fingerPosition.getLeftFingerPosition();
                 RIGHT_FINGER_SERVO_POSITION = fingerPosition.getRightFingerPosition();
-             }
+            }
 
-                leftGrab.setPosition(LEFT_FINGER_SERVO_POSITION);
-                rightGrab.setPosition(RIGHT_FINGER_SERVO_POSITION);
+            leftGrab.setPosition(LEFT_FINGER_SERVO_POSITION);
+            rightGrab.setPosition(RIGHT_FINGER_SERVO_POSITION);
 
-                if(shoulderPosition.equals(ArmShoulderPositions.INTAKE) && fingerPosition.equals(FingerPositions.ENTER_INTAKE) ){
-                    leftGrab.setPosition(FingerPositions.INTAKE_READY.getLeftFingerPosition());
-                    rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
-                }
+            if(shoulderPosition.equals(ArmShoulderPositions.INTAKE) && fingerPosition.equals(FingerPositions.ENTER_INTAKE) ){
+                leftGrab.setPosition(FingerPositions.INTAKE_READY.getLeftFingerPosition());
+                rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
+            }
 
-                previousShoulderPosition = shoulderPosition;
+            previousShoulderPosition = shoulderPosition;
 
             //ARM
 
@@ -771,4 +763,3 @@ public class NerdBotsTeleOp extends LinearOpMode {
         ZPID(getAngle(), ZTar, ZkP, ZkI, ZkD);
     }
 }
-
