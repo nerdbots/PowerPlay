@@ -3,21 +3,17 @@ package teamcode.Auton;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-//import org.firstinspires.ftc.teamcode.ArmShoulderPositions;
-//import org.firstinspires.ftc.teamcode.DuckDetector;
-//import org.firstinspires.ftc.teamcode.FingerPositions;
-
 import java.util.ArrayList;
-import teamcode.RobotUtilities.Odometry.CurvePoint;
+
 import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.FingerPositions;
-import teamcode.TeleOp.SleeveColorDetector;
+import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
 
 //@Disabled
-@Autonomous(name="Powerplay BLUE LEFT side", group="Linear Opmode")
+@Autonomous(name="Powerplay RED RIGHT side", group="Linear Opmode")
 
-public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
+public class Powerplay_RED_RIGHT_side extends LinearOpMode {
 
     private PurePursuitRobotMovement6_Turn_MultiThread myPurePursuitRobotMovement6_Turn_MultiThread;
     boolean debugFlag = true;
@@ -48,7 +44,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
         telemetry.addData("NerdBOT", "Initialized");
         telemetry.update();
 
-        sleeveColorDetector = new SleeveColorDetectorDoubleWebcam(this,"LEFT");
+        sleeveColorDetector = new SleeveColorDetectorDoubleWebcam(this, "LEFT");
         sleeveColorDetector.InitSleeveColorDetectorDoubleWebcam();
         waitForStart();
 
@@ -69,30 +65,24 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if(cbValue <=108) {
+        if (cbValue <= 100) {
             color = "ORANGE";
             path = 1;
-        }
-        else if(cbValue >=138) {
+        } else if (cbValue >= 140) {
             color = "PURPLE";
             path = 2;
-        }
-        else {
+        } else {
             color = "GREEN";
             path = 3;
         }
-        telemetry.addData("cbValue %d",cbValue);
-        telemetry.addData("path %s",path);
-        telemetry.update();
+
         if (path == 3) {
-//            telemetry.addData("path", "3");
-//            telemetry.update();
             if (purePursuitPath == 1) {
 //            ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(22.5, 31.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
@@ -100,23 +90,20 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400, FingerPositions.INTAKE_READY);
                 sleep(500);
                 allPoints.add(new CurvePoint(22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
-                allPoints.add(new CurvePoint(18, 28, 0.5, 0.3, 23, 0, 0.8));
+                allPoints.add(new CurvePoint(21, 28, 0.5, 0.3, 23, 0, 0.8));
                 allPoints.add(new CurvePoint(20, 15, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
-                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 5, 1.5, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, -22, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
 
             }
-        }
-        else if (path == 2) {
-//            telemetry.addData("Path", "2");
-//            telemetry.update();
+        } else if (path == 2) {
             if (purePursuitPath == 1) {
 //            ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(22.5, 31.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
                 myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 45, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
                 myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400, FingerPositions.INTAKE_READY);
@@ -126,23 +113,20 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 allPoints.add(new CurvePoint(22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 28, 0.5, 0.3, 23, 0, 0.8));
                 allPoints.add(new CurvePoint(5, 25, 0.5, 0.3, 25, 0, 0.3));
-                allPoints.add(new CurvePoint(-6, 28, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(-2, 28, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(-37, 28, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
-                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1.5, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, -20, 1.5, ArmShoulderPositions.LEVEL3, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 //        myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.INTAKE, 0, FingerPositions.INTAKE_READY);
             }
-        }
-        else if (path == 1) {
-//            telemetry.addData("Path", "1");
-//            telemetry.update();
+        } else if (path == 1) {
             if (purePursuitPath == 1) {
 //            ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(22.5, 31.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
                 myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 45, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
                 myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400, FingerPositions.INTAKE_READY);
@@ -152,12 +136,12 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 28, 0.5, 0.3, 25, 0, 0.8));
-                allPoints.add(new CurvePoint(-15, 26, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(-15, 30, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(-32, 30, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(-72, 28, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
-                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1.5, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+                myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, -20, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             }
         }
 //            allPoints = new ArrayList<>();
@@ -210,7 +194,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 //            allPoints.add(new CurvePoint(-36, 64, 0.7, 0.3, 20, 0, 0.3));
 
 //            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, -135, 3);
-                    myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
+        myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
 //                    if (path == 2) {
 //                        ParkDistanceX = 0;
 //                        ParkDistanceY = 0;
@@ -222,7 +206,6 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 //                    } else if (path == 3) {
 //                        ParkDistanceX = 0;
 //                        ParkDistanceY = 0;
-
 
 
 

@@ -685,7 +685,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         boolean targetReached = false;
 
         RobotLog.d("NERD #### isArmTargetReached Target %d, current %d", targetPosition.getArmTarget(), currentPosition);
-        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 50){
+        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 30){
 
             targetReached = true;
         }

@@ -65,15 +65,15 @@ public class NerdVelocityFollowing {
                                               double FRMotorSpeed, double RLMotorSpeed, double deltaTime) {
 
 
-            double FLMtrSpd = PIDVelocFL(deltaTime, FLrunningAverage(FLMotorSpeed), LWM * rampFL(KV, accelRate, FLSpeedTarget, FLMotorSpeed));
-            double FRMtrSpd = PIDVelocFR(deltaTime, FRrunningAverage(FRMotorSpeed), RWM * rampFR(KV, accelRate, FRSpeedTarget, FRMotorSpeed));
-            double RLMtrSpd = PIDVelocRL(deltaTime, RLrunningAverage(RLMotorSpeed), LWM * rampRL(KV, accelRate, RLSpeedTarget, RLMotorSpeed));
-            double RRMtrSpd = PIDVelocRR(deltaTime, RRrunningAverage(RRMotorSpeed), RWM * rampRR(KV, accelRate, RRSpeedTarget, RRMotorSpeed));
+        double FLMtrSpd = PIDVelocFL(deltaTime, FLrunningAverage(FLMotorSpeed), LWM * rampFL(KV, accelRate, FLSpeedTarget, FLMotorSpeed));
+        double FRMtrSpd = PIDVelocFR(deltaTime, FRrunningAverage(FRMotorSpeed), RWM * rampFR(KV, accelRate, FRSpeedTarget, FRMotorSpeed));
+        double RLMtrSpd = PIDVelocRL(deltaTime, RLrunningAverage(RLMotorSpeed), LWM * rampRL(KV, accelRate, RLSpeedTarget, RLMotorSpeed));
+        double RRMtrSpd = PIDVelocRR(deltaTime, RRrunningAverage(RRMotorSpeed), RWM * rampRR(KV, accelRate, RRSpeedTarget, RRMotorSpeed));
 
-            double FLMtrPwr = speedToPower(FLSpeedTarget + FLMtrSpd);
-            double FRMtrPwr = speedToPower(FRSpeedTarget + FRMtrSpd);
-            double RLMtrPwr = speedToPower(RLSpeedTarget + RLMtrSpd);
-            double RRMtrPwr = speedToPower(RRSpeedTarget + RRMtrSpd);
+        double FLMtrPwr = speedToPower(FLSpeedTarget + FLMtrSpd);
+        double FRMtrPwr = speedToPower(FRSpeedTarget + FRMtrSpd);
+        double RLMtrPwr = speedToPower(RLSpeedTarget + RLMtrSpd);
+        double RRMtrPwr = speedToPower(RRSpeedTarget + RRMtrSpd);
 
 //        public void setDebug(boolean debugFlag2){this.debugFlag2=debugFlag2; }
 //
@@ -102,10 +102,10 @@ public class NerdVelocityFollowing {
             RRMtrPwr /= maxPower;
         }
 
-            double [] motorPowers = {FLMtrPwr, FRMtrPwr, RLMtrPwr, RRMtrPwr};
-            return motorPowers;
+        double [] motorPowers = {FLMtrPwr, FRMtrPwr, RLMtrPwr, RRMtrPwr};
+        return motorPowers;
 
-        }
+    }
 
     private static double speedToPower(double motorSpeedInchesPerSec){
 
