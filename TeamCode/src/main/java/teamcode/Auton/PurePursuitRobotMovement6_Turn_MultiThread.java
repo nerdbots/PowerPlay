@@ -172,7 +172,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     public static double armKpOnly = 0.01;//0.01
     public static double armKiOnly = 0.0;
     public static double armKdOnly = 0.0;
-    public static double maxPowerArmOnly = 0.4;
+    public static double maxPowerArmOnly = 0.75;
 
     public static double HOME_MAX_POWER_ARMS_ONLY = 0.2;
 
@@ -685,7 +685,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         boolean targetReached = false;
 
         RobotLog.d("NERD #### isArmTargetReached Target %d, current %d", targetPosition.getArmTarget(), currentPosition);
-        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 50){
+        if(Math.abs((targetPosition.getArmTarget() - Math.abs(currentPosition)) )<= 30){
 
             targetReached = true;
         }
@@ -703,7 +703,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             targetReached = true;
         }
 
-        clawReleaseDelayTime.reset();
+//        clawReleaseDelayTime.reset();
         RobotLog.d("NERD #### targetReached %b", targetReached);
         return targetReached;
 
@@ -1052,12 +1052,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         oldTimeArmOnly = startTimeArmOnly;
 
         boolean armTargetReached = false;
-        while (this.opmode.opModeIsActive() ) {
+        boolean clawReleased=false;
+        while (this.opmode.opModeIsActive() && !armTargetReached  ) {
 
             armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
 
             RobotLog.d("NERD Arm Target Reached %b",armTargetReached );
-            if(armTargetReached) clawReleaseDelayTime.reset();
+            if(armTargetReached && !clawReleased) clawReleaseDelayTime.reset();
             if (!armTargetReached) {
                 currentTimeArmOnly = elapsedTime.seconds();
                 loopTimeArmOnly = currentTimeArmOnly - oldTimeArmOnly;
@@ -1079,6 +1080,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
                     armMotorPower = armPidOutput;
                 }
 
+                RobotLog.d("Arm Motor Power %f", armMotorPower );
+
 
                 leftEncoder.setPower(-armMotorPower);
                 rightEncoder.setPower(-armMotorPower); //11_08 check
@@ -1092,10 +1095,11 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
 
 
-            if (armTargetReached) {
+            if (armTargetReached && clawReleaseDelayTime.seconds() < 0.5) {
                 leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
                 rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
                 RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
+                clawReleased = true;
             }
 
         }

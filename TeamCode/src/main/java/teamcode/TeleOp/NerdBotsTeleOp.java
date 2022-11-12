@@ -160,10 +160,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
     private Servo rightGrab;
 
     //For Arm PID
-    public static double armKp = 0.005;//0.01
-    public static double armKi = 0.0;
-    public static double armKd = 0.0002;
-    public static double maxPower = 0.4;
+    public static double armKp = 0.01;//0.01
+    public static double armKi = 0;
+    public static double armKd = 0;
+    public static double maxPower = 0.75;
 
 
     public static int armServoPosition = 0;

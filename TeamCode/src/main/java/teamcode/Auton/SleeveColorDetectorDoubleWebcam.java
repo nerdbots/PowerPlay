@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package teamcode.Auton;
+package teamcode.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -67,12 +67,12 @@ public class SleeveColorDetectorDoubleWebcam
         this.opMode = opMode;
         this.cameraSide = cameraSide;
         if(cameraSide.equals("LEFT")) {
-            this.anchorPointX = 225;
-            this.anchorPointY = 420;
+            this.anchorPointX = 270;
+            this.anchorPointY = 260;
         }
         else {
-            this.anchorPointX = 225;
-            this.anchorPointY = 420;
+            this.anchorPointX = 340;
+            this.anchorPointY = 280;
         }
 
     }
