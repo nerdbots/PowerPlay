@@ -1050,15 +1050,19 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         int newArmTargetPosition = armTargetPosition.getArmTarget() - change;
         startTimeArmOnly = elapsedTime.seconds();
         oldTimeArmOnly = startTimeArmOnly;
-
+        ElapsedTime armTimeout = new ElapsedTime();
         boolean armTargetReached = false;
         boolean clawReleased=false;
+        boolean clawTimerStarted = false;
         while (this.opmode.opModeIsActive() && !armTargetReached  ) {
 
             armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
 
             RobotLog.d("NERD Arm Target Reached %b",armTargetReached );
-            if(armTargetReached && !clawReleased) clawReleaseDelayTime.reset();
+            if(armTargetReached && !clawReleased && !clawTimerStarted)   {
+                clawReleaseDelayTime.reset();
+                clawTimerStarted = true;
+            }
             if (!armTargetReached) {
                 currentTimeArmOnly = elapsedTime.seconds();
                 loopTimeArmOnly = currentTimeArmOnly - oldTimeArmOnly;
@@ -1095,13 +1099,15 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
 
 
-            if (armTargetReached && clawReleaseDelayTime.seconds() < 0.5) {
+            if (armTargetReached && clawReleaseDelayTime.seconds()  > 0.5) {
                 leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
                 rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
                 RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
                 clawReleased = true;
             }
-
+            if(armTimeout.seconds() > 2) {
+                armTargetReached = true;
+            }
         }
 
     }

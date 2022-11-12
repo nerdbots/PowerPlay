@@ -2,6 +2,7 @@ package teamcode.Auton;
 
 import
         com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 //import org.firstinspires.ftc.teamcode.ArmShoulderPositions;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 
 import teamcode.RobotUtilities.ArmShoulderPositions;
 
-//@Disabled
+@Disabled
 @Autonomous(name="Powerplay_test_auton", group="Linear Opmode")
 
 public class Powerplay_test_auton extends LinearOpMode {

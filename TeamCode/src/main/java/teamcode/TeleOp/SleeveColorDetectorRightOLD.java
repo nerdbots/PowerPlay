@@ -37,14 +37,14 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 import org.openftc.easyopencv.OpenCvWebcam;
 
-public class SleeveColorDetector {
+public class SleeveColorDetectorRightOLD {
     private OpenCvWebcam webcam;
     private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private ColorDeterminationPipeline colorDeterminationPipeline;
 
     public ColorDeterminationPipeline.SleeveColor color = ColorDeterminationPipeline.SleeveColor.YELLOW;
-    public SleeveColorDetector(LinearOpMode opMode) {
+    public SleeveColorDetectorRightOLD(LinearOpMode opMode) {
         this.hardwareMap = opMode.hardwareMap;
         this.opMode = opMode;
     }

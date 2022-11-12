@@ -8,15 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import org.firstinspires.ftc.teamcode.DuckDetector;
 //import org.firstinspires.ftc.teamcode.FingerPositions;
 
-import java.util.ArrayList;
+import teamcode.TeleOp.SleeveColorDetectorLeftOLD;
 
-import java.util.ArrayList;
-
-import teamcode.RobotUtilities.Odometry.CurvePoint;
-import teamcode.TeleOp.SleeveColorDetector;
-import teamcode.TeleOp.SleeveColorDetectorTest;
-
-//@Disabled
+@Disabled
 @Autonomous(name="OdoMetry Tester", group="Linear Opmode")
 
 public class OdometryTester extends LinearOpMode {
@@ -31,7 +25,7 @@ public class OdometryTester extends LinearOpMode {
     double ParkDistanceY = 0;
     int purePursuitPath = 1;
     int sleeveColor;
-    SleeveColorDetector sleeveColorDetector;
+    SleeveColorDetectorLeftOLD sleeveColorDetector;
     OdometryGlobalCoordinatePosition globalPositionUpdate;
 
 
@@ -49,7 +43,7 @@ public class OdometryTester extends LinearOpMode {
         telemetry.addData("NerdBOT", "Initialized");
         telemetry.update();
 
-        sleeveColorDetector = new SleeveColorDetector(this);
+        sleeveColorDetector = new SleeveColorDetectorLeftOLD(this);
         sleeveColorDetector.initSleeveColorDetector();
         waitForStart();
         globalPositionUpdate = new OdometryGlobalCoordinatePosition(myPurePursuitRobotMovement6_Turn_MultiThread.leftEncoder, myPurePursuitRobotMovement6_Turn_MultiThread.rightEncoder, myPurePursuitRobotMovement6_Turn_MultiThread.backEncoder, 194.044, 75);
