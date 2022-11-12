@@ -19,7 +19,7 @@
  * SOFTWARE.
  */
 
-package teamcode.TeleOp;
+package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -46,6 +46,8 @@ public class SleeveColorDetectorDoubleWebcam
     WebcamName webcam2;
     OpenCvSwitchableWebcam switchableWebcam;
     public static String cameraSide = "RIGHT";
+    public static int anchorPointX = 0;
+    public static int anchorPointY = 0;
     private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private ColorDeterminationPipeline colorDeterminationPipeline;
@@ -64,6 +66,14 @@ public class SleeveColorDetectorDoubleWebcam
         this.hardwareMap = opMode.hardwareMap;
         this.opMode = opMode;
         this.cameraSide = cameraSide;
+        if(cameraSide.equals("LEFT")) {
+            this.anchorPointX = 225;
+            this.anchorPointY = 420;
+        }
+        else {
+            this.anchorPointX = 225;
+            this.anchorPointY = 420;
+        }
 
     }
     public void InitSleeveColorDetectorDoubleWebcam() {
@@ -160,7 +170,7 @@ public class SleeveColorDetectorDoubleWebcam
         //GOOD FOR LEFT CAM
 
 
-        static final Point REGION_ANCHOR_POINT = new Point(225,420);
+        static final Point REGION_ANCHOR_POINT = new Point(anchorPointX,anchorPointY);
         //orig. values
         //y:140
         //x:300

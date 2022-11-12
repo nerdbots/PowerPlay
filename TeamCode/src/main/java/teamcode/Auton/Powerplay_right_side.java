@@ -67,7 +67,7 @@ public class Powerplay_right_side extends LinearOpMode {
 //        myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
 
         cbValue = sleeveColorDetector.getAnalysis();
-        //Detecting purple
+        //Detecting the colors
         if (cbValue >= 95 && cbValue <= 105) {
             color = "ORANGE";
             path = 1;
@@ -88,11 +88,9 @@ public class Powerplay_right_side extends LinearOpMode {
             allPoints.add(new CurvePoint(-22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-22.5, 77.5, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
-
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 135, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
 //            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400,FingerPositions.INTAKE_READY);
-            sleep(500);
-            allPoints.add(new CurvePoint(-22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(-22.5, 32.5, 0.5, 0.3, 25, 0, 0.3));
             allPoints.add(new CurvePoint(-15, 28, 0.5, 0.3, 23, 0, 0.8));
             allPoints.add(new CurvePoint(20, 15, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
