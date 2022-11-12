@@ -51,7 +51,7 @@ public class SleeveColorDetectorLeftOLD {
 
     public void initSleeveColorDetector() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 2"), cameraMonitorViewId);
 
         colorDeterminationPipeline = new ColorDeterminationPipeline();
         webcam.setPipeline(colorDeterminationPipeline);
@@ -137,10 +137,10 @@ public class SleeveColorDetectorLeftOLD {
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
 
-        static final Point REGION_ANCHOR_POINT = new Point(300,240);
+        static final Point REGION_ANCHOR_POINT = new Point(270,260);
 
 
-        static final int REGION_WIDTH = 100;
+        static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 50;
 
         /*

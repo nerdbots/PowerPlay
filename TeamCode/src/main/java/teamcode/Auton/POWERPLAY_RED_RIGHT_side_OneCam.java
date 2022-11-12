@@ -1,6 +1,7 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.ArrayList;
@@ -9,11 +10,12 @@ import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.FingerPositions;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
+import teamcode.TeleOp.SleeveColorDetectorRightOLD;
 
-//@Disabled
-@Autonomous(name="Powerplay RED RIGHT side", group="Linear Opmode", preselectTeleOp="NerdBotsTeleop")
+@Disabled
+@Autonomous(name="Powerplay RED RIGHT side One Cam", group="Linear Opmode", preselectTeleOp="NerdBotsTeleop")
 
-public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
+public class POWERPLAY_RED_RIGHT_side_OneCam extends LinearOpMode {
 
     private PurePursuitRobotMovement6_Turn_MultiThread myPurePursuitRobotMovement6_Turn_MultiThread;
     boolean debugFlag = true;
@@ -25,7 +27,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
     double ParkDistanceY = 0;
     int purePursuitPath = 1;
     int sleeveColor;
-    SleeveColorDetectorDoubleWebcam sleeveColorDetector;
+    SleeveColorDetectorRightOLD sleeveColorDetector;
     public volatile ArmShoulderPositions shoulderPositions = ArmShoulderPositions.INTAKE;
     public volatile FingerPositions fingerPositions = FingerPositions.GRAB;
     String color = "Not Found";
@@ -44,8 +46,8 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
         telemetry.addData("NerdBOT", "Initialized");
         telemetry.update();
 
-        sleeveColorDetector = new SleeveColorDetectorDoubleWebcam(this,"RIGHT");
-        sleeveColorDetector.InitSleeveColorDetectorDoubleWebcam();
+        sleeveColorDetector = new SleeveColorDetectorRightOLD(this);
+        sleeveColorDetector.initSleeveColorDetector();
         waitForStart();
 
         sleeveColor = sleeveColorDetector.getAnalysis();
@@ -154,7 +156,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
                     allPoints.add(new CurvePoint(26, 30, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(72, 28, 0.5, 0.3, 25, 0, 0.3));
 
-                    myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, -1, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+                    myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 0, -1, 1.5, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 
                 }
             }

@@ -36,8 +36,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 */
 //
 //import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.dashboard.FtcDashboard;
+//import com.acmerobotics.dashboard.config.Config;
+//import com.acmerobotics.dashboard.FtcDashboard;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -60,10 +60,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 @Disabled
 @TeleOp(name="EncoderDashboard", group="Final")
-@Config
+//@Config
 public class EncoderDashboard extends LinearOpMode {
-    FtcDashboard ftcDashboard;
-    Telemetry dashboardTelemetry;
+//    FtcDashboard ftcDashboard;
+//    Telemetry dashboardTelemetry;
 
     private DcMotor frontLeftMotor;
     private DcMotor frontRightMotor;
@@ -80,17 +80,17 @@ private DcMotor rightEncoder;
     @Override
     public void runOpMode() {
         initializeHardware();
-        ftcDashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = ftcDashboard.getTelemetry();
+//        ftcDashboard = FtcDashboard.getInstance();
+//        dashboardTelemetry = ftcDashboard.getTelemetry();
 
         waitForStart();
 
         while(opModeIsActive()) {
-            dashboardTelemetry.addData("front encoder", frontEncoder.getCurrentPosition());
-            dashboardTelemetry.addData("right encoder", rightEncoder.getCurrentPosition());
-            dashboardTelemetry.addData("left encoder", leftEncoder.getCurrentPosition());
-            dashboardTelemetry.addData("back encoder", backEncoder.getCurrentPosition());
-            dashboardTelemetry.update();
+//            dashboardTelemetry.addData("front encoder", frontEncoder.getCurrentPosition());
+//            dashboardTelemetry.addData("right encoder", rightEncoder.getCurrentPosition());
+//            dashboardTelemetry.addData("left encoder", leftEncoder.getCurrentPosition());
+//            dashboardTelemetry.addData("back encoder", backEncoder.getCurrentPosition());
+//            dashboardTelemetry.update();
         }
 
     }
