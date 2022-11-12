@@ -24,8 +24,8 @@ package teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="SleeveColorDetector", group="Linear Opmode")
-public class SleeveColorDetectorTest extends LinearOpMode
+@Autonomous(name="SleeveColorDetectorLEFT", group="Linear Opmode")
+public class SleeveColorDetectorTestLEFT extends LinearOpMode
 {
     SleeveColorDetectorDoubleWebcam colorDetector;
 
@@ -40,6 +40,7 @@ public class SleeveColorDetectorTest extends LinearOpMode
 //        colorDetector.initSleeveColorDetector();
 
         colorDetector = new SleeveColorDetectorDoubleWebcam(this,"LEFT");
+
       colorDetector.InitSleeveColorDetectorDoubleWebcam();
 
         waitForStart();

@@ -251,10 +251,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
         rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
@@ -280,7 +280,7 @@ public class NerdBotsTeleOp extends LinearOpMode {
         ftcDashboard = FtcDashboard.getInstance();
         dashboardTelemetry = ftcDashboard.getTelemetry();
         elevatorinitElapsedTime.reset();
-        while(elevatorinitElapsedTime.seconds() <= 0.5) {
+        while(elevatorinitElapsedTime.seconds() <= 0.25) {
             rightArmMotor.setPower(-0.25);
             leftArmMotor.setPower(-0.25);
         }

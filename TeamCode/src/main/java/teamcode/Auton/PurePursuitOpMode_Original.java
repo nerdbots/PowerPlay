@@ -1,6 +1,7 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import teamcode.RobotUtilities.ArmShoulderPositions;
 
 //import Functions.CurvePoint;
-
+@Disabled
 @Autonomous(name="PurePursuitOpMode_Original", group="Linear Opmode")
 
 public class PurePursuitOpMode_Original extends LinearOpMode {

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.FingerPositions;
-import teamcode.TeleOp.SleeveColorDetector;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
 
 //@Disabled
