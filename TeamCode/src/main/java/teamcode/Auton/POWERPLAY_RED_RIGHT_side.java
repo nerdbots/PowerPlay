@@ -51,6 +51,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
         sleeveColor = sleeveColorDetector.getAnalysis();
         telemetry.addData("Analysis", sleeveColorDetector.getAnalysis());
         telemetry.update();
+
 //        sleeveColorDetector.closeCameraDevice();
         myPurePursuitRobotMovement6_Turn_MultiThread.startOdometryThread();
 
@@ -152,7 +153,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
                     allPoints.add(new CurvePoint(-22.5, 28, 0.5, 0.3, 25, 0, 0.8));
                     allPoints.add(new CurvePoint(15, 30, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(26, 30, 0.5, 0.3, 25, 0, 0.3));
-                    allPoints.add(new CurvePoint(60, 30, 0.5, 0.3, 25, 0, 0.3));
+                    allPoints.add(new CurvePoint(72, 28, 0.5, 0.3, 25, 0, 0.3));
 
                     myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 0, -1, 1.5, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 

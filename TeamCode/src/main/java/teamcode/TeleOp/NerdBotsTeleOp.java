@@ -279,17 +279,26 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         ftcDashboard = FtcDashboard.getInstance();
         dashboardTelemetry = ftcDashboard.getTelemetry();
+        telemetry.addData("After dashboard","test");
+        telemetry.update();
         elevatorinitElapsedTime.reset();
-        while(elevatorinitElapsedTime.seconds() <= 0.25) {
-            rightArmMotor.setPower(-0.25);
-            leftArmMotor.setPower(-0.25);
-        }
+
+//        while(elevatorinitElapsedTime.seconds() <= 0.25) {
+//            rightArmMotor.setPower(-0.25);
+//            leftArmMotor.setPower(-0.25);
+//        }
+        telemetry.addData("Before setting power","test");
+        telemetry.update();
         leftArmMotor.setPower(0);
         rightArmMotor.setPower(0);
+        telemetry.addData("After setting power","test");
+        telemetry.update();
         leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        telemetry.addData("After resetting the encoders","test");
+        telemetry.update();
         //anything between here and while(opmodeIsActive) runs exactly once, right when the play button is pressed.
         waitForStart();
 
