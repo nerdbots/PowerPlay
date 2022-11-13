@@ -65,7 +65,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if(cbValue <=100) {
+        if(cbValue <= 105) {
             color = "ORANGE";
             path = 1;
         }
@@ -89,7 +89,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(-27, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(-22.5, 34.5, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(-21.5, 33.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(-22.5, 77.5, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
@@ -114,7 +114,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
                     ArrayList<CurvePoint> allPoints = new ArrayList<>();
                     allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(-27, 0, 0.5, 0.3, 23, 0, 0.8));
-                    allPoints.add(new CurvePoint(-22.5, 34.5, 0.5, 0.3, 25, 0, 0.3));
+                    allPoints.add(new CurvePoint(-21.5, 33.5, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(-22.5, 77.5, 0.5, 0.3, 25, 0, 0.3));
 
                     myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 135, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
@@ -140,7 +140,7 @@ public class POWERPLAY_RED_RIGHT_side extends LinearOpMode {
                     ArrayList<CurvePoint> allPoints = new ArrayList<>();
                     allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(-27, 0, 0.5, 0.3, 23, 0, 0.8));
-                    allPoints.add(new CurvePoint(-22.5, 34.5, 0.5, 0.3, 25, 0, 0.3));
+                    allPoints.add(new CurvePoint(-21.5, 33.5, 0.5, 0.3, 25, 0, 0.3));
                     allPoints.add(new CurvePoint(-22.5, 77.5, 0.5, 0.3, 25, 0, 0.3));
 
                     myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 135, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);

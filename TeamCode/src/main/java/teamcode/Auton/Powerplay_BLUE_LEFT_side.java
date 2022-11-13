@@ -54,7 +54,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
         sleeveColor = sleeveColorDetector.getAnalysis();
         telemetry.addData("Analysis", sleeveColorDetector.getAnalysis());
         telemetry.update();
-        sleeveColorDetector.closeCameraDevice();
+//        sleeveColorDetector.closeCameraDevice();
         myPurePursuitRobotMovement6_Turn_MultiThread.startOdometryThread();
 
 
@@ -68,7 +68,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if(cbValue <=108) {
+        if(cbValue <=102) {
             color = "ORANGE";
             path = 1;
         }
@@ -91,7 +91,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(23, 32.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
 //            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
 
@@ -115,7 +115,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(23, 32.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
                 myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 45, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
                 myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400, FingerPositions.INTAKE_READY);
@@ -141,7 +141,7 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
                 ArrayList<CurvePoint> allPoints = new ArrayList<>();
                 allPoints.add(new CurvePoint(0, 0, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(23, 0, 0.5, 0.3, 23, 0, 0.8));
-                allPoints.add(new CurvePoint(23, 31, 0.5, 0.3, 25, 0, 0.3));
+                allPoints.add(new CurvePoint(23, 32.5, 0.5, 0.3, 25, 0, 0.3));
                 allPoints.add(new CurvePoint(22.5, 76.5, 0.5, 0.3, 25, 0, 0.3));
                 myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 45, 1.5, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
                 myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 400, FingerPositions.INTAKE_READY);
@@ -210,6 +210,8 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 
 //            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, -135, 3);
                     myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
+        sleeveColorDetector.closeCameraDevice();
+
 //                    if (path == 2) {
 //                        ParkDistanceX = 0;
 //                        ParkDistanceY = 0;
