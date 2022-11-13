@@ -62,7 +62,7 @@ public class SleeveColorDetectorRightOLD {
             @Override
             public void onOpened()
             {
-                webcam.startStreaming(640,480, OpenCvCameraRotation.UPRIGHT);
+                webcam.startStreaming(640,480, OpenCvCameraRotation.UPSIDE_DOWN);
             }
             @Override
             public void onError(int errorCode)
@@ -137,10 +137,10 @@ public class SleeveColorDetectorRightOLD {
 //        static final Point REGION3_TOPLEFT_ANCHOR_POINT = new Point(241,128);
 
 
-        static final Point REGION_ANCHOR_POINT = new Point(300,240);
+        static final Point REGION_ANCHOR_POINT = new Point(330,280);
 
 
-        static final int REGION_WIDTH = 100;
+        static final int REGION_WIDTH = 10;
         static final int REGION_HEIGHT = 50;
 
         /*

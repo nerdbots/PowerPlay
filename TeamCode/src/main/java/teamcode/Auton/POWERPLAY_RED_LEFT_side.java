@@ -51,7 +51,7 @@ public class POWERPLAY_RED_LEFT_side extends LinearOpMode {
         sleeveColor = sleeveColorDetector.getAnalysis();
         telemetry.addData("Analysis", sleeveColorDetector.getAnalysis());
         telemetry.update();
-        sleeveColorDetector.closeCameraDevice();
+//        sleeveColorDetector.closeCameraDevice();
         myPurePursuitRobotMovement6_Turn_MultiThread.startOdometryThread();
 
 
@@ -65,10 +65,10 @@ public class POWERPLAY_RED_LEFT_side extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if (cbValue <= 110) {
+        if (cbValue <= 107) {
             color = "ORANGE";
             path = 1;
-        } else if (cbValue >= 133) {
+        } else if (cbValue >= 135) {
             color = "PURPLE";
             path = 2;
         } else {
@@ -195,6 +195,8 @@ public class POWERPLAY_RED_LEFT_side extends LinearOpMode {
 
 //            myPurePursuitRobotMovement6_Turn_MultiThread.followCurve(allPoints, 0, 15, -135, 3);
         myPurePursuitRobotMovement6_Turn_MultiThread.stopOdometryThread();
+        sleeveColorDetector.closeCameraDevice();
+
 //                    if (path == 2) {
 //                        ParkDistanceX = 0;
 //                        ParkDistanceY = 0;

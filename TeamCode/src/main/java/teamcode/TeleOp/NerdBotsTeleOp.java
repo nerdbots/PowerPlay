@@ -35,7 +35,7 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import com.acmerobotics.dashboard.FtcDashboard;
+//import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -72,8 +72,8 @@ import teamcode.RobotUtilities.*;
 public class NerdBotsTeleOp extends LinearOpMode {
 
     //FTC Dashboard
-    FtcDashboard ftcDashboard;
-    Telemetry dashboardTelemetry;
+//    FtcDashboard ftcDashboard;
+//    Telemetry dashboardTelemetry;
     boolean usingFTCDashboard = false;
 
     //create motor and gyro variables
@@ -251,10 +251,10 @@ public class NerdBotsTeleOp extends LinearOpMode {
         rightArmMotor = hardwareMap.get(DcMotor.class, "rightArmMotor");
         leftGrab = hardwareMap.get(Servo.class, "leftGrab");
         rightGrab = hardwareMap.get(Servo.class, "rightGrab");
-//        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         //Positions to get in the intake. This is initial position we will be at the beginning.
@@ -277,8 +277,8 @@ public class NerdBotsTeleOp extends LinearOpMode {
 
         double armMotorPower = 0.0;
 
-        ftcDashboard = FtcDashboard.getInstance();
-        dashboardTelemetry = ftcDashboard.getTelemetry();
+//        ftcDashboard = FtcDashboard.getInstance();
+//        dashboardTelemetry = ftcDashboard.getTelemetry();
         telemetry.addData("After dashboard","test");
         telemetry.update();
         elevatorinitElapsedTime.reset();
@@ -293,11 +293,11 @@ public class NerdBotsTeleOp extends LinearOpMode {
         rightArmMotor.setPower(0);
         telemetry.addData("After setting power","test");
         telemetry.update();
-        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        telemetry.addData("After resetting the encoders","test");
+//        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+//        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        telemetry.addData("After resetting the encoders","test 1105 pm");
         telemetry.update();
         //anything between here and while(opmodeIsActive) runs exactly once, right when the play button is pressed.
         waitForStart();
@@ -541,9 +541,9 @@ public class NerdBotsTeleOp extends LinearOpMode {
             if(usingFTCDashboard == true) {
 
                 RIGHT_WRIST_SERVO_POSITION = 1.0 - LEFT_WRIST_SERVO_POSITION;
-                dashboardTelemetry.addData("Right Wrist Servo Pos", RIGHT_WRIST_SERVO_POSITION);
-                dashboardTelemetry.addData("Left Wrist Servo Pos", LEFT_WRIST_SERVO_POSITION);
-                dashboardTelemetry.update();
+//                dashboardTelemetry.addData("Right Wrist Servo Pos", RIGHT_WRIST_SERVO_POSITION);
+//                dashboardTelemetry.addData("Left Wrist Servo Pos", LEFT_WRIST_SERVO_POSITION);
+//                dashboardTelemetry.update();
 
 
             }else{
