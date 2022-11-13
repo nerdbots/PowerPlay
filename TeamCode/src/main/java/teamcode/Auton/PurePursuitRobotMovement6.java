@@ -817,7 +817,7 @@ public class PurePursuitRobotMovement6 {
 
             double[] robotPositionXYV = findDisplacementOptical();
 
-            ArrayList<PointPP> intersections = MathFunctions2.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
+            ArrayList<PointPP> intersections = MathFunctions.lineCircleIntersection(robotLocation, followRadius, startLine.toPoint(), endline.toPoint());
 
             double closestAngle = 100000000;
 
