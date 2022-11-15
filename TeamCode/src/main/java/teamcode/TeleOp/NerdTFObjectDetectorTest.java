@@ -29,16 +29,11 @@
 
 package teamcode.TeleOp;
 
-import com.google.blocks.ftcrobotcontroller.runtime.Block;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-import org.checkerframework.checker.units.qual.Angle;
-import org.checkerframework.common.value.qual.IntRangeFromGTENegativeOne;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
@@ -62,7 +57,7 @@ public class NerdTFObjectDetectorTest extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    BlockDetector blockDetector;
+    ConeStackDetector blockDetector;
     Recognition recognition;
     double KNOWN_DISTANCE_TO_OBJECT = 24;
     double KNOWN_LENGTH_OF_OBJECT = 1.9685;
@@ -71,7 +66,7 @@ public class NerdTFObjectDetectorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        blockDetector = new BlockDetector(this);
+        blockDetector = new ConeStackDetector(this);
         blockDetector.initVuforia();
         blockDetector.initTfod();
         waitForStart();

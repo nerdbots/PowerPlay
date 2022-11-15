@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.util.ArrayList;
 
-import teamcode.RobotUtilities.Odometry.CurvePoint;
+import teamcode.RobotUtilities.ArmShoulderPositions.CurvePoint;
 
 //import Functions.CurvePoint;
 //@Disabled
