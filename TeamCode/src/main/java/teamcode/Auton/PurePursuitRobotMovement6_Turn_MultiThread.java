@@ -672,6 +672,16 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         this.rightGrab.setPosition(targetFingerPosition.getRightFingerPosition());
     }
 
+    public void setFingerPositions(FingerPositions targetFingerPosition, double seconds)
+    {
+        ElapsedTime clawTime = new ElapsedTime();
+        while (this.opmode.opModeIsActive() && clawTime.seconds() < seconds
+        ) {
+            this.leftGrab.setPosition(targetFingerPosition.getLeftFingerPosition());
+            this.rightGrab.setPosition(targetFingerPosition.getRightFingerPosition());
+        }
+    }
+
     public boolean isArmHoldTimeReached(double armHoldTime){
         boolean armHoldTimeReached = false;
         if(armHoldStartTime > 0){
@@ -1105,7 +1115,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
 
 
-            if (armTargetReached && clawReleaseDelayTime.seconds()  > 1.0) {
+            if (armTargetReached && clawReleaseDelayTime.seconds()  > 0.5) {
                 leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
                 rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
                 RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
