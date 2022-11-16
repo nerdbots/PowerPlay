@@ -1069,8 +1069,9 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         boolean clawTimerStarted = false;
         while (this.opmode.opModeIsActive()  ) {
 
-            if(!armTargetReached)
-            armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
+            if(!armTargetReached){
+                armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
+            }
 
             RobotLog.d("NERD Arm Target Reached %b",armTargetReached );
             if(armTargetReached && !clawTimerStarted)   {
@@ -1115,14 +1116,16 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
 
 
-            if (armTargetReached && clawReleaseDelayTime.seconds()  > 0.5) {
-                leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
-                rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
-                RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
-                clawReleased = true;
-                break;
-            }
-            if(armTimeout.seconds() > 2) {
+            if (armTargetReached )
+                if(clawReleaseDelayTime.seconds()  < 0.5) {
+                    leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
+                    rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
+                    RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
+                }else{
+                        break;
+                }
+
+            if(armTimeout.seconds() > 1) {
                 armTargetReached = true;
             }
         }
