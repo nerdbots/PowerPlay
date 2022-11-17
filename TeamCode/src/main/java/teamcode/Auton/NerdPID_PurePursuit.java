@@ -116,7 +116,7 @@ public class NerdPID_PurePursuit {
     public static double zPowerPark (double targetAnglePark, double gyroAnglePark, double deltaTimePIDPark){
 
         double kPP = 0.005; //0.050
-        double kIP = 0.002; //0.002
+        double kIP = 0.0005; //0.002
         double kDP = 0.000; //0.000
 
         //calculate error (Proportional)

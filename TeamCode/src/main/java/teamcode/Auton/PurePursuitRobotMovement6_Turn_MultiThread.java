@@ -180,9 +180,9 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     //For TURN PID
 
     boolean onTarget = false;
-    public static double turnPIDKp = 0.015;
-    public static double turnPIDKi = 0.0006;
-    public static double turnPIDKd = 0.001;
+    public static double turnPIDKp = 0.01;
+    public static double turnPIDKi = 0;
+    public static double turnPIDKd = 0.002;
 
     public static double turnPIDpropError = 0;
     public static double turnPIDintError = 0;
