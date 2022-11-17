@@ -69,7 +69,7 @@ import teamcode.RobotUtilities.MathFunctions;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name="NerdBotsTeleop", group="Final")
+@TeleOp(name="NerdBotsTeleOpSarvadControlsBlue", group="Final")
 //@Config
 public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
 
@@ -272,9 +272,9 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
         rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
         //End Positions to get in the intake
 
-        coneStackDetector = new ConeStackDetector(this);
-        coneStackDetector.initVuforia();
-         coneStackDetector.initTfod();
+//        coneStackDetector = new ConeStackDetector(this);
+//        coneStackDetector.initVuforia();
+//         coneStackDetector.initTfod();
 
 
         telemetry.addData("Status", "Initialized");
@@ -485,61 +485,61 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
 //                shoulderPosition = ArmShoulderPositions.TSE_DROP;
 //            }
 
-            if(gamepad2.right_bumper) {
-                coneStack = coneStackDetector.detectConeStack();
-                if(coneStack.getLabel().equals("r5")) {
-                    shoulderPosition = ArmShoulderPositions.S4;
-                }
-                else if(coneStack.getLabel().equals("r4")) {
-                    shoulderPosition = ArmShoulderPositions.S3;
-
-                }
-                else if(coneStack.getLabel().equals("r3")) {
-                    shoulderPosition = ArmShoulderPositions.S2;
-
-                }
-                else if(coneStack.getLabel().equals("r2")) {
-                    shoulderPosition = ArmShoulderPositions.S1;
-
-                }
-                else {
-                    fingerPosition = FingerPositions.INTAKE_READY;
-                }
-
-            }
-            if(gamepad2.right_bumper) {
-                coneStack = coneStackDetector.detectConeStack();
-                if(coneStack.getLabel().equals("r5")) {
-                    shoulderPosition = ArmShoulderPositions.S4;
-                }
-                else if(coneStack.getLabel().equals("r4")) {
-                    shoulderPosition = ArmShoulderPositions.S3;
-
-                }
-                else if(coneStack.getLabel().equals("r3")) {
-                    shoulderPosition = ArmShoulderPositions.S2;
-
-                }
-                else if(coneStack.getLabel().equals("r2")) {
-                    shoulderPosition = ArmShoulderPositions.S1;
-
-                }
-                else {
-                    fingerPosition = FingerPositions.INTAKE_READY;
-                }
-
-            }
+//            if(gamepad2.right_bumper) {
+//                coneStack = coneStackDetector.detectConeStack();
+//                if(coneStack.getLabel().equals("r5")) {
+//                    shoulderPosition = ArmShoulderPositions.S4;
+//                }
+//                else if(coneStack.getLabel().equals("r4")) {
+//                    shoulderPosition = ArmShoulderPositions.S3;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r3")) {
+//                    shoulderPosition = ArmShoulderPositions.S2;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r2")) {
+//                    shoulderPosition = ArmShoulderPositions.S1;
+//
+//                }
+//                else {
+//                    fingerPosition = FingerPositions.INTAKE_READY;
+//                }
+//
+//            }
+//            if(gamepad2.right_bumper) {
+//                coneStack = coneStackDetector.detectConeStack();
+//                if(coneStack.getLabel().equals("r5")) {
+//                    shoulderPosition = ArmShoulderPositions.S4;
+//                }
+//                else if(coneStack.getLabel().equals("r4")) {
+//                    shoulderPosition = ArmShoulderPositions.S3;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r3")) {
+//                    shoulderPosition = ArmShoulderPositions.S2;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r2")) {
+//                    shoulderPosition = ArmShoulderPositions.S1;
+//
+//                }
+//                else {
+//                    fingerPosition = FingerPositions.INTAKE_READY;
+//                }
+//
+//            }
 
             if(gamepad2.dpad_up){
                 fingerPosition = FingerPositions.GRAB;
             }
 
             if(gamepad2.dpad_down){
-                fingerPosition = FingerPositions.ENTER_INTAKE;
+                fingerPosition = FingerPositions.RELEASE;
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.RELEASE;
+                fingerPosition = FingerPositions.ENTER_INTAKE;
             }
 
             if(gamepad2.dpad_left) {

@@ -68,17 +68,17 @@ public class Powerplay_BLUE_LEFT_side extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if(cbValue <=102) {
-            color = "ORANGE";
+        if(cbValue >= 200) {
+            color = "BLUE";
             path = 1;
         }
-        else if(cbValue >=138) {
-            color = "PURPLE";
+        else if(cbValue <=50) {
+            color = "YELLOW";
             path = 2;
         }
         else {
-            color = "GREEN";
-            path = 3;
+            color = "RED";
+            path = 3; 
         }
         telemetry.addData("cbValue %d",cbValue);
         telemetry.addData("path %s",path);

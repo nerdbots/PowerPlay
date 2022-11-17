@@ -66,7 +66,7 @@ import teamcode.RobotUtilities.*;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name="NerdBotsTeleop", group="Final")
+@TeleOp(name="NerdBotsTeleOpBlue", group="Final")
 //@Config
 public class NerdBotsTeleOpBlue extends LinearOpMode {
 
@@ -216,8 +216,10 @@ public class NerdBotsTeleOpBlue extends LinearOpMode {
     int armValue = 0;
     int coneCounterLeft = 6;
     int coneCounterRight = 6;
+    boolean buttonReady = true;
     boolean buttonReadyConeLeft = true;
     boolean buttonReadyConeRight = true;
+    int armValueIncrement = 20;
     //init elevator
     ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
 
@@ -269,9 +271,9 @@ public class NerdBotsTeleOpBlue extends LinearOpMode {
         rightGrab.setPosition(FingerPositions.INTAKE_READY.getRightFingerPosition());
         //End Positions to get in the intake
 
-        coneStackDetector = new ConeStackDetector(this);
-        coneStackDetector.initVuforia();
-         coneStackDetector.initTfod();
+//        coneStackDetector = new ConeStackDetector(this);
+//        coneStackDetector.initVuforia();
+//         coneStackDetector.initTfod();
 
 
         telemetry.addData("Status", "Initialized");
@@ -471,6 +473,27 @@ public class NerdBotsTeleOpBlue extends LinearOpMode {
 
             }
 
+            if(gamepad2.left_trigger > 0.7) {
+                if(buttonReady) {
+                    leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                }
+                leftArmMotor.setPower(0.1);
+                rightArmMotor.setPower(-0.1);
+                buttonReady = false;
+
+            }
+            else if(gamepad2.left_trigger < 0.2){
+                    armTarget = 0;
+                    leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    leftArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    rightArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    buttonReady = true;
+
+            }
+
 
 //             if(gamepad2.left_bumper){
 //                 WRIST_SERVO_INCREMENT = 0.0;
@@ -481,51 +504,51 @@ public class NerdBotsTeleOpBlue extends LinearOpMode {
 //                WRIST_SERVO_INCREMENT = 0.0;
 //                shoulderPosition = ArmShoulderPositions.TSE_DROP;
 //            }
-
-            if(gamepad2.right_bumper) {
-                coneStack = coneStackDetector.detectConeStack();
-                if(coneStack.getLabel().equals("r5")) {
-                    shoulderPosition = ArmShoulderPositions.S4;
-                }
-                else if(coneStack.getLabel().equals("r4")) {
-                    shoulderPosition = ArmShoulderPositions.S3;
-
-                }
-                else if(coneStack.getLabel().equals("r3")) {
-                    shoulderPosition = ArmShoulderPositions.S2;
-
-                }
-                else if(coneStack.getLabel().equals("r2")) {
-                    shoulderPosition = ArmShoulderPositions.S1;
-
-                }
-                else {
-                    fingerPosition = FingerPositions.INTAKE_READY;
-                }
-
-            }
-            if(gamepad2.right_bumper) {
-                coneStack = coneStackDetector.detectConeStack();
-                if(coneStack.getLabel().equals("r5")) {
-                    shoulderPosition = ArmShoulderPositions.S4;
-                }
-                else if(coneStack.getLabel().equals("r4")) {
-                    shoulderPosition = ArmShoulderPositions.S3;
-
-                }
-                else if(coneStack.getLabel().equals("r3")) {
-                    shoulderPosition = ArmShoulderPositions.S2;
-
-                }
-                else if(coneStack.getLabel().equals("r2")) {
-                    shoulderPosition = ArmShoulderPositions.S1;
-
-                }
-                else {
-                    fingerPosition = FingerPositions.INTAKE_READY;
-                }
-
-            }
+//
+//            if(gamepad2.right_bumper) {
+//                coneStack = coneStackDetector.detectConeStack();
+//                if(coneStack.getLabel().equals("r5")) {
+//                    shoulderPosition = ArmShoulderPositions.S4;
+//                }
+//                else if(coneStack.getLabel().equals("r4")) {
+//                    shoulderPosition = ArmShoulderPositions.S3;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r3")) {
+//                    shoulderPosition = ArmShoulderPositions.S2;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r2")) {
+//                    shoulderPosition = ArmShoulderPositions.S1;
+//
+//                }
+//                else {
+//                    fingerPosition = FingerPositions.INTAKE_READY;
+//                }
+//
+//            }
+//            if(gamepad2.right_bumper) {
+//                coneStack = coneStackDetector.detectConeStack();
+//                if(coneStack.getLabel().equals("r5")) {
+//                    shoulderPosition = ArmShoulderPositions.S4;
+//                }
+//                else if(coneStack.getLabel().equals("r4")) {
+//                    shoulderPosition = ArmShoulderPositions.S3;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r3")) {
+//                    shoulderPosition = ArmShoulderPositions.S2;
+//
+//                }
+//                else if(coneStack.getLabel().equals("r2")) {
+//                    shoulderPosition = ArmShoulderPositions.S1;
+//
+//                }
+//                else {
+//                    fingerPosition = FingerPositions.INTAKE_READY;
+//                }
+//
+//            }
 
             if(gamepad2.dpad_up){
                 fingerPosition = FingerPositions.INTAKE_READY;

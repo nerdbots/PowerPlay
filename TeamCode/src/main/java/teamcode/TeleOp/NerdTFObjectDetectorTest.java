@@ -70,10 +70,10 @@ public class NerdTFObjectDetectorTest extends LinearOpMode {
         blockDetector.initVuforia();
         blockDetector.initTfod();
         waitForStart();
-        recognition = blockDetector.detectCube();
+//        recognition = blockDetector.detectCube();
 
         if(recognition != null){
-           telemetry.addData("Distance", blockDetector.getDistance(recognition));
+//           telemetry.addData("Distance", blockDetector.getDistance(recognition));
            telemetry.addData("Angle", recognition.estimateAngleToObject(AngleUnit.DEGREES));
         }
 
