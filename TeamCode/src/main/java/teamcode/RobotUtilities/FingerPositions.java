@@ -7,8 +7,8 @@ public  enum FingerPositions {
     GRAB(0.62,0.38),
     RELEASE(0.58,0.42);
 
-    private final double leftFingerPosition;
-    private final double rightFingerPosition;
+    public final double leftFingerPosition;
+    public final double rightFingerPosition;
 
     private FingerPositions(double leftFingerPosition, double rightFingerPosition){
         this.leftFingerPosition = leftFingerPosition;

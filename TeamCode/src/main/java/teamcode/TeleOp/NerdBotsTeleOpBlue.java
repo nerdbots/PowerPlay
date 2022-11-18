@@ -559,7 +559,7 @@ public class NerdBotsTeleOpBlue extends LinearOpMode {
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.GRAB;
+                fingerPosition = FingerPositions.RELEASE;
             }
 
             if(gamepad2.dpad_left) {

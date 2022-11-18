@@ -59,6 +59,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
     private Servo leftGrab;
     private Servo rightGrab;
 
+    private int debugIncrement = 0;
     //    private ElapsedTime runtime = new ElapsedTime();
     private ElapsedTime elapsedTime = new ElapsedTime();
     private ElapsedTime Timer = new ElapsedTime();
@@ -229,13 +230,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     public void stopOdometryThread(){
 
-//        try {
-//            positionThread.stop();
-//        }catch (Exception e){
-//            //Nothing to do
-//        }
+        try {
+            positionThread.stop();
+        }catch (Exception e){
+            //Nothing to do
+        }
 
-        globalPositionUpdate.stop();
+//        globalPositionUpdate.stop();
 
     }
 
@@ -583,6 +584,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
             //ARM_11_08
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
             currentTimeArm = armElapsedTime.seconds();
             loopTimeArm = currentTimeArm - oldTimeArm;
             oldTimeArm = currentTimeArm;
@@ -594,20 +597,34 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
             CurvePoint followMe = getFollowPointPath(allPoints, new PointPP(robotXMultiThread, robotYMultiThread),
                     allPoints.get(0).followDistance);
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
 
             CurvePoint endPoint = getEndPoint(allPoints, new PointPP(robotXMultiThread, robotYMultiThread),
                     allPoints.get(0).followDistance);
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
+
             CurvePoint startPath = getStartPath(allPoints, new PointPP(robotXMultiThread, robotYMultiThread),
                     allPoints.get(0).followDistance);
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
+
             distanceToEndPoint = Math.hypot(endPoint.x - robotXMultiThread, endPoint.y - robotYMultiThread);
+
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
 
             if(distanceToEndPoint < distanceToPark){
                 goToPositionEndPP(endPoint.x, endPoint.y, 1.0, parkAngleTarget, 0.2, distanceToPark, new PointPP(robotXMultiThread, robotYMultiThread));
+                RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
             }
             else {
                 goToPositionPP(followMe.x, followMe.y, followMe.moveSpeed, zPowerFF, followMe.turnSpeed, parkAngleTarget, distanceToPark, startPath.x, startPath.y, endPoint.x, endPoint.y, new PointPP(robotXMultiThread, robotYMultiThread));
+                RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
             }
 
             //Skip the ARM portion if a delay is requested.
@@ -626,6 +643,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
             RobotLog.d("NERD FRONT ONE #### FollowCurveArm - target %d, currentArmPosition %d, armPIDOut %f", targetShoulderPosition.getArmTarget(), frontEncoder.getCurrentPosition(),armPidOutput);
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
             armMotorsign = Math.signum(armPidOutput);
 
             if (Math.abs(armPidOutput) > targetShoulderPosition.getMaxPower()) {
@@ -633,6 +652,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             } else {
                 armMotorPower = armPidOutput;
             }
+
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
 
             RobotLog.d("NERDBLUEAUTON Motor powers %f, LooptimeARM %f", armMotorPower, loopTimeArm);
             frontEncoder.setPower(-armMotorPower);
@@ -645,10 +666,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
             RobotLog.d("NERD_11_08  Setting Finger Positions#### FollowCurveArm - Arm Hold Timer Started originalArmTargetPosition %d, currentArmTargetPosition %d, frontEncoder.getCurrentPosition %d",
                     targetShoulderPosition.getArmTarget(),targetShoulderPosition.getArmTarget(),frontEncoder.getCurrentPosition() );
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
+
 
             leftGrab.setPosition(endFingerPosition.getLeftFingerPosition());
             rightGrab.setPosition(endFingerPosition.getRightFingerPosition());
 
+            RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
 
 
 
@@ -657,6 +681,8 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         //ARM End
 
         //ARM 11_08
+
+        RobotLog.d("NOVI - followCurveArm %d" ,++debugIncrement);
 
         frontLeftMotor.setPower(0);
         frontRightMotor.setPower(0);
@@ -1069,15 +1095,20 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
         boolean clawTimerStarted = false;
         while (this.opmode.opModeIsActive()  ) {
 
+            RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
+
+
             if(!armTargetReached){
                 armTargetReached= isArmTargetReached(newArmTargetPosition, frontEncoder.getCurrentPosition());
             }
 
             RobotLog.d("NERD Arm Target Reached %b",armTargetReached );
+            RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
             if(armTargetReached && !clawTimerStarted)   {
                 clawReleaseDelayTime.reset();
                 clawTimerStarted = true;
                 RobotLog.d("NERD Claw Timer started %f",clawReleaseDelayTime.seconds() );
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
 
             }
             if (!armTargetReached) {
@@ -1086,6 +1117,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
                 oldTimeArmOnly = currentTimeArmOnly;
                 deltaTimeArmOnly = currentTimeArmOnly - startTimeArmOnly;
 
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
 
                 //ARM Start
                 double armPidOutput = 0.0;
@@ -1095,6 +1127,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
                 armPidOutput = armPID(newArmTargetPosition, frontEncoder.getCurrentPosition() * -1); //11_08 check
                 armMotorsign = Math.signum(armPidOutput);
 
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
                 if (Math.abs(armPidOutput) > armTargetPosition.getMaxPower()) {
                     armMotorPower = armMotorsign * armTargetPosition.getMaxPower();
                 } else {
@@ -1102,11 +1135,12 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
                 }
 
                 RobotLog.d("Arm Motor Power %f", armMotorPower );
-
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
 
                 leftEncoder.setPower(-armMotorPower);
                 rightEncoder.setPower(-armMotorPower); //11_08 check
 
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
 //            leftArmServo.setPosition(armTargetPosition.getLeftWristServoPosition());
 //            rightArmServo.setPosition(armTargetPosition.getRightWristServoPosition());
 
@@ -1115,17 +1149,21 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
             RobotLog.d("Before arm target reached - NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
 
-
+            RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
             if (armTargetReached )
-                if(clawReleaseDelayTime.seconds()  < 0.5) {
-                    leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
-                    rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
-                    RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
-                }else{
-                        break;
-                }
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
+            if(clawReleaseDelayTime.seconds()  < 0.5) {
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
+                leftGrab.setPosition(fingerTargetPosition.getLeftFingerPosition());
+                rightGrab.setPosition(fingerTargetPosition.getRightFingerPosition());
+                RobotLog.d("After NERDClawDelayTime %f", clawReleaseDelayTime.seconds());
+            }else{
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
+                break;
+            }
 
             if(armTimeout.seconds() > 1) {
+                RobotLog.d("NOVI - moveArmsOnly %d" ,++debugIncrement);
                 armTargetReached = true;
             }
         }

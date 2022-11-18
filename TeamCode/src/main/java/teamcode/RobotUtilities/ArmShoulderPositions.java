@@ -13,11 +13,11 @@ public enum ArmShoulderPositions {
     S2(150,1,0.63,0.37),
     S1(75,1,0.63,0.37),
 
-    HOME(100,1,0.15,0.85),
-    S4(310,1,0.28,0.72),
-    S3(240,1,0.63,0.37),
-    S2(140,1,0.63,0.37),
-    S1(75,1,0.63,0.37),;
+    HOME(100,1,0.15,0.85);
+//    S4(310,1,0.28,0.72),
+//    S3(240,1,0.63,0.37),
+//    S2(140,1,0.63,0.37),
+//    S1(75,1,0.63,0.37),;
     private  final int armTarget;
     private final double maxPower;
     private final double leftWristServoPosition;
