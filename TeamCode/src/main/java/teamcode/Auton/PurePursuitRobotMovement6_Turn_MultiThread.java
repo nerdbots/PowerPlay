@@ -230,13 +230,13 @@ public class PurePursuitRobotMovement6_Turn_MultiThread {
 
     public void stopOdometryThread(){
 
-        try {
-            positionThread.stop();
-        }catch (Exception e){
-            //Nothing to do
-        }
+//        try {
+//            positionThread.stop();
+//        }catch (Exception e){
+//            //Nothing to do
+//        }
 
-//        globalPositionUpdate.stop();
+        globalPositionUpdate.stop();
 
     }
 
