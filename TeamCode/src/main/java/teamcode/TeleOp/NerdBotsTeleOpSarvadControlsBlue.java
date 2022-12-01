@@ -535,11 +535,11 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
             }
 
             if(gamepad2.dpad_down){
-                fingerPosition = FingerPositions.RELEASE;
+                fingerPosition = FingerPositions.ENTER_INTAKE;
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.ENTER_INTAKE;
+                fingerPosition = FingerPositions.RELEASE;
             }
 
             if(gamepad2.dpad_left) {
