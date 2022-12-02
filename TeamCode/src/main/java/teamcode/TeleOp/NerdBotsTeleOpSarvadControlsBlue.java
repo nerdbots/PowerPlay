@@ -531,7 +531,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
 //            }
 
             if(gamepad2.dpad_up){
-                fingerPosition = FingerPositions.GRAB;
+                fingerPosition = FingerPositions.INTAKE_READY;
             }
 
             if(gamepad2.dpad_down){
@@ -539,7 +539,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.RELEASE;
+                fingerPosition = FingerPositions.GRAB;
             }
 
             if(gamepad2.dpad_left) {
