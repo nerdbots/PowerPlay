@@ -74,159 +74,188 @@ public class Powerplay_Blue_Right_4_TopPole extends LinearOpMode {
 
         cbValue = sleeveColorDetector.getAnalysis();
         //Detecting purple
-        if(cbValue <=103) {
-            color = "ORANGE";
-            path = 1;
-        }
-        else if(cbValue >=140) {
-            color = "PURPLE";
-            path = 2;
-        }
-        else {
-            color = "GREEN";
-            path = 3;
-        }
-        telemetry.addData("path %s",path);
-        telemetry.update();
+//        if(cbValue <=103) {
+//            color = "ORANGE";
+//            path = 1;
+//        }
+//        else if(cbValue >=140) {
+//            color = "PURPLE";
+//            path = 2;
+//        }
+//        else {
+//            color = "GREEN";
+//            path = 3;
+//        }
+
+        path = 3;
 //        if (path == 1) {
-        telemetry.addData("path", "1");
-        telemetry.update();
+//        telemetry.addData("path", "1");
+//        telemetry.update();
         if (purePursuitPath == 1) {
             telemetry.addData("purePursuitPath", "1");
-            telemetry.update();
-//            ArrayList<CurvePoint> allPoints = new ArrayList<>();
+            //Dropoff Cone One
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(0, 0, 0.9, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(6, 26, 0.9, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(6, 58, 0.9, 0.3, 12, 0, 130));
-            allPoints.add(new CurvePoint(0, 57, 0.9, 0.3, 12, 0, 130));
-            allPoints.add(new CurvePoint(0, 80, 0.9, 0.3, 12, 0, 130));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(-1, 56, 0.7, 0.3, 12, 0, 130));
+            allPoints.add(new CurvePoint(-1, 80, 0.7, 0.3, 12, 0, 130));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 130, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
 
+            //Pickup Cone Two
             allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
-            allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(10, 53.5, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(25, 53.5, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(40, 53.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 59, 0.95, 0.3, 12, 0, 130));
+            allPoints.add(new CurvePoint(5, 54, 0.95, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(10, 53.5, 0.95, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(24, 52.5, 0.95, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(40, 52.5, 0.95, 0.5, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.S3, ArmShoulderPositions.S4, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.setFingerPositions(FingerPositions.GRAB, 0.8);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.S4, -200, FingerPositions.GRAB);
 
-
+            //Dropoff Cone Two
             allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(28, 53, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(20, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(5, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(6, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 80, 0.9, 0.3, 12, 0, 0));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(28, 53, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(6, 58, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 54.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
+
+            //Pickup Cone Three
             allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
             allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(10, 50, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(24, 53.5, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(40, 53.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(24, 51.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(40, 51.5, 0.9, 0.5, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.S3, ArmShoulderPositions.S3, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.setFingerPositions(FingerPositions.GRAB, 0.8);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.S3, -200, FingerPositions.GRAB);
 
-
+            //Dropoff Cone Three
             allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(28, 53, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(20, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(5, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(6, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 80, 0.9, 0.3, 12, 0, 0));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(28, 53, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(6, 58, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1.5, 53, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1.5, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
+
+            //Pickup Cone Four
             allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
             allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(10, 50, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(24, 53.5, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(40, 53.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(24, 51.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(40, 51.5,0.9, 0.5, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.S2, ArmShoulderPositions.S2, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.setFingerPositions(FingerPositions.GRAB, 0.8);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.S2, -200, FingerPositions.GRAB);
 
-
+            //Dropoff Cone Four
             allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(28, 53, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(20, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(5, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(6, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-0.5, 56, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-0.5, 80, 0.9, 0.3, 12, 0, 0));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(28, 53, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(6, 58, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-2, 53.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-2, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
+
+            //Pickup Cone Five
             allPoints = new ArrayList<>();
             allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
             allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(10, 50, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(24, 53.5, 0.9, 0.5, 12, 0, 0));
-            allPoints.add(new CurvePoint(40, 53.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(24, 51.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(40, 51.5, 0.9, 0.5, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.S1, ArmShoulderPositions.S1, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.setFingerPositions(FingerPositions.GRAB, 0.8);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.S1, -200, FingerPositions.GRAB);
 
-
+            //Dropoff Cone Five
             allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(28, 53, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(20, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(5, 51, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(6, 58, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-0.5, 56, 0.9, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-0.5, 80, 0.9, 0.3, 12, 0, 0));
-//            allPoints.add(new CurvePoint(-48, 60, 0.5, 0.3, 25, 180, 0.3));
+            allPoints.add(new CurvePoint(28, 53, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(6, 56, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-2, 53.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-2, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
 
+
+//            allPoints = new ArrayList<>();
+//            allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
+//            allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(10, 50, 0.9, 0.5, 12, 0, 0));
+//            allPoints.add(new CurvePoint(24, 51, 0.9, 0.5, 12, 0, 0));
+//            allPoints.add(new CurvePoint(40, 51, 0.9, 0.5, 12, 0, 0));
+//
+//            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.S1, ArmShoulderPositions.S1, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+//            myPurePursuitRobotMovement6_Turn_MultiThread.setFingerPositions(FingerPositions.GRAB, 0.8);
+//            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.S1, -200, FingerPositions.GRAB);
+//
+//
+//            allPoints = new ArrayList<>();
+//            allPoints.add(new CurvePoint(28, 53, 0.8, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(6, 58, 0.8, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(-2, 53.5, 0.8, 0.3, 12, 0, 0));
+//            allPoints.add(new CurvePoint(-2, 80, 0.8, 0.3, 12, 0, 0));
+//
+//            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
+//            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
+//            myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
+
         }
 
 
 //        }
+        telemetry.addData("path %s",path);
+        telemetry.update();
         if(path == 2){
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(-2.5, 52, 0.9, 0.3, 12, 0, 0.3));
-            allPoints.add(new CurvePoint(5,52 , 0.9, 0.3, 12, 0, 0.3));
-            allPoints.add(new CurvePoint(20, 52, 0.9, 0.3, 12, 0, 0.3));
+            allPoints.add(new CurvePoint(-2, 53.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(0, 53.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(1, 51, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(30, 51, 0.8, 0.3, 12, 0, 0));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, -5, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 
         }
 
         if(path == 3){
-            ArrayList<CurvePoint> allPoints = new ArrayList<>();
-            allPoints.add(new CurvePoint(-2.5, 52, 0.9, 0.3, 12, 0, 0.3));
-            allPoints.add(new CurvePoint(12,52 , 0.9, 0.3, 12, 0, 0.3));
-            allPoints.add(new CurvePoint(26,52 , 0.9, 0.3, 12, 0, 0.3));
-            allPoints.add(new CurvePoint(50, 52, 0.9, 0.3, 12, 0, 0.3));
+           ArrayList<CurvePoint> allPoints = new ArrayList<>();
+            allPoints.add(new CurvePoint(-0.5, 59, 0.9, 0.3, 12, 0, 130));
+            allPoints.add(new CurvePoint(5, 54, 0.9, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(10, 50, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(22, 51.5, 0.9, 0.5, 12, 0, 0));
+            allPoints.add(new CurvePoint(40, 51.5, 0.9, 0.5, 12, 0, 0));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 0, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
-
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 3, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
         }
         if(path == 1){
             ArrayList<CurvePoint> allPoints = new ArrayList<>();
