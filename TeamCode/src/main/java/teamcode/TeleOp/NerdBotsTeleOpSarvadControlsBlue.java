@@ -378,33 +378,71 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
 
             }
 
-            if(gamepad1.left_bumper && buttonReadyConeLeft) {
+            if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 6) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
+                shoulderPosition = ArmShoulderPositions.S4;
             }
+            else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 5) {
+                coneCounterLeft -=1;
+                buttonReadyConeLeft = false;
+                shoulderPosition = ArmShoulderPositions.S4;
+            }
+            else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 4) {
+                coneCounterLeft -=1;
+                buttonReadyConeLeft = false;
+                shoulderPosition = ArmShoulderPositions.S4;
+            }
+            else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 3) {
+                coneCounterLeft -=1;
+                buttonReadyConeLeft = false;
+                shoulderPosition = ArmShoulderPositions.S4;
+            }
+
+
             else if(!gamepad1.left_bumper) {
                 buttonReadyConeLeft = true;
             }
-            if(gamepad1.right_bumper && buttonReadyConeRight) {
+            if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 6) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
             }
+            else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 5) {
+                coneCounterRight -=1;
+                buttonReadyConeRight = false;
+            }
+            else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 4) {
+                coneCounterRight -=1;
+                buttonReadyConeRight = false;
+            }
+            else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 3) {
+                coneCounterRight -=1;
+                buttonReadyConeRight = false;
+            }
+
+
             else if(!gamepad1.right_bumper) {
                 buttonReadyConeRight = true;
             }
 
             if(gamepad1.left_bumper && coneCounterLeft == 5) {
+                WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.S4;
-            }
+                armTarget = shoulderPosition.getArmTarget();            }
             else if(gamepad1.left_bumper && coneCounterLeft == 4) {
+                WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.S3;
-            }
+                armTarget = shoulderPosition.getArmTarget();            }
             else if(gamepad1.left_bumper && coneCounterLeft == 3) {
+                WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.S2;
-            }
+                armTarget = shoulderPosition.getArmTarget();            }
             else if(gamepad1.left_bumper && coneCounterLeft == 2) {
+                WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.S1;
+                armTarget = shoulderPosition.getArmTarget();
             }
+
 
 
             if(gamepad1.left_trigger > 0.5) {
@@ -636,6 +674,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
             telemetry.addData("ConeCounterRight: ",coneCounterRight);
             telemetry.addData("Button Ready Cone Left: ",buttonReadyConeLeft);
             telemetry.addData("Button Ready Cone Right: ",buttonReadyConeRight);
+            telemetry.addData("Arm Shoulder Pos",shoulderPosition);
             telemetry.update();
 
             if(usingFTCDashboard == true) {

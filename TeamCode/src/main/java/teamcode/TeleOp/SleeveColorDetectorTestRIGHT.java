@@ -28,10 +28,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 public class SleeveColorDetectorTestRIGHT extends LinearOpMode
 {
     teamcode.TeleOp.SleeveColorDetectorDoubleWebcam colorDetector;
-
+    //
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
+
         int cbValue = 0;
         int path = 3;
         String color = "Not Found";
@@ -47,16 +47,16 @@ public class SleeveColorDetectorTestRIGHT extends LinearOpMode
 
         while(opModeIsActive()) {
             cbValue = colorDetector.getAnalysis();
-            if(cbValue <=100) {
-                color = "ORANGE";
-                path = 1;
+            if(cbValue <=80) {
+                color = "YELLOW";
+                path = 2;
             }
-            else if(cbValue >=140) {
-                color = "PURPLE";
+            else if(cbValue >=160) {
+                color = "BLUE";
                 path = 2;
             }
             else {
-                color = "GREEN";
+                color = "RED";
                 path = 3;
             }
             telemetry.addData("Analysis: ", cbValue);
