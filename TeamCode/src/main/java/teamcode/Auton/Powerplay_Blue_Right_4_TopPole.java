@@ -73,21 +73,19 @@ public class Powerplay_Blue_Right_4_TopPole extends LinearOpMode {
         myPurePursuitRobotMovement6_Turn_MultiThread.resetTimers();
 
         cbValue = sleeveColorDetector.getAnalysis();
-        //Detecting purple
-//        if(cbValue <=103) {
-//            color = "ORANGE";
-//            path = 1;
-//        }
-//        else if(cbValue >=140) {
-//            color = "PURPLE";
-//            path = 2;
-//        }
-//        else {
-//            color = "GREEN";
-//            path = 3;
-//        }
+        if(cbValue <=80) {
+            color = "YELLOW";
+            path = 2;
+        }
+        else if(cbValue >=160) {
+            color = "BLUE";
+            path = 1;
+        }
+        else {
+            color = "RED";
+            path = 3;
+        }
 
-        path = 3;
 //        if (path == 1) {
 //        telemetry.addData("path", "1");
 //        telemetry.update();
