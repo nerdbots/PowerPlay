@@ -1,6 +1,7 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
@@ -11,8 +12,7 @@ import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.FingerPositions;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
-
-//@Disabled
+@Disabled
 @Autonomous(name="Powerplay BLUE RIGHT 3 Cone test side", group="Linear Opmode")
 
 public class Powerpplay_Blue_Right_3_Cone2 extends LinearOpMode {

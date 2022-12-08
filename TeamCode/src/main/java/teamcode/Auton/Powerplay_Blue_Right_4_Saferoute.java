@@ -1,6 +1,7 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,8 +11,7 @@ import teamcode.RobotUtilities.ArmShoulderPositions;
 import teamcode.RobotUtilities.FingerPositions;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
-
-//@Disabled
+@Disabled
 @Autonomous(name="Powerplay Blue Right 5 MID Safe", group="Linear Opmode")
 
 public class Powerplay_Blue_Right_4_Saferoute extends LinearOpMode {

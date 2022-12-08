@@ -145,7 +145,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
     double oldTimeArm = 0;
     double deltaTimeArm = 0;
     double startTimeArm = 0;
-    public static double armKp = 0.01;//0.005
+    public static double armKp = 0.005;//0.005
     public static double armKi = 0.00;
     public static double armKd = 0.00;//0.00005
     public static double maxPowerArm = 0.75;
@@ -176,7 +176,7 @@ public class PurePursuitRobotMovement6_Turn_MultiThread_V2 {
     double oldTimeArmOnly = 0;
     double deltaTimeArmOnly = 0;
     double startTimeArmOnly = 0;
-    public static double armKpOnly = 0.01;//0.01
+    public static double armKpOnly = 0.005;//0.01
     public static double armKiOnly = 0.0;
     public static double armKdOnly = 0.0;
     public static double maxPowerArmOnly = 0.75;
