@@ -71,7 +71,7 @@ import teamcode.RobotUtilities.MathFunctions;
  */
 @TeleOp(name="NerdBotsTeleOpSarvadControlsBlue", group="Final")
 //@Config
-public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
+public class NerdBotsTeleOpSarvadControls extends LinearOpMode {
 
     ConeStackDetector coneStackDetector;
 
@@ -570,7 +570,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
 //            }
 
             if(gamepad2.dpad_up){
-                fingerPosition = FingerPositions.INTAKE_READY;
+                fingerPosition = FingerPositions.GRAB;
             }
 
             if(gamepad2.dpad_down){
@@ -578,7 +578,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
             }
 
             if(gamepad2.dpad_right){
-                fingerPosition = FingerPositions.GRAB;
+                fingerPosition = FingerPositions.ENTER_INTAKE;
             }
 
             if(gamepad2.dpad_left) {
