@@ -47,16 +47,16 @@ public class SleeveColorDetectorTestLEFT extends LinearOpMode
 
         while(opModeIsActive()) {
             cbValue = colorDetector.getAnalysis();
-            if(cbValue <=100) {
-                color = "ORANGE";
-                path = 1;
+            if(cbValue <=80) {
+                color = "YELLOW";
+                path = 2;
             }
-            else if(cbValue >=140) {
-                color = "PURPLE";
+            else if(cbValue >=150) {
+                color = "BLUE";
                 path = 2;
             }
             else {
-                color = "GREEN";
+                color = "RED";
                 path = 3;
             }
             telemetry.addData("Analysis: ", cbValue);

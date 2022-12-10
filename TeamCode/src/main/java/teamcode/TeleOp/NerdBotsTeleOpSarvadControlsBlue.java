@@ -403,6 +403,7 @@ public class NerdBotsTeleOpSarvadControlsBlue extends LinearOpMode {
             else if(!gamepad1.left_bumper) {
                 buttonReadyConeLeft = true;
             }
+
             if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 6) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;

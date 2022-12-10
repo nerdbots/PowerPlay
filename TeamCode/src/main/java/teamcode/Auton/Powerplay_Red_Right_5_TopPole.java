@@ -1,6 +1,7 @@
 package teamcode.Auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,7 +12,7 @@ import teamcode.RobotUtilities.FingerPositions;
 import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
 
-//@Disabled
+@Disabled
 @Autonomous(name="Powerplay Red Right 5 TopPole", group="Linear Opmode")
 
 public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
@@ -120,7 +121,7 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 58, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-0.5, 54.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 53.5, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(-0.5, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
@@ -200,8 +201,8 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 56, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-1.5, 53, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-2, 80, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 52, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
@@ -214,7 +215,7 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(1, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(30, 51, 0.8, 0.3, 12, 0, 0));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 180, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 190, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 
         }
 
@@ -225,8 +226,8 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 56, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-1.5, 53, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(-2, 80, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 52, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-0.5, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
@@ -240,7 +241,7 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(22, 51.5, 0.9, 0.5, 12, 0, 0));
             allPoints.add(new CurvePoint(40, 51.5, 0.9, 0.5, 12, 0, 0));
 
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 180, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 190, 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
         }
         if(path == 1){
             //Dropoff Cone Five
@@ -261,7 +262,7 @@ public class Powerplay_Red_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(-2.5, 48, 0.8, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(-21,48, 0.8, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(-30, 52, 0.8, 0.3, 12, 0,0 ));
-            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 180 , 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
+            myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 190 , 1, ArmShoulderPositions.INTAKE, ArmShoulderPositions.INTAKE, FingerPositions.INTAKE_READY, FingerPositions.INTAKE_READY, 0, 0, "none", 0);
 
         }
 

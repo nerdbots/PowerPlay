@@ -51,7 +51,7 @@ public class SleeveColorDetectorTestRIGHT extends LinearOpMode
                 color = "YELLOW";
                 path = 2;
             }
-            else if(cbValue >=160) {
+            else if(cbValue >=150) {
                 color = "BLUE";
                 path = 2;
             }
