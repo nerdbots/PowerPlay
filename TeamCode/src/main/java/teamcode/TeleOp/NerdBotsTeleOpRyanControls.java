@@ -69,7 +69,7 @@ import teamcode.RobotUtilities.MathFunctions;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name="NerdBotsTeleOpRyanControlsBlue", group="Final")
+@TeleOp(name="NerdBotsTeleOpRyanControls", group="Final")
 //@Config
 public class NerdBotsTeleOpRyanControls extends LinearOpMode {
 
@@ -381,22 +381,30 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
             if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 6) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
+                WRIST_SERVO_INCREMENT = 0.0;
                 shoulderPosition = ArmShoulderPositions.S4;
+                armTarget = shoulderPosition.getArmTarget();
             }
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 5) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S3;
+                armTarget = shoulderPosition.getArmTarget();
             }
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 4) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S2;
+                armTarget = shoulderPosition.getArmTarget();
             }
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 3) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S1;
+                armTarget = shoulderPosition.getArmTarget();
             }
 
 
@@ -407,18 +415,35 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
             if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 6) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S4;
+                armTarget = shoulderPosition.getArmTarget();
+
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 5) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S3;
+                armTarget = shoulderPosition.getArmTarget();
+
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 4) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S2;
+                armTarget = shoulderPosition.getArmTarget();
+
+
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 3) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                WRIST_SERVO_INCREMENT = 0.0;
+                shoulderPosition = ArmShoulderPositions.S1;
+                armTarget = shoulderPosition.getArmTarget();
+
             }
 
 
@@ -426,23 +451,23 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
                 buttonReadyConeRight = true;
             }
 
-            if(gamepad1.left_bumper && coneCounterLeft == 5) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.S4;
-                armTarget = shoulderPosition.getArmTarget();            }
-            else if(gamepad1.left_bumper && coneCounterLeft == 4) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.S3;
-                armTarget = shoulderPosition.getArmTarget();            }
-            else if(gamepad1.left_bumper && coneCounterLeft == 3) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.S2;
-                armTarget = shoulderPosition.getArmTarget();            }
-            else if(gamepad1.left_bumper && coneCounterLeft == 2) {
-                WRIST_SERVO_INCREMENT = 0.0;
-                shoulderPosition = ArmShoulderPositions.S1;
-                armTarget = shoulderPosition.getArmTarget();
-            }
+//            if(gamepad1.left_bumper && coneCounterLeft == 5) {
+//                WRIST_SERVO_INCREMENT = 0.0;
+//                shoulderPosition = ArmShoulderPositions.S4;
+//                armTarget = shoulderPosition.getArmTarget();            }
+//            else if(gamepad1.left_bumper && coneCounterLeft == 4) {
+//                WRIST_SERVO_INCREMENT = 0.0;
+//                shoulderPosition = ArmShoulderPositions.S3;
+//                armTarget = shoulderPosition.getArmTarget();            }
+//            else if(gamepad1.left_bumper && coneCounterLeft == 3) {
+//                WRIST_SERVO_INCREMENT = 0.0;
+//                shoulderPosition = ArmShoulderPositions.S2;
+//                armTarget = shoulderPosition.getArmTarget();            }
+//            else if(gamepad1.left_bumper && coneCounterLeft == 2) {
+//                WRIST_SERVO_INCREMENT = 0.0;
+//                shoulderPosition = ArmShoulderPositions.S1;
+//                armTarget = shoulderPosition.getArmTarget();
+//            }
 
 
 

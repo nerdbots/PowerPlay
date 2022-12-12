@@ -39,6 +39,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -69,6 +70,7 @@ import teamcode.RobotUtilities.MathFunctions;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
+@Disabled
 @TeleOp(name="NerdBotsTeleOpSarvadControlsBlue", group="Final")
 //@Config
 public class NerdBotsTeleOpSarvadControls extends LinearOpMode {
@@ -386,17 +388,17 @@ public class NerdBotsTeleOpSarvadControls extends LinearOpMode {
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 5) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                shoulderPosition = ArmShoulderPositions.S3;
             }
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 4) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                shoulderPosition = ArmShoulderPositions.S2;
             }
             else if(gamepad1.left_bumper && buttonReadyConeLeft && coneCounterLeft == 3) {
                 coneCounterLeft -=1;
                 buttonReadyConeLeft = false;
-                shoulderPosition = ArmShoulderPositions.S4;
+                shoulderPosition = ArmShoulderPositions.S1;
             }
 
 
@@ -407,18 +409,25 @@ public class NerdBotsTeleOpSarvadControls extends LinearOpMode {
             if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 6) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                shoulderPosition = ArmShoulderPositions.S4;
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 5) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                shoulderPosition = ArmShoulderPositions.S3;
+
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 4) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                shoulderPosition = ArmShoulderPositions.S2;
+
             }
             else if(gamepad1.right_bumper && buttonReadyConeRight && coneCounterRight == 3) {
                 coneCounterRight -=1;
                 buttonReadyConeRight = false;
+                shoulderPosition = ArmShoulderPositions.S1;
+
             }
 
 
