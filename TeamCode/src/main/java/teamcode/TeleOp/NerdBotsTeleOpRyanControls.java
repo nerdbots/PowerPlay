@@ -221,6 +221,7 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
     int coneCounterRight = 6;
     boolean buttonReadyConeLeft = true;
     boolean buttonReadyConeRight = true;
+    boolean buttonReady = true;
     //init elevator
     ElapsedTime elevatorinitElapsedTime = new ElapsedTime();
 
@@ -537,6 +538,14 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
                 armTarget = shoulderPosition.getArmTarget();
 
             }
+            if(gamepad2.right_bumper) {
+                armTarget = armTarget - 5;
+            }
+            else if(gamepad2.left_stick_button) {
+                leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                leftArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+
 
 
 //             if(gamepad2.left_bumper){
@@ -544,10 +553,7 @@ public class NerdBotsTeleOpRyanControls extends LinearOpMode {
 //                 shoulderPosition = ArmShoulderPositions.GROUND_PICKUP;
 //             }
 //
-//            if(gamepad2.right_bumper){
-//                WRIST_SERVO_INCREMENT = 0.0;
-//                shoulderPosition = ArmShoulderPositions.TSE_DROP;
-//            }
+
 
 //            if(gamepad2.right_bumper) {
 //                coneStack = coneStackDetector.detectConeStack();
