@@ -200,8 +200,8 @@ public class Powerplay_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 56, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 55, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 80, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1, 55.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1, 80, 0.8, 0.3, 12, 0, 0));
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 0, FingerPositions.INTAKE_READY);
@@ -224,8 +224,8 @@ public class Powerplay_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 56, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 55, 0.8, 0.3, 12, 0, 0));
-            allPoints.add(new CurvePoint(0.5, 80, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1, 55.5, 0.8, 0.3, 12, 0, 0));
+            allPoints.add(new CurvePoint(-1, 80, 0.8, 0.3, 12, 0, 0));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 145, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);
@@ -248,7 +248,7 @@ public class Powerplay_Right_5_TopPole extends LinearOpMode {
             allPoints.add(new CurvePoint(20, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(5, 51, 0.8, 0.3, 12, 0, 0));
             allPoints.add(new CurvePoint(6, 51, 0.8, 0.3, 12, 0, 45));
-            allPoints.add(new CurvePoint(-10, 52, 0.8, 0.3, 12, 0, 60));
+            allPoints.add(new CurvePoint(-10, 51, 0.8, 0.3, 12, 0, 60));
             allPoints.add(new CurvePoint(-35, 80, 0.8, 0.3, 12, 0, 80));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 90, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
