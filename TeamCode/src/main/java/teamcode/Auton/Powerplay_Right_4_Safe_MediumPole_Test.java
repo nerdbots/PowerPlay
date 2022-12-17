@@ -12,9 +12,9 @@ import teamcode.RobotUtilities.Odometry.CurvePoint;
 import teamcode.TeleOp.SleeveColorDetectorDoubleWebcam;
 
 
-@Autonomous(name="Powerplay Right 4 Safe MediumPole", group="Linear Opmode")
+@Autonomous(name="Powerplay Right 4 Safe MediumPole Test", group="Linear Opmode")
 
-public class Powerplay_Right_5_Safe_MediumPole extends LinearOpMode {
+public class Powerplay_Right_4_Safe_MediumPole_Test extends LinearOpMode {
 
     private PurePursuitRobotMovement6_Turn_MultiThread_V2 myPurePursuitRobotMovement6_Turn_MultiThread;
     boolean debugFlag = true;
@@ -94,8 +94,8 @@ public class Powerplay_Right_5_Safe_MediumPole extends LinearOpMode {
             allPoints.add(new CurvePoint(0, 0, 0.8, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(3, 26, 0.8, 0.3, 12, 0, 90));
             allPoints.add(new CurvePoint(3, 58, 0.8, 0.3, 12, 0, 130));
-            allPoints.add(new CurvePoint(-1, 57.5, 0.7, 0.3, 12, 0, 130));
-            allPoints.add(new CurvePoint(-1, 80, 0.7, 0.3, 12, 0, 130));
+            allPoints.add(new CurvePoint(-0.5, 57, 0.7, 0.3, 12, 0, 130));
+            allPoints.add(new CurvePoint(-0.5, 80, 0.7, 0.3, 12, 0, 130));
 
             myPurePursuitRobotMovement6_Turn_MultiThread.followCurveArm(allPoints, 0, 15, 130, 1, ArmShoulderPositions.HOME, ArmShoulderPositions.LEVEL3, FingerPositions.GRAB, FingerPositions.GRAB, 0, 0, "none", 0);
             myPurePursuitRobotMovement6_Turn_MultiThread.moveArmsOnly(ArmShoulderPositions.LEVEL3, 250, FingerPositions.INTAKE_READY);

@@ -4,7 +4,7 @@ public  enum FingerPositions {
 
     ENTER_INTAKE(0.53,0.55),
     INTAKE_READY(0.25,0.75),
-    GRAB(0.7,0.3),
+    GRAB(0.9,0.1), //To close tighter increase left and decrease right
     RELEASE(0.58,0.42);
 
     public final double leftFingerPosition;
